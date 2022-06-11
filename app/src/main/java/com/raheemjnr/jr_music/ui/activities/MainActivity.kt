@@ -85,7 +85,7 @@ fun BottomNav(navController: NavController) {
 
     BottomNavigation(
         modifier = Modifier
-            .padding(12.dp, 0.dp, 12.dp, 0.dp)
+            .padding(40.dp, 0.dp, 30.dp, 0.dp)
             .height(100.dp),
         backgroundColor = MaterialTheme.colors.primary,
         elevation = 0.dp
@@ -139,7 +139,7 @@ fun BottomNav(navController: NavController) {
 
 }
 
-val items = listOf(MainScreen.Local, MainScreen.Online)
+val items = listOf(MainScreen.Local, MainScreen.Gap, MainScreen.Online)
 
 @Preview(showBackground = true)
 @Composable
