@@ -37,7 +37,7 @@ fun MainScreenNavigation(
         }
         //online
         composable(MainScreen.Online.route!!) {
-           OnlineMusicScreen()
+            OnlineMusicScreen()
         }
 
 
