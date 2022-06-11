@@ -22,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun MainScreenNavigation(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
 ) {
 
     /*** main viewModel   */
