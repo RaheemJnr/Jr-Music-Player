@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.ui.activitiee
+package com.raheemjnr.jr_music.ui.activities
 
 
 import android.os.Bundle
@@ -22,7 +22,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-////                   // Need the READ_EXTERNAL_STORAGE permission if accessing video files that your
+////
+                }
+            }
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    JrMusicPlayerTheme {
+    }
+}
+
+
+// Need the READ_EXTERNAL_STORAGE permission if accessing video files that your
 //                    // app didn't create.
 //
 //                    // Container for information about each video.
@@ -92,16 +108,3 @@ class MainActivity : ComponentActivity() {
 //                            // that represents the media file.
 //                            videoList += Video(contentUri, name, duration, size)
 //                        }
-                }
-            }
-        }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JrMusicPlayerTheme {
-    }
-}

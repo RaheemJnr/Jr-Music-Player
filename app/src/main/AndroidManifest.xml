@@ -16,9 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JrMusicPlayer">
         <activity
-            android:name=".ui.activitiee.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.JrMusicPlayer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
