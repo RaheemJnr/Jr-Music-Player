@@ -61,6 +61,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
+    //accompanist permission
+    implementation "com.google.accompanist:accompanist-permissions:0.19.0"
+
 
     //test
     testImplementation 'junit:junit:4.13.2'
