@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music
+package com.raheemjnr.jr_music.ui.activitiee
 
 
 import android.os.Bundle
