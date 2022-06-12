@@ -7,6 +7,16 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 
 class SplashActivity : ComponentActivity() {
@@ -18,14 +28,14 @@ class SplashActivity : ComponentActivity() {
         makeFullScreen()
         setContent {
             JrMusicPlayerTheme {
+                // splashImage()
                 goToMain()
             }
         }
-
-
     }
 
-    //make full screen
+    /* make full screen
+    *  */
     private fun makeFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
@@ -35,7 +45,8 @@ class SplashActivity : ComponentActivity() {
         actionBar?.hide()
     }
 
-    //navigate to main
+    /* navigate to main
+    * ¶ */
     private fun goToMain() =
         handler.post {
             val intent = Intent(this, MainActivity::class.java)
@@ -44,6 +55,21 @@ class SplashActivity : ComponentActivity() {
             finish()
         }
 
+    @Composable
+    private fun splashImage() {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Green)
+        ) {
+            Box(modifier = Modifier.align(Alignment.Center)) {
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                    contentDescription = "splash image"
+                )
+            }
+        }
+    }
 
 //    private fun requestLocationPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(
