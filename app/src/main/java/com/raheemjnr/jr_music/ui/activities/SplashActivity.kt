@@ -8,16 +8,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
-import com.raheemjnr.jr_music.utils.Navigator
 
 class SplashActivity : ComponentActivity() {
 
-    companion object {
-        private const val DELAY_MILLIS = 1000L
-        private const val LOCATION_PERMISSION_REQUEST_ID = 1
-    }
-
-    lateinit var navigator: Navigator
 
     private val handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +25,7 @@ class SplashActivity : ComponentActivity() {
 
     }
 
+    //make full screen
     private fun makeFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
@@ -41,7 +35,7 @@ class SplashActivity : ComponentActivity() {
         actionBar?.hide()
     }
 
-
+    //navigate to main
     private fun goToMain() =
         handler.post {
             val intent = Intent(this, MainActivity::class.java)
