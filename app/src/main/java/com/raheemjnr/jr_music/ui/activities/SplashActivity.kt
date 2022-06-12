@@ -2,7 +2,6 @@ package com.raheemjnr.jr_music.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -12,7 +11,6 @@ import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 class SplashActivity : ComponentActivity() {
 
 
-    private val handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeFullScreen()
@@ -36,13 +34,12 @@ class SplashActivity : ComponentActivity() {
 
     /* navigate to main
     * ¶ */
-    private fun goToMain() =
-        handler.post {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            finish()
-        }
+    private fun goToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        finish()
+    }
 
 //    private fun requestLocationPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(
