@@ -24,9 +24,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _audio = MutableLiveData<List<MediaAudio>>()
-    val images: LiveData<List<MediaAudio>> get() = _audio
+    val audios: LiveData<List<MediaAudio>> get() = _audio
 
     private var contentObserver: ContentObserver? = null
 
@@ -184,11 +184,11 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                         id
                     )
 
-                    val image = MediaAudio(id, displayName, duration, contentUri)
-                    audios += image
+                    val audio = MediaAudio(id, displayName, duration, contentUri)
+                    audios += audio
 
                     // For debugging, we'll output the image objects we create to logcat.
-                    Log.v(TAG, "Added image: $image")
+                    Log.v(TAG, "Added audio: $audio")
                 }
             }
         }
