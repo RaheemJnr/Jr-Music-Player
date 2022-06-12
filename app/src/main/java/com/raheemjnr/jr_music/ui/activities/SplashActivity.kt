@@ -7,16 +7,6 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 
 class SplashActivity : ComponentActivity() {
@@ -28,7 +18,6 @@ class SplashActivity : ComponentActivity() {
         makeFullScreen()
         setContent {
             JrMusicPlayerTheme {
-                // splashImage()
                 goToMain()
             }
         }
@@ -54,22 +43,6 @@ class SplashActivity : ComponentActivity() {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
         }
-
-    @Composable
-    private fun splashImage() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Green)
-        ) {
-            Box(modifier = Modifier.align(Alignment.Center)) {
-                Image(
-                    painter = painterResource(id = R.mipmap.ic_launcher_foreground),
-                    contentDescription = "splash image"
-                )
-            }
-        }
-    }
 
 //    private fun requestLocationPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(
