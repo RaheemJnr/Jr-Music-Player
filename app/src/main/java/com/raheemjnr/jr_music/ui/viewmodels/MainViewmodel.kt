@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -98,6 +99,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * subset of columns.
              */
             val projection = arrayOf(
+                //MediaStore.Files.FileColumns.DATA
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DATE_ADDED
@@ -111,6 +113,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * Note that we've included a `?` in our selection. This stands in for a variable
              * which will be provided by the next variable.
              */
+
+            "${MediaStore.Files.FileColumns.MIME_TYPE} >= ?"
             val selection = "${MediaStore.Audio.Media.DURATION} >= ?"
 
             /**
@@ -119,6 +123,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              */
             val selectionArgs = arrayOf(
                 TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS).toString()
+           // MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
             )
 
             /**
@@ -153,8 +158,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                  * to avoid having to look them up for each row.
                  */
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-                val durationColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+//                val durationColumn =
+//                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
                 val displayNameColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
 
@@ -163,7 +168,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     // Here we'll use the column index that we found above.
                     val id = cursor.getLong(idColumn)
-                    val duration = cursor.getInt(durationColumn)
+                    //val duration = cursor.getInt(durationColumn)
                     val displayName = cursor.getString(displayNameColumn)
 
 
@@ -184,8 +189,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         id
                     )
 
-                    val audio = MediaAudio(id, displayName, duration, contentUri)
-                    audios += audio
+                    val audio = MediaAudio(id, displayName, contentUri)
+                    audios.add(audio)
 
                     // For debugging, we'll output the image objects we create to logcat.
                     Log.v(TAG, "Added audio: $audio")
@@ -193,7 +198,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        Log.v(TAG, "Found ${audios.size} images")
+        Log.v(TAG, "Found ${audios.size} audios")
         return audios
     }
 

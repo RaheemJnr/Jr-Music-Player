@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
-import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -29,7 +28,7 @@ fun Permissions(
     context: Context,
     rationaleText: String,
     modifier: Modifier,
-    viewModel: MainViewModel
+    whatToOpen: @Composable () -> Unit = {}
 ) {
     // Track if the user doesn't want to see the rationale any more.
     var doNotShowRationale by rememberSaveable { mutableStateOf(false) }
@@ -38,11 +37,13 @@ fun Permissions(
         // If all permissions are granted, then show screen with the feature enabled
         multiplePermissionsState.allPermissionsGranted -> {
             //content to display when permission is granted
-            viewModel.loadAudios()
+            whatToOpen()
         }
-        // If the user denied any permission but a rationale should be shown, or the user sees
-        // the permissions for the first time, explain why the feature is needed by the app and
-        // allow the user decide if they don't want to see the rationale any more.
+        /*
+        If the user denied any permission but a rationale should be shown, or the user sees
+        the permissions for the first time, explain why the feature is needed by the app and
+        allow the user decide if they don't want to see the rationale any more.
+        */
         multiplePermissionsState.shouldShowRationale ||
                 !multiplePermissionsState.permissionRequested -> {
             if (doNotShowRationale) {
@@ -56,9 +57,11 @@ fun Permissions(
                 )
             }
         }
-        // If the criteria above hasn't been met, the user denied some permission. Let's present
-        // the user with a FAQ in case they want to know more and send them to the Settings screen
-        // to enable them the future there if they want to.
+        /*
+        If the criteria above hasn't been met, the user denied some permission. Let's present
+        the user with a FAQ in case they want to know more and send them to the Settings screen
+        to enable them the future there if they want to.
+        */
         else -> {
             DeniedText(rationaleText = rationaleText, context = context)
         }

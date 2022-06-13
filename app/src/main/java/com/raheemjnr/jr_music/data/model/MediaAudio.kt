@@ -8,6 +8,5 @@ import android.net.Uri
 data class MediaAudio(
     val id: Long,
     val displayName: String,
-    val duration: Int,
     val contentUri: Uri
 )

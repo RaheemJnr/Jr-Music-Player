@@ -5,25 +5,17 @@ import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
+import com.raheemjnr.jr_music.utils.Permissions
 import com.raheemjnr.jr_music.utils.askPermissions
 import com.raheemjnr.jr_music.utils.hasPermissions
 
@@ -40,7 +32,7 @@ fun LocalMusicScreen() {
     //context
     val context = LocalContext.current as Activity
 
-    val audios = viewModel.audios.observeAsState()
+    val audios = viewModel.audios.observeAsState(initial = null)
 
 //    val intentSender = viewModel.permissionNeededForDelete.observeAsState()
 //
@@ -66,46 +58,88 @@ fun LocalMusicScreen() {
         Modifier.fillMaxSize()
     ) {
         Button(onClick = {
-            if (!hasPermissions(
-                    context,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                askPermissions(
-                    context, 100, Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-
-            }
-
-        }) {
+            viewModel.loadAudios()
+//            if (hasPermissions(
+//                    context,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                )
+//            ) {
+//                askPermissions(
+//                    context, requestCode = 100, Manifest.permission.READ_EXTERNAL_STORAGE,
+//                )
+//
+//            } else {
+//                viewModel.loadAudios()
+//            }
+        }
+        ) {
             Text(text = "show audios")
         }
         //
-        LazyVerticalGrid(cells = GridCells.Adaptive(128.dp)) {
-            audios.value?.let {
-                items(it.size) {
-                    Card(
-                        backgroundColor = Color.Red,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(),
-                        elevation = 8.dp,
-                    ) {
-                        Text(
-                            text = audios.value.toString(),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 30.sp,
-                            color = Color(0xFFFFFFFF),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                }
-            }
-
+        val multiplePermissionsState = rememberMultiplePermissionsState(
+            listOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            )
+        )
+        Permissions(
+            multiplePermissionsState = multiplePermissionsState,
+            context = context,
+            rationaleText = "Hi",
+            modifier = Modifier,
+        ) {
+            Text(text = "${audios.value}")
         }
+
+//            LazyColumn() {
+//                items(items = audios,
+//
+//                ) {
+//
+//                }
+//                items(items = audios,
+//                    key = {
+//                    }
+//                ) { item ->
+//                    item?.let {
+//                        Column {
+//                            CryptoListItems(
+//                                items = item
+//                            ) {
+//                                //on item click
+//                                navController.navigate(
+//                                    route =
+//                                    "${MainScreen.DetailScreen.route}/${item.id}/${item.symbol}"
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+////                audios.value?.let { item ->
+////                    items(i
+////                    ) {
+////                        Card(
+////                            backgroundColor = Color.Red,
+////                            modifier = Modifier
+////                                .padding(4.dp)
+////                                .fillMaxWidth(),
+////                            elevation = 8.dp,
+////                        ) {
+////                            Text(
+////                                text = item.,
+////                                fontWeight = FontWeight.Bold,
+////                                fontSize = 30.sp,
+////                                color = Color(0xFFFFFFFF),
+////                                textAlign = TextAlign.Center,
+////                                modifier = Modifier.padding(16.dp)
+////                            )
+////                        }
+////                    }
+////                }
+//
+//            }
+
+
     }
 
 
