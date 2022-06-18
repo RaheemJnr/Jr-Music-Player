@@ -10,14 +10,14 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
-import android.webkit.MimeTypeMap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.raheemjnr.jr_music.data.model.MediaAudio
+import com.raheemjnr.jr_music.data.model.Songs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,12 +26,12 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val _audio = MutableLiveData<List<MediaAudio>>()
-    val audios: LiveData<List<MediaAudio>> get() = _audio
+    private val _audio = MutableLiveData<List<Songs>>()
+    val audios: LiveData<List<Songs>> get() = _audio
 
     private var contentObserver: ContentObserver? = null
 
-    private var pendingDeleteAudio: MediaAudio? = null
+    private var pendingDeleteAudio: Songs? = null
     private val _permissionNeededForDelete = MutableLiveData<IntentSender?>()
     val permissionNeededForDelete: LiveData<IntentSender?> = _permissionNeededForDelete
 
@@ -54,7 +54,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteAudio(audio: MediaAudio) {
+    fun deleteAudio(audio: Songs) {
         viewModelScope.launch {
             performDeleteImage(audio)
         }
@@ -67,8 +67,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private suspend fun queryAudios(): List<MediaAudio> {
-        val audios = mutableListOf<MediaAudio>()
+    private suspend fun queryAudios(): List<Songs> {
+        val audios = mutableListOf<Songs>()
 
         /**
          * Working with [ContentResolver]s can be slow, so we'll do this off the main
@@ -78,11 +78,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             val collection =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Video.Media.getContentUri(
+                    MediaStore.Audio.Media.getContentUri(
                         MediaStore.VOLUME_EXTERNAL
                     )
                 } else {
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                 }
 
             /**
@@ -99,10 +99,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * subset of columns.
              */
             val projection = arrayOf(
-                //MediaStore.Files.FileColumns.DATA
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DATE_ADDED
+                BaseColumns._ID,
+                MediaStore.Audio.AudioColumns.TITLE,
+                MediaStore.Audio.AudioColumns.TRACK,
+                MediaStore.Audio.AudioColumns.YEAR,
+                MediaStore.Audio.AudioColumns.DURATION,
+                MediaStore.Audio.AudioColumns.YEAR,
             )
 
             /**
@@ -113,9 +115,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * Note that we've included a `?` in our selection. This stands in for a variable
              * which will be provided by the next variable.
              */
-
-            "${MediaStore.Files.FileColumns.MIME_TYPE} >= ?"
-            val selection = "${MediaStore.Audio.Media.DURATION} >= ?"
+            val isMusic =
+                MediaStore.Audio.AudioColumns.IS_MUSIC + "=1" + "AND" + MediaStore.Audio.AudioColumns.TITLE + " != ''"
+            val selection = isMusic
 
             /**
              * The `selectionArgs` is a list of values that will be filled in for each `?`
@@ -123,7 +125,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              */
             val selectionArgs = arrayOf(
                 TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS).toString()
-           // MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
+                // MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
             )
 
             /**
@@ -168,9 +170,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     // Here we'll use the column index that we found above.
                     val id = cursor.getLong(idColumn)
-                    //val duration = cursor.getInt(durationColumn)
+                    //val duration = cursor.getLong(durationColumn)
                     val displayName = cursor.getString(displayNameColumn)
-
 
                     /**
                      * This is one of the trickiest parts:
@@ -189,11 +190,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         id
                     )
 
-                    val audio = MediaAudio(id, displayName, contentUri)
-                    audios.add(audio)
+                    val audio = Songs(id, displayName, contentUri)
+                    audios += audio
 
-                    // For debugging, we'll output the image objects we create to logcat.
-                    Log.v(TAG, "Added audio: $audio")
+                    //For debugging, we'll output the image objects we create to logcat.
+                    Log.v(TAG, "Added audio: $audios")
                 }
             }
         }
@@ -202,7 +203,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return audios
     }
 
-    private suspend fun performDeleteImage(audio: MediaAudio) {
+    private suspend fun performDeleteImage(audio: Songs) {
         withContext(Dispatchers.IO) {
             try {
                 /**

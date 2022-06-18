@@ -88,7 +88,7 @@ fun LocalMusicScreen() {
             rationaleText = "Hi",
             modifier = Modifier,
         ) {
-            Text(text = "${audios.value}")
+            Text(text = "${audios}")
         }
 
 //            LazyColumn() {
