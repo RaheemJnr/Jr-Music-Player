@@ -2,7 +2,9 @@ package com.raheemjnr.jr_music.ui.screens.local
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
@@ -16,8 +18,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.Permissions
-import com.raheemjnr.jr_music.utils.askPermissions
-import com.raheemjnr.jr_music.utils.hasPermissions
 
 /**
  * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
@@ -58,8 +58,7 @@ fun LocalMusicScreen() {
         Modifier.fillMaxSize()
     ) {
         Button(onClick = {
-            viewModel.loadAudios()
-//            if (hasPermissions(
+//            if (!hasPermissions(
 //                    context,
 //                    Manifest.permission.READ_EXTERNAL_STORAGE,
 //                )
@@ -68,28 +67,18 @@ fun LocalMusicScreen() {
 //                    context, requestCode = 100, Manifest.permission.READ_EXTERNAL_STORAGE,
 //                )
 //
-//            } else {
-//                viewModel.loadAudios()
 //            }
+            viewModel.loadAudios()
+
         }
         ) {
             Text(text = "show audios")
         }
-        //
-        val multiplePermissionsState = rememberMultiplePermissionsState(
-            listOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            )
-        )
-        Permissions(
-            multiplePermissionsState = multiplePermissionsState,
-            context = context,
-            rationaleText = "Hi",
-            modifier = Modifier,
-        ) {
-            Text(text = "${audios}")
+        Box(modifier = Modifier)
+        {
+            Container(context = context, viewModel = viewModel)
         }
+
 
 //            LazyColumn() {
 //                items(items = audios,
@@ -143,6 +132,24 @@ fun LocalMusicScreen() {
     }
 
 
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun Container(context: Context, viewModel: MainViewModel) {
+    val multiplePermissionsState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        )
+    )
+    Permissions(
+        multiplePermissionsState = multiplePermissionsState,
+        context = context,
+        rationaleText = "Hi na",
+        modifier = Modifier,
+        viewModel = viewModel
+    )
 }
 
 //private fun deleteImage(image: MediaAudio) {

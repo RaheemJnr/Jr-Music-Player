@@ -10,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -28,7 +30,8 @@ fun Permissions(
     context: Context,
     rationaleText: String,
     modifier: Modifier,
-    whatToOpen: @Composable () -> Unit = {}
+    viewModel: MainViewModel
+//    whatToOpen: @Composable () -> Unit = {}
 ) {
     // Track if the user doesn't want to see the rationale any more.
     var doNotShowRationale by rememberSaveable { mutableStateOf(false) }
@@ -37,7 +40,9 @@ fun Permissions(
         // If all permissions are granted, then show screen with the feature enabled
         multiplePermissionsState.allPermissionsGranted -> {
             //content to display when permission is granted
-            whatToOpen()
+            val audio = viewModel.audios.observeAsState(initial = null)
+            Text(text = "$audio")
+
         }
         /*
         If the user denied any permission but a rationale should be shown, or the user sees
