@@ -115,8 +115,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * Note that we've included a `?` in our selection. This stands in for a variable
              * which will be provided by the next variable.
              */
+           // "${MediaStore.Audio.Media.DURATION} >= ?"
             val isMusic =
-                MediaStore.Audio.AudioColumns.IS_MUSIC + "=1" + "AND" + MediaStore.Audio.AudioColumns.TITLE + " != ''"
+                MediaStore.Audio.AudioColumns.IS_MUSIC + "=1" + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != '' >= ?"
             val selection = isMusic
 
             /**
@@ -132,7 +133,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * Sort order to use. This can also be null, which will use the default sort
              * order. For [MediaStore.Images], the default sort order is ascending by date taken.
              */
-            val sortOrder = "${MediaStore.Audio.Media.DATE_ADDED} DESC"
+            val sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER
 
             getApplication<Application>().contentResolver.query(
                 collection,
@@ -163,7 +164,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //                val durationColumn =
 //                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
                 val displayNameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
 
                 Log.i(TAG, "Found ${cursor.count} Audios")
                 while (cursor.moveToNext()) {

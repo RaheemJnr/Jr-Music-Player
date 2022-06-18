@@ -7,6 +7,8 @@ import android.net.Uri
  */
 data class Songs(
     val id: Long,
-    val displayName: String,
+    val title: String,
     val contentUri: Uri
 )
+
+//_id, title, track, year, duration, year
