@@ -3,21 +3,23 @@ package com.raheemjnr.jr_music.ui.screens.local
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
-import com.raheemjnr.jr_music.utils.Permissions
+import com.raheemjnr.jr_music.utils.ComposablePermission
 
 /**
  * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
@@ -76,7 +78,12 @@ fun LocalMusicScreen() {
         }
         Box(modifier = Modifier)
         {
-            Container(context = context, viewModel = viewModel)
+            ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
+                onDenied = {
+
+                }) {
+                Text(text = "${audios.value}")
+            }
         }
 
 
@@ -137,20 +144,44 @@ fun LocalMusicScreen() {
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun Container(context: Context, viewModel: MainViewModel) {
-    val multiplePermissionsState = rememberMultiplePermissionsState(
-        listOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        )
-    )
-    Permissions(
-        multiplePermissionsState = multiplePermissionsState,
-        context = context,
-        rationaleText = "Hi na",
-        modifier = Modifier,
-        viewModel = viewModel
-    )
+//    val multiplePermissionsState = rememberMultiplePermissionsState(
+//        listOf(
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//        )
+//    )
+//    Permissions(
+//        multiplePermissionsState = multiplePermissionsState,
+//        context = context,
+//        rationaleText = "Hi na",
+//        modifier = Modifier,
+//        viewModel = viewModel
+//    )
+
+//    val cameraPermissionState =
+//        rememberPermissionState(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+//    rememberPermissionState(permission = "").sta
+//    if (cameraPermissionState) {
+//        Text("Camera permission Granted")
+//    } else {
+//        Column {
+//            val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
+//                "The camera is important for this app. Please grant the permission."
+//            } else {
+//                "Camera not available"
+//            }
+//
+//            Text(textToShow)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
+//                Text("Request permission")
+//            }
+//        }
+//    }
+
 }
+
+
 
 //private fun deleteImage(image: MediaAudio) {
 //    MaterialAlertDialogBuilder(this)
@@ -164,3 +195,4 @@ fun Container(context: Context, viewModel: MainViewModel) {
 //        }
 //        .show()
 //}
+

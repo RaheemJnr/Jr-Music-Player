@@ -1,26 +1,31 @@
 package com.raheemjnr.jr_music.utils
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.rememberPermissionState
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -40,8 +45,7 @@ fun Permissions(
         // If all permissions are granted, then show screen with the feature enabled
         multiplePermissionsState.allPermissionsGranted -> {
             //content to display when permission is granted
-            val audio = viewModel.audios.observeAsState(initial = null)
-            Text(text = "$audio")
+
 
         }
         /*
@@ -73,6 +77,7 @@ fun Permissions(
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DeniedText(
     rationaleText: String,
@@ -101,6 +106,7 @@ fun DeniedText(
             Text("Open Settings")
         }
     }
+
 }
 
 //
@@ -132,4 +138,41 @@ fun PermissionDialog(
             }
         }
     )
+}
+
+/**
+ * Composable helper for permission checking
+ *
+ * onDenied contains lambda for request permission
+ *
+ * @param permission permission for request
+ * @param onGranted composable for [PackageManager.PERMISSION_GRANTED]
+ * @param onDenied composable for [PackageManager.PERMISSION_DENIED]
+ */
+@Composable
+fun ComposablePermission(
+    permission: String,
+    onDenied: @Composable (requester: () -> Unit) -> Unit,
+    onGranted: @Composable () -> Unit
+) {
+    val ctx = LocalContext.current
+
+    // check initial state of permission, it may be already granted
+    var grantState by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                ctx,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    if (grantState) {
+        onGranted()
+    } else {
+        val launcher: ManagedActivityResultLauncher<String, Boolean> =
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
+                grantState = it
+            }
+        onDenied { launcher.launch(permission) }
+    }
 }
