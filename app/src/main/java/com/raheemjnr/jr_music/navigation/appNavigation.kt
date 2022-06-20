@@ -22,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun MainScreenNavigation(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
 ) {
 
     /*** main viewModel   */
@@ -37,7 +36,7 @@ fun MainScreenNavigation(
         }
         //online
         composable(MainScreen.Online.route!!) {
-           OnlineMusicScreen()
+            OnlineMusicScreen()
         }
 
 
