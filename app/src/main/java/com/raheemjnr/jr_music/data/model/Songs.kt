@@ -10,5 +10,3 @@ data class Songs(
     val title: String,
     val contentUri: Uri
 )
-
-//_id, title, track, year, duration, year
