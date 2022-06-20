@@ -115,7 +115,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
              * Note that we've included a `?` in our selection. This stands in for a variable
              * which will be provided by the next variable.
              */
-           // "${MediaStore.Audio.Media.DURATION} >= ?"
+            // "${MediaStore.Audio.Media.DURATION} >= ?"
             val isMusic =
                 MediaStore.Audio.AudioColumns.IS_MUSIC + "=1" + " AND " + MediaStore.Audio.AudioColumns.TITLE + " != '' >= ?"
             val selection = isMusic
