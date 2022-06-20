@@ -141,46 +141,6 @@ fun LocalMusicScreen() {
 
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun Container(context: Context, viewModel: MainViewModel) {
-//    val multiplePermissionsState = rememberMultiplePermissionsState(
-//        listOf(
-//            Manifest.permission.READ_EXTERNAL_STORAGE,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//        )
-//    )
-//    Permissions(
-//        multiplePermissionsState = multiplePermissionsState,
-//        context = context,
-//        rationaleText = "Hi na",
-//        modifier = Modifier,
-//        viewModel = viewModel
-//    )
-
-//    val cameraPermissionState =
-//        rememberPermissionState(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-//    rememberPermissionState(permission = "").sta
-//    if (cameraPermissionState) {
-//        Text("Camera permission Granted")
-//    } else {
-//        Column {
-//            val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
-//                "The camera is important for this app. Please grant the permission."
-//            } else {
-//                "Camera not available"
-//            }
-//
-//            Text(textToShow)
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-//                Text("Request permission")
-//            }
-//        }
-//    }
-
-}
-
 
 
 //private fun deleteImage(image: MediaAudio) {
