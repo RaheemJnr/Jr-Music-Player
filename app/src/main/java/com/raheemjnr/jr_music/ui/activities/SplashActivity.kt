@@ -1,5 +1,6 @@
 package com.raheemjnr.jr_music.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
@@ -8,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : ComponentActivity() {
 
 
