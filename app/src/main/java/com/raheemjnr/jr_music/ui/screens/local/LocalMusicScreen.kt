@@ -78,9 +78,9 @@ fun LocalMusicScreen() {
             ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
                 onDenied = {}) {
                 LazyColumn() {
-                    audios.value?.let { item ->
+                    audios.value?.let { itemm ->
                         items(
-                            items = item,
+                            items = itemm,
                             key = {
                                 it.id
                             }

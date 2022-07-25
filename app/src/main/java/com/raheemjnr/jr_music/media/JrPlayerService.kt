@@ -15,6 +15,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
 
     private var mediaSession: MediaSessionCompat? = null
     private lateinit var stateBuilder: PlaybackStateCompat.Builder
+
     //
     private lateinit var packageValidator: PackageValidator
 
@@ -82,6 +83,27 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
-        TODO("Not yet implemented")
+        //  Browsing not allowed
+        if (MY_EMPTY_MEDIA_ROOT_ID == parentId) {
+            result.sendResult(null)
+            return
+        }
+
+        // Assume for example that the music catalog is already loaded/cached.
+
+        val mediaItems = mutableListOf<MediaBrowserCompat.MediaItem>()
+        // Check if this is the root menu:
+        if (MY_MEDIA_ROOT_ID == parentId) {
+            // Build the MediaItem objects for the top level,
+            // and put them in the mediaItems list...
+        } else {
+            // Examine the passed parentMediaId to see which submenu we're at,
+            // and put the children of that menu in the mediaItems list...
+        }
+        result.sendResult(mediaItems)
     }
+
+
+
+
 }
