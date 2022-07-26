@@ -89,18 +89,32 @@ class JrPlayerService : MediaBrowserServiceCompat() {
             return
         }
 
-        // Assume for example that the music catalog is already loaded/cached.
-
-        val mediaItems = mutableListOf<MediaBrowserCompat.MediaItem>()
-        // Check if this is the root menu:
-        if (MY_MEDIA_ROOT_ID == parentId) {
-            // Build the MediaItem objects for the top level,
-            // and put them in the mediaItems list...
-        } else {
-            // Examine the passed parentMediaId to see which submenu we're at,
-            // and put the children of that menu in the mediaItems list...
+        when (parentId) {
+            MEDIA_ROOT_ID -> {
+            }
+            else -> {
+                val resultsSent = musicSource.whenReady { isInitialized ->
+                    if (isInitialized) {
+                        val item = musicSource.songs.map { item ->
+                            MediaBrowserCompat.MediaItem(item.description,
+                                MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+                            )
+                        }
+                        result.sendResult(item)
+                        if (!isPlayerInitialized && musicSource.songs.isNotEmpty()) {
+                            preparePlayer(musicSource.songs, musicSource.songs[0], true)
+                            isPlayerInitialized = true
+                        }
+                    } else {
+                        mediaSession.sendSessionEvent(NETWORK_ERROR, null)
+                        result.sendResult(null)
+                    }
+                }
+                if (!resultsSent) {
+                    result.detach()
+                }
+            }
         }
-        result.sendResult(mediaItems)
     }
 
 
