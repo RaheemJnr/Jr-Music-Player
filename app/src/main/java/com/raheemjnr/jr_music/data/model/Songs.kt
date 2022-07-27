@@ -8,9 +8,10 @@ import android.net.Uri
 data class Songs(
     val id: Long,
     val title: String,
-//    val album: String,
-//    val genres: String,
-    val
+    val album: String,
+    val artist: String,
+    val image: String,
+    val duration: Long = -1,
     val contentUri: Uri
 )
 
