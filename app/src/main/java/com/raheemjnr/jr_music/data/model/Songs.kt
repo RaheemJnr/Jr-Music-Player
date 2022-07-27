@@ -10,7 +10,7 @@ data class Songs(
     val title: String,
     val album: String,
     val artist: String,
-    val image: String,
+    val image: Uri,
     val duration: Long = -1,
     val contentUri: Uri
 )

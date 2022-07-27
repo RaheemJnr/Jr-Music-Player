@@ -10,6 +10,7 @@ import android.os.Handler
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
+import android.webkit.MimeTypeMap
 import com.raheemjnr.jr_music.data.model.Songs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -62,26 +63,12 @@ suspend fun queryAudios(context: Context): List<Songs> {
         val projection = arrayOf(
             BaseColumns._ID,
             MediaStore.Audio.AudioColumns.TITLE,
-            MediaStore.Audio.AudioColumns.TRACK,
             MediaStore.Audio.AudioColumns.DURATION,
+            MediaStore.Audio.AudioColumns.ALBUM_ID,
             MediaStore.Audio.AudioColumns.ALBUM,
             MediaStore.Audio.AudioColumns.ARTIST,
             MediaStore.Audio.AudioColumns.TRACK,
         )
-        @Suppress("unused")
-        class JsonMusic {
-            var id: String = ""
-            var title: String = ""
-            var album: String = ""
-            var artist: String = ""
-            var genre: String = ""
-            var source: String = ""
-            var image: String = ""
-            var trackNumber: Long = 0
-            var totalTrackCount: Long = 0
-            var duration: Long = -1
-            var site: String = ""
-        }
 
 
         /**
@@ -100,8 +87,8 @@ suspend fun queryAudios(context: Context): List<Songs> {
          * in the `selection`.
          */
         val selectionArgs = arrayOf(
-            TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS).toString()
-            // MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
+           MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
+            //TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS).toString()
         )
 
         /**
@@ -137,18 +124,31 @@ suspend fun queryAudios(context: Context): List<Songs> {
              * to avoid having to look them up for each row.
              */
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-//                val durationColumn =
-//                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-            val displayNameColumn =
-                cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val albumColumns = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
+            val artistColumns = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val albumsIdColumns = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
+            val durationColumn =
+                cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+
+            val artist = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
 
             Log.i(TAG, "Found ${cursor.count} Audios")
             while (cursor.moveToNext()) {
 
                 // Here we'll use the column index that we found above.
                 val id = cursor.getLong(idColumn)
-                //val duration = cursor.getLong(durationColumn)
-                val displayName = cursor.getString(displayNameColumn)
+                val title = cursor.getString(titleColumn)
+                val duration = cursor.getLong(durationColumn)
+                val album = cursor.getString(albumColumns)
+                val artist = cursor.getString(artistColumns)
+                //get album art
+                val image = cursor.getLong(albumsIdColumns)
+                val sArtworkUri = Uri.parse("content://media/external/audio/albumart")
+                val albumArtUri = ContentUris.withAppendedId(
+                    sArtworkUri,
+                    image
+                )
 
                 /**
                  * This is one of the trickiest parts:
@@ -167,7 +167,15 @@ suspend fun queryAudios(context: Context): List<Songs> {
                     id
                 )
 
-                val audio = Songs(id, displayName, contentUri)
+                val audio = Songs(
+                    id = id,
+                    title = title,
+                    album = album,
+                    artist = artist,
+                    image = albumArtUri,
+                    duration = duration,
+                    contentUri = contentUri
+                )
                 audios += audio
 
                 //For debugging, we'll output the image objects we create to logcat.
