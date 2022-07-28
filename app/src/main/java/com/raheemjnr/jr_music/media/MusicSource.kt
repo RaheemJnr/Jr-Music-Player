@@ -1,8 +1,11 @@
 package com.raheemjnr.jr_music.media
 
-import android.os.Bundle
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.annotation.IntDef
+import com.raheemjnr.jr_music.data.model.Songs
+import java.util.concurrent.TimeUnit
 
 /**
  * State indicating the source was created, but no initialization has performed.
@@ -24,19 +27,6 @@ const val STATE_INITIALIZED = 3
  */
 const val STATE_ERROR = 4
 
-interface MusicSource : Iterable<MediaMetadataCompat> {
-
-    /**
-     * Begins loading the data for this music source.
-     */
-    suspend fun load()
-
-
-    fun whenReady(performAction: (Boolean) -> Unit): Boolean
-
-    fun search(query: String, extras: Bundle): List<MediaMetadataCompat>
-}
-
 @IntDef(
     STATE_CREATED,
     STATE_INITIALIZING,
@@ -47,10 +37,25 @@ interface MusicSource : Iterable<MediaMetadataCompat> {
 @Retention(AnnotationRetention.SOURCE)
 annotation class State
 
-abstract class AbstractMusicSource : MusicSource {
+class MusicSource {
     //
     private val onReadyListeners = mutableListOf<(Boolean) -> Unit>()
 
+    //
+    private var catalogSongs: List<Songs> = emptyList()
+
+    //
+    var song: List<MediaMetadataCompat> = emptyList()
+
+
+    fun loadMediaData() {
+        state = STATE_INITIALIZED
+
+        song = updateCatalog(catalogSongs)
+
+        state = STATE_INITIALIZED
+
+    }
 
     @State
     var state: Int = STATE_CREATED
@@ -80,7 +85,7 @@ abstract class AbstractMusicSource : MusicSource {
     //     * This method is *not* threadsafe. Ensure actions and state changes are only performed
     //     * on a single thread.
     //     */
-    override fun whenReady(performAction: (Boolean) -> Unit): Boolean =
+    fun whenReady(performAction: (Boolean) -> Unit): Boolean =
         when (state) {
             STATE_CREATED, STATE_INITIALIZING -> {
                 onReadyListeners += performAction
@@ -91,8 +96,63 @@ abstract class AbstractMusicSource : MusicSource {
                 true
             }
         }
-}
 
+    /**
+     * Function to connect to a the local content resolver and fetch MP3file that corresponds to
+     * [MediaMetadataCompat] objects.
+     */
+    fun updateCatalog(catalogSongs: List<Songs>): List<MediaMetadataCompat> {
+        val mediaMetadataCompats = catalogSongs.map { songs ->
+            MediaMetadataCompat.Builder()
+                .from(songs)
+                .apply {
+                    // Used by ExoPlayer and Notification
+                    displayIconUri = songs.image.toString()
+                    albumArtUri = songs.image.toString()
+                }.build()
+        }.toList()
+        // Add description keys to be used by the ExoPlayer MediaSession extension when
+        // announcing metadata changes.
+        mediaMetadataCompats.forEach { it.description.extras?.putAll(it.bundle) }
+        return mediaMetadataCompats
+    }
+
+    /**
+     * Extension method for [MediaMetadataCompat.Builder] to set the fields from
+     * our JSON constructed object (to make the code a bit easier to see).
+     */
+    fun MediaMetadataCompat.Builder.from(localSongs: Songs): MediaMetadataCompat.Builder {
+        // The duration from the JSON is given in seconds, but the rest of the code works in
+        // milliseconds. Here's where we convert to the proper units.
+        val durationMs = TimeUnit.SECONDS.toMillis(localSongs.duration)
+
+
+        id = localSongs.id.toString()
+        title = localSongs.title
+        artist = localSongs.artist
+        album = localSongs.album
+        duration = durationMs
+        mediaUri = localSongs.contentUri.toString()
+        albumArtUri = localSongs.image.toString()
+        flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+
+        // To make things easier for *displaying* these, set the display properties as well.
+        displayTitle = localSongs.title
+        displaySubtitle = localSongs.artist
+        displayDescription = localSongs.album
+        displayIconUri = localSongs.image.toString()
+
+        // Add downloadStatus to force the creation of an "extras" bundle in the resulting
+        // MediaMetadataCompat object. This is needed to send accurate metadata to the
+        // media session during updates.
+        downloadStatus = MediaDescriptionCompat.STATUS_NOT_DOWNLOADED
+
+        //Allow it to be used in the typical builder style.
+
+        return this
+
+    }
+}
 
 
 //class MusicSourc {
