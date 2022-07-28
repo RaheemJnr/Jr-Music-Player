@@ -31,13 +31,7 @@ interface MusicSource : Iterable<MediaMetadataCompat> {
      */
     suspend fun load()
 
-    /**
-     * Method which will perform a given action after this [MusicSource] is ready to be used.
-     *
-     * @param performAction A lambda expression to be called with a boolean parameter when
-     * the source is ready. `true` indicates the source was successfully prepared, `false`
-     * indicates an error occurred.
-     */
+
     fun whenReady(performAction: (Boolean) -> Unit): Boolean
 
     fun search(query: String, extras: Bundle): List<MediaMetadataCompat>
@@ -74,6 +68,13 @@ abstract class AbstractMusicSource : MusicSource {
         }
 
     /**
+     *  /**
+     * Method which will perform a given action after this [MusicSource] is ready to be used.
+     *
+     * @param performAction A lambda expression to be called with a boolean parameter when
+     * the source is ready. `true` indicates the source was successfully prepared, `false`
+     * indicates an error occurred.
+    */
     //     * Performs an action when this MusicSource is ready.
     //     *
     //     * This method is *not* threadsafe. Ensure actions and state changes are only performed
