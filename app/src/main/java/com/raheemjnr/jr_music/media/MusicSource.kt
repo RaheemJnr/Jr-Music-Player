@@ -45,13 +45,13 @@ class MusicSource {
     private var catalogSongs: List<Songs> = emptyList()
 
     //
-    var song: List<MediaMetadataCompat> = emptyList()
+    var songs: List<MediaMetadataCompat> = emptyList()
 
 
     fun loadMediaData() {
         state = STATE_INITIALIZED
 
-        song = updateCatalog(catalogSongs)
+        songs = updateCatalog(catalogSongs)
 
         state = STATE_INITIALIZED
 

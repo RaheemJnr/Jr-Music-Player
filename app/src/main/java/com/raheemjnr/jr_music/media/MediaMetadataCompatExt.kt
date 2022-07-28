@@ -291,5 +291,5 @@ setMediaMetadata(toMediaItemMetadata())
  * Custom property that holds whether an item is [MediaItem.FLAG_BROWSABLE] or
  * [MediaItem.FLAG_PLAYABLE].
  */
-const val METADATA_KEY_UAMP_FLAGS = "com.example.android.uamp.media.METADATA_KEY_UAMP_FLAGS"
+const val METADATA_KEY_UAMP_FLAGS = "com.raheemjnr.jr_music.media.METADATA_KEY_MUSIC_FLAGS"
 
