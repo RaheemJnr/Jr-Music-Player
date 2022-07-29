@@ -1,5 +1,6 @@
 package com.raheemjnr.jr_music.media
 
+import android.content.ClipData
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.media.MediaBrowserServiceCompat
 import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectionCallback
+import kotlinx.coroutines.*
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance, typically a
@@ -51,12 +53,64 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(
         context,
-        serviceComponent,
+        ComponentName(context, JrPlayerService::class.java),
         mediaBrowserConnectionCallback, null
-    ).apply { connect() }
+    ).apply {
+        connect()
+        updateSong()
+    }
     private lateinit var mediaController: MediaControllerCompat
 
+    //
+    val transportControls: MediaControllerCompat.TransportControls
+        get() = mediaController.transportControls
 
+    //
+    fun subscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
+        mediaBrowser.subscribe(parentId, callback)
+    }
+
+    fun unsubscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
+        mediaBrowser.unsubscribe(parentId, callback)
+    }
+
+    //
+    val shuffleMode: Int
+        get() = mediaController.shuffleMode
+
+    //
+    val repeatMode: Int
+        get() = mediaController.repeatMode
+    //
+    val sliderClicked: MutableState<Boolean> = mutableStateOf(false)
+    val songDuration: MutableState<Long> = mutableStateOf(0)
+
+    //
+    fun updatePlaylist(list: List<ClipData.Item>) {
+        musicSource.playlist = list
+        musicSource.fetchMediaData()
+    }
+
+
+    fun updateSong() {
+        val serviceScope = CoroutineScope(Dispatchers.IO)
+
+        serviceScope.launch {
+            while (!sliderClicked.value) {
+                ensureActive()
+                delay(100L)
+                val pos = playbackState.value?.cu
+                if (songDuration.value != pos) {
+                    pos?.let {
+                        songDuration.value = it
+                    }
+                }
+                delay(900L)
+            }
+        }
+    }
+
+    //
     private inner class MediaBrowserConnectionCallback(private val context: Context) :
         MediaBrowserCompat.ConnectionCallback() {
         /**
