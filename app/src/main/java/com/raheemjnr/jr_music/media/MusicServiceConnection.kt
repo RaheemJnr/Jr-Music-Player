@@ -34,7 +34,11 @@ import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectio
  */
 class MusicServiceConnection(context: Context, serviceComponent: ComponentName) {
 
+    //
     val isConnected = MutableLiveData<Boolean>()
+        .apply { postValue(false) }
+    //
+    val networkFailure = MutableLiveData<Boolean>()
         .apply { postValue(false) }
     //
     val playbackState = MutableLiveData<PlaybackStateCompat>()
@@ -43,6 +47,7 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
     val nowPlaying = MutableLiveData<MediaMetadataCompat>()
         .apply { postValue(NOTHING_PLAYING) }
 
+    private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(
         context,
         serviceComponent,
