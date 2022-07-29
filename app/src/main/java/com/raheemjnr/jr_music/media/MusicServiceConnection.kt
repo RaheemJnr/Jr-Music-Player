@@ -8,8 +8,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.telephony.DataFailCause.NETWORK_FAILURE
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.media.MediaBrowserServiceCompat
 import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectionCallback
 
@@ -35,17 +35,18 @@ import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectio
 class MusicServiceConnection(context: Context, serviceComponent: ComponentName) {
 
     //
-    val isConnected = MutableLiveData<Boolean>()
-        .apply { postValue(false) }
+    val isConnected: MutableState<Boolean> = mutableStateOf(false)
+
     //
-    val networkFailure = MutableLiveData<Boolean>()
-        .apply { postValue(false) }
+    val networkFailure: MutableState<Boolean> = mutableStateOf(false)
+
     //
-    val playbackState = MutableLiveData<PlaybackStateCompat>()
-        .apply { postValue(EMPTY_PLAYBACK_STATE) }
-    //
-    val nowPlaying = MutableLiveData<MediaMetadataCompat>()
-        .apply { postValue(NOTHING_PLAYING) }
+    val playbackState: MutableState<PlaybackStateCompat?> =
+        mutableStateOf(PlaybackStateCompat.fromPlaybackState(null))
+
+
+    val nowPlaying: MutableState<MediaMetadataCompat> =
+        mutableStateOf(MediaMetadataCompat.fromMediaMetadata(null))
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(
@@ -69,28 +70,28 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
                     registerCallback(MediaControllerCallback())
                 }
 
-            isConnected.postValue(true)
+            isConnected.value = true
         }
 
         /**
          * Invoked when the client is disconnected from the media browser.
          */
         override fun onConnectionSuspended() {
-            isConnected.postValue(false)
+            isConnected.value = false
         }
 
         /**
          * Invoked when the connection to the media browser failed.
          */
         override fun onConnectionFailed() {
-            isConnected.postValue(false)
+            isConnected.value = false
         }
     }
 
     private inner class MediaControllerCallback : MediaControllerCompat.Callback() {
 
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-            playbackState.postValue(state ?: EMPTY_PLAYBACK_STATE)
+            playbackState.value = state ?: EMPTY_PLAYBACK_STATE
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
@@ -98,13 +99,13 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
             // metadata object which has been instantiated with default values. The default value
             // for media ID is null so we assume that if this value is null we are not playing
             // anything.
-            nowPlaying.postValue(
+            nowPlaying.value =
                 if (metadata?.id == null) {
                     NOTHING_PLAYING
                 } else {
                     metadata
                 }
-            )
+
         }
 
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
@@ -113,7 +114,7 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
         override fun onSessionEvent(event: String?, extras: Bundle?) {
             super.onSessionEvent(event, extras)
             when (event) {
-                NETWORK_FAILURE -> networkFailure.postValue(true)
+                NETWORK_ERROR -> networkFailure.value = true
             }
         }
 
@@ -129,7 +130,6 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
     }
 
 
-
     @Suppress("PropertyName")
     val EMPTY_PLAYBACK_STATE: PlaybackStateCompat = PlaybackStateCompat.Builder()
         .setState(PlaybackStateCompat.STATE_NONE, 0, 0f)
@@ -141,3 +141,5 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
         .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, 0)
         .build()
 }
+
+const val NETWORK_ERROR = "Network Error"
