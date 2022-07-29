@@ -1,6 +1,5 @@
 package com.raheemjnr.jr_music.media
 
-import android.content.ClipData
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.media.MediaBrowserServiceCompat
+import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectionCallback
 import kotlinx.coroutines.*
 
@@ -34,7 +34,7 @@ import kotlinx.coroutines.*
  *  parameters, rather than private properties. They're only required to build the
  *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
-class MusicServiceConnection(context: Context, serviceComponent: ComponentName) {
+class MusicServiceConnection(context: Context, private val musicSource: MusicSource) {
 
     //
     val isConnected: MutableState<Boolean> = mutableStateOf(false)
@@ -75,31 +75,33 @@ class MusicServiceConnection(context: Context, serviceComponent: ComponentName) 
     }
 
     //
+    private val serviceScope = CoroutineScope(Dispatchers.IO)
+
+    //
     val shuffleMode: Int
         get() = mediaController.shuffleMode
 
     //
     val repeatMode: Int
         get() = mediaController.repeatMode
+
     //
     val sliderClicked: MutableState<Boolean> = mutableStateOf(false)
     val songDuration: MutableState<Long> = mutableStateOf(0)
 
     //
-    fun updatePlaylist(list: List<ClipData.Item>) {
-        musicSource.playlist = list
-        musicSource.fetchMediaData()
+    fun updatePlaylist(list: List<Songs>) {
+        musicSource.catalogSongs = list
+        musicSource.loadMediaData()
     }
 
 
     fun updateSong() {
-        val serviceScope = CoroutineScope(Dispatchers.IO)
-
         serviceScope.launch {
             while (!sliderClicked.value) {
                 ensureActive()
                 delay(100L)
-                val pos = playbackState.value?.cu
+                val pos = playbackState.value?.currentPlayBackPosition
                 if (songDuration.value != pos) {
                     pos?.let {
                         songDuration.value = it

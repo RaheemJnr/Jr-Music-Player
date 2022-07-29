@@ -42,7 +42,7 @@ class MusicSource {
     private val onReadyListeners = mutableListOf<(Boolean) -> Unit>()
 
     //
-    private var catalogSongs: List<Songs> = emptyList()
+    var catalogSongs: List<Songs> = emptyList()
 
     //
     var songs: List<MediaMetadataCompat> = emptyList()
