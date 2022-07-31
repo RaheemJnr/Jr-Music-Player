@@ -25,12 +25,14 @@ class MediaPlaybackPreparer(
                 PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
 
     override fun onPrepare(playWhenReady: Boolean) {
-        //val recentSong = storage.loadRecentSong() ?: return
-//        onPrepareFromMediaId(
-//            recentSong.mediaId!!,
-//            playWhenReady,
-//            recentSong.description.extras
-//        )
+        /*
+        val recentSong = storage.loadRecentSong() ?: return
+        onPrepareFromMediaId(
+        recentSong.mediaId!!,
+        playWhenReady,
+        recentSong.description.extras
+        )
+        */
         musicSource.songs[0].description.mediaId?.let { mediaId ->
             onPrepareFromMediaId(
                 mediaId,
