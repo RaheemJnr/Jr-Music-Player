@@ -37,7 +37,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         .setUsage(C.USAGE_MEDIA)
         .build()
 
-    private val playerListener = PlayerEventListener()
+    private val playerListener = MusicPlayerEventListener()
 
     /**
      * Configure ExoPlayer to handle audio focus for us.

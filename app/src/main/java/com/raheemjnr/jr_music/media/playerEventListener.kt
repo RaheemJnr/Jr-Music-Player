@@ -17,6 +17,7 @@ class MusicPlayerEventListener(
     private val notificationManager: MusicNotificationManager,
     private val currentPlayer: ExoPlayer
 ) : Player.Listener {
+    private var isForegroundService = false
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         when (playbackState) {
             Player.STATE_BUFFERING,
@@ -34,7 +35,7 @@ class MusicPlayerEventListener(
                         // notification to be dismissed. An alternative would be to provide a
                         // "close" button in the notification which stops playback and clears
                         // the notification.
-                        stopForeground(false)
+                        stopForeground()
                         isForegroundService = false
                     }
                 }
