@@ -128,6 +128,21 @@ class MusicNotificationManager(
                     .get()
             }
         }
+
+//        val request = ImageRequest.Builder(context)
+//            .data("https://www.example.com/image.jpg")
+//            .target { drawable ->
+//                // Handle the result.
+//            }
+//            .build()
+//        val disposable = imageLoader.enqueue(request)
+//        To load an image imperatively, execute an ImageRequest:
+//
+//
+//        val request = ImageRequest.Builder(context)
+//            .data("https://www.example.com/image.jpg")
+//            .build()
+//        val drawable = imageLoader.execute(request).drawable
     }
 }
 
