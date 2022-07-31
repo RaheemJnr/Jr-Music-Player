@@ -4,12 +4,16 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.DataFailCause.NETWORK_FAILURE
 import androidx.annotation.RequiresApi
 import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.media.MediaBrowserServiceCompat
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
 private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
@@ -21,6 +25,9 @@ class JrPlayerService : MediaBrowserServiceCompat() {
 
     //music source
     private lateinit var musicSource: MusicSource
+
+    //
+    private var currentPlaylistItems: List<MediaMetadataCompat> = emptyList()
 
 
     //
@@ -48,7 +55,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
             setPlaybackState(stateBuilder.build())
 
             // MySessionCallback() has methods that handle callbacks from a media controller
-           // setCallback(MySessionCallback())
+            // setCallback(MySessionCallback())
 
             // Set the session's token so that client activities can communicate with it.
             setSessionToken(sessionToken)
@@ -129,6 +136,42 @@ class JrPlayerService : MediaBrowserServiceCompat() {
                 result.detach()
             }
         }
+    }
+
+    //music queue navigator
+    private inner class MusicQueueNavigator(
+        mediaSession: MediaSessionCompat
+    ) : TimelineQueueNavigator(mediaSession) {
+        override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
+            if (windowIndex < currentPlaylistItems.size) {
+                return currentPlaylistItems[windowIndex].description
+            }
+            return MediaDescriptionCompat.Builder().build()
+        }
+    }
+
+    /**
+     * Load the supplied list of songs and the song to play into the current player.
+     */
+    private fun preparePlayer(
+        metadataList: List<MediaMetadataCompat>,
+        itemToPlay: MediaMetadataCompat?,
+        playWhenReady: Boolean,
+        playbackStartPositionMs: Long
+    ) {
+        // Since the playlist was probably based on some ordering (such as tracks
+        // on an album), find which window index to play first so that the song the
+        // user actually wants to hear plays first.
+        val initialWindowIndex = if (itemToPlay == null) 0 else metadataList.indexOf(itemToPlay)
+        currentPlaylistItems = metadataList
+
+        currentPlayer.playWhenReady = playWhenReady
+        currentPlayer.stop()
+        // Set playlist and prepare.
+        currentPlayer.setMediaItems(
+            metadataList.map { it.toMediaItem() }, initialWindowIndex, playbackStartPositionMs
+        )
+        currentPlayer.prepare()
     }
 
 }
