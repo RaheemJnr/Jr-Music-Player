@@ -12,7 +12,10 @@ import android.telephony.DataFailCause.NETWORK_FAILURE
 import androidx.annotation.RequiresApi
 import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.media.MediaBrowserServiceCompat
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
@@ -29,6 +32,24 @@ class JrPlayerService : MediaBrowserServiceCompat() {
     //
     private var currentPlaylistItems: List<MediaMetadataCompat> = emptyList()
 
+    private val uAmpAudioAttributes = com.google.android.exoplayer2.audio.AudioAttributes.Builder()
+        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+        .setUsage(C.USAGE_MEDIA)
+        .build()
+
+    private val playerListener = PlayerEventListener()
+
+    /**
+     * Configure ExoPlayer to handle audio focus for us.
+     * See [Player.AudioComponent.setAudioAttributes] for details.
+     */
+    private val currentPlayer: ExoPlayer by lazy {
+        SimpleExoPlayer.Builder(this).build().apply {
+            setAudioAttributes(uAmpAudioAttributes, true)
+            setHandleAudioBecomingNoisy(true)
+            addListener(playerListener)
+        }
+    }
 
     //
     private lateinit var packageValidator: PackageValidator
@@ -173,5 +194,25 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         )
         currentPlayer.prepare()
     }
+
+    /**
+     * This is the code that causes UAMP to stop playing when swiping the activity away from
+     * recents. The choice to do this is app specific. Some apps stop playback, while others allow
+     * playback to continue and allow users to stop it with the notification.
+     */
+//    override fun onTaskRemoved(rootIntent: Intent) {
+//        saveRecentSongToStorage()
+//        super.onTaskRemoved(rootIntent)
+//
+//        /**
+//         * By stopping playback, the player will transition to [Player.STATE_IDLE] triggering
+//         * [Player.EventListener.onPlayerStateChanged] to be called. This will cause the
+//         * notification to be hidden and trigger
+//         * [PlayerNotificationManager.NotificationListener.onNotificationCancelled] to be called.
+//         * The service will then remove itself as a foreground service, and will call
+//         * [stopSelf].
+//         */
+//        currentPlayer.stop(/* reset= */true)
+//    }
 
 }

@@ -18,9 +18,12 @@ package com.raheemjnr.jr_music.media
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaMetadataCompat
 import androidx.core.net.toUri
+import com.google.android.exoplayer2.MediaMetadata
+import com.google.android.exoplayer2.util.MimeTypes
 
 /**
  * Useful extensions for [MediaMetadataCompat].
@@ -249,7 +252,7 @@ inline var MediaMetadataCompat.Builder.flag: Int
         putLong(METADATA_KEY_UAMP_FLAGS, value.toLong())
     }
 
-/*
+
 fun MediaMetadataCompat.toMediaItemMetadata(): MediaMetadata {
 return with(MediaMetadata.Builder()) {
 setTitle(title)
@@ -263,20 +266,13 @@ setDiscNumber(discNumber.toInt())
 setWriter(writer)
 setArtworkUri(albumArtUri)
 val extras = Bundle()
-getString(JsonSource.ORIGINAL_ARTWORK_URI_KEY)?.let {
-// album art is a content:// URI. Keep the original for Cast.
-extras.putString(
-JsonSource.ORIGINAL_ARTWORK_URI_KEY,
-getString(JsonSource.ORIGINAL_ARTWORK_URI_KEY)
-)
-}
 extras.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration)
 setExtras(extras)
 }.build()
 }
-*/
 
-/*
+
+
 fun MediaMetadataCompat.toMediaItem(): com.google.android.exoplayer2.MediaItem {
 return with(com.google.android.exoplayer2.MediaItem.Builder()) {
 setMediaId(mediaUri.toString())
@@ -285,7 +281,7 @@ setMimeType(MimeTypes.AUDIO_MPEG)
 setMediaMetadata(toMediaItemMetadata())
 }.build()
 }
-*/
+
 
 /**
  * Custom property that holds whether an item is [MediaItem.FLAG_BROWSABLE] or
