@@ -15,9 +15,8 @@ import com.raheemjnr.jr_music.R
 class MusicPlayerEventListener(
     private val musicService: JrPlayerService,
     private val notificationManager: MusicNotificationManager,
-    private val exoPlayer: ExoPlayer
+    private val currentPlayer: ExoPlayer
 ) : Player.Listener {
-
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         when (playbackState) {
             Player.STATE_BUFFERING,
@@ -28,7 +27,7 @@ class MusicPlayerEventListener(
                     // When playing/paused save the current media item in persistent
                     // storage so that playback can be resumed between device reboots.
                     // Search for "media resumption" for more information.
-                    saveRecentSongToStorage()
+                   // saveRecentSongToStorage()
 
                     if (!playWhenReady) {
                         // If playback is paused we remove the foreground state which allows the
