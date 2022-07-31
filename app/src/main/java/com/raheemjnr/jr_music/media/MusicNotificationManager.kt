@@ -23,11 +23,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import com.raheemjnr.jr_music.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -41,7 +39,7 @@ const val NOW_PLAYING_NOTIFICATION_ID = 0xb339 // Arbitrary number used to ident
  * A wrapper class for ExoPlayer's PlayerNotificationManager. It sets up the notification shown to
  * the user during audio playback and provides track metadata, such as track title and icon image.
  */
-internal class UampNotificationManager(
+class MusicNotificationManager(
     private val context: Context,
     sessionToken: MediaSessionCompat.Token,
     notificationListener: PlayerNotificationManager.NotificationListener)
@@ -70,7 +68,7 @@ internal class UampNotificationManager(
         }
         notificationManager = builder.build()
         notificationManager.setMediaSessionToken(sessionToken)
-        notificationManager.setSmallIcon(R.drawable.ic_notification)
+        notificationManager.setSmallIcon(R.drawable.ic_notifications)
         notificationManager.setUseRewindAction(false)
         notificationManager.setUseFastForwardAction(false)
     }
