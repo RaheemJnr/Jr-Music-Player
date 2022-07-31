@@ -20,17 +20,18 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import coil.ImageLoader
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.raheemjnr.jr_music.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 const val NOW_PLAYING_CHANNEL_ID = "com.example.android.uamp.media.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION_ID = 0xb339 // Arbitrary number used to identify our notification
@@ -42,8 +43,8 @@ const val NOW_PLAYING_NOTIFICATION_ID = 0xb339 // Arbitrary number used to ident
 class MusicNotificationManager(
     private val context: Context,
     sessionToken: MediaSessionCompat.Token,
-    notificationListener: PlayerNotificationManager.NotificationListener)
-{
+    notificationListener: PlayerNotificationManager.NotificationListener
+) {
 
     private var player: Player? = null
     private val serviceJob = SupervisorJob()
@@ -120,36 +121,30 @@ class MusicNotificationManager(
 
         private suspend fun resolveUriAsBitmap(uri: Uri): Bitmap? {
             return withContext(Dispatchers.IO) {
-                // Block on downloading artwork.
-                Glide.with(context).applyDefaultRequestOptions(glideOptions)
-                    .asBitmap()
-                    .load(uri)
-                    .submit(NOTIFICATION_LARGE_ICON_SIZE, NOTIFICATION_LARGE_ICON_SIZE)
-                    .get()
+                getBitmap(uri = uri)
+
             }
         }
 
-//        val request = ImageRequest.Builder(context)
-//            .data("https://www.example.com/image.jpg")
-//            .target { drawable ->
-//                // Handle the result.
-//            }
-//            .build()
-//        val disposable = imageLoader.enqueue(request)
-//        To load an image imperatively, execute an ImageRequest:
-//
-//
-//        val request = ImageRequest.Builder(context)
-//            .data("https://www.example.com/image.jpg")
-//            .build()
-//        val drawable = imageLoader.execute(request).drawable
+        private suspend fun getBitmap(uri: Uri): Bitmap? {
+            val loader = ImageLoader(context)
+            val request = ImageRequest.Builder(context)
+                .data(uri)
+                .placeholder(R.drawable.default_art)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .allowHardware(false) // Disable hardware bitmaps.
+                .build()
+            return try {
+                val result = (loader.execute(request) as SuccessResult).drawable
+                (result as BitmapDrawable).bitmap
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+
     }
 }
-
-const val NOTIFICATION_LARGE_ICON_SIZE = 144 // px
-
-private val glideOptions = RequestOptions()
-    .fallback(R.drawable.default_art)
-    .diskCacheStrategy(DiskCacheStrategy.DATA)
 
 private const val MODE_READ_ONLY = "r"
