@@ -37,19 +37,20 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         .setUsage(C.USAGE_MEDIA)
         .build()
 
-    private val playerListener = MusicPlayerEventListener()
+    private lateinit var playerListener: MusicPlayerEventListener
 
     /**
      * Configure ExoPlayer to handle audio focus for us.
      * See [Player.AudioComponent.setAudioAttributes] for details.
      */
     private val currentPlayer: ExoPlayer by lazy {
-        SimpleExoPlayer.Builder(this).build().apply {
+        ExoPlayer.Builder(this).build().apply {
             setAudioAttributes(uAmpAudioAttributes, true)
             setHandleAudioBecomingNoisy(true)
             addListener(playerListener)
         }
     }
+
 
     //
     private lateinit var packageValidator: PackageValidator
