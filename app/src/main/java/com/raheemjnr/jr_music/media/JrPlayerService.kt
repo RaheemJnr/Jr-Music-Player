@@ -1,6 +1,7 @@
 package com.raheemjnr.jr_music.media
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -10,12 +11,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.DataFailCause.NETWORK_FAILURE
 import androidx.annotation.RequiresApi
-import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
@@ -23,8 +22,9 @@ private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
 
 class JrPlayerService : MediaBrowserServiceCompat() {
     //
-    private var mediaSession: MediaSessionCompat? = null
+    private lateinit var mediaSession: MediaSessionCompat
     private lateinit var stateBuilder: PlaybackStateCompat.Builder
+    private lateinit var notificationManager: MusicNotificationManager
 
     //music source
     private lateinit var musicSource: MusicSource
@@ -38,6 +38,9 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         .build()
 
     private lateinit var playerListener: MusicPlayerEventListener
+
+    //
+    var isForegroundService = false
 
     /**
      * Configure ExoPlayer to handle audio focus for us.
@@ -58,30 +61,32 @@ class JrPlayerService : MediaBrowserServiceCompat() {
     @SuppressLint("RestrictedApi")
     override fun onCreate() {
         super.onCreate()
+        // Build a PendingIntent that can be used to launch the UI.
+        val sessionActivityPendingIntent =
+            packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
+                PendingIntent.getActivity(this, 0, sessionIntent, 0)
+            }
+        // Create a new MediaSession.
+        mediaSession = MediaSessionCompat(this, "MusicService")
+            .apply {
+                setSessionActivity(sessionActivityPendingIntent)
+                isActive = true
+            }
+        /**
+         * In order for [MediaBrowserCompat.ConnectionCallback.onConnected] to be called,
+         * a [MediaSessionCompat.Token] needs to be set on the [MediaBrowserServiceCompat].
+         *
+         * It is possible to wait to set the session token, if required for a specific use-case.
+         * However, the token *must* be set by the time [MediaBrowserServiceCompat.onGetRoot]
+         * returns, or the connection will fail silently. (The system will not even call
+         * [MediaBrowserCompat.ConnectionCallback.onConnectionFailed].)
+         */
+        sessionToken = mediaSession.sessionToken
 
-        // Create a MediaSessionCompat
-        mediaSession = MediaSessionCompat(baseContext, LOG_TAG).apply {
-
-            // Enable callbacks from MediaButtons and TransportControls
-            setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
-                        or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-            )
-
-            // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
-            stateBuilder = PlaybackStateCompat.Builder()
-                .setActions(
-                    PlaybackStateCompat.ACTION_PLAY
-                            or PlaybackStateCompat.ACTION_PLAY_PAUSE
-                )
-            setPlaybackState(stateBuilder.build())
-
-            // MySessionCallback() has methods that handle callbacks from a media controller
-            // setCallback(MySessionCallback())
-
-            // Set the session's token so that client activities can communicate with it.
-            setSessionToken(sessionToken)
-        }
+        notificationManager = MusicNotificationManager(
+            this, mediaSession.sessionToken,
+            MusicPlayerNotificationListener(this)
+        )
     }
 
     //controls access to the service,
