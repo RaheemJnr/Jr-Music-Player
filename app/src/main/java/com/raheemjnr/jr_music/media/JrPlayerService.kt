@@ -16,6 +16,9 @@ import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
 private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
@@ -30,6 +33,17 @@ class JrPlayerService : MediaBrowserServiceCompat() {
     private lateinit var musicSource: MusicSource
 
     //
+    companion object {
+        var curSongDuration = 0L
+            private set
+    }
+    private var curPlayingSong: MediaMetadataCompat? = null
+
+    //
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+
+    //
     private var currentPlaylistItems: List<MediaMetadataCompat> = emptyList()
 
     private val uAmpAudioAttributes = com.google.android.exoplayer2.audio.AudioAttributes.Builder()
@@ -38,6 +52,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         .build()
 
     private lateinit var playerListener: MusicPlayerEventListener
+    private var isPlayerInitialized = false
 
     //
     var isForegroundService = false
@@ -82,11 +97,21 @@ class JrPlayerService : MediaBrowserServiceCompat() {
          * [MediaBrowserCompat.ConnectionCallback.onConnectionFailed].)
          */
         sessionToken = mediaSession.sessionToken
-
+        /**
+         * The notification manager will use our player and media session to decide when to post
+         * notifications. When notifications are posted or removed our listener will be called, this
+         * allows us to promote the service to foreground (required so that we're not killed if
+         * the main UI is not visible).
+         */
         notificationManager = MusicNotificationManager(
             this, mediaSession.sessionToken,
             MusicPlayerNotificationListener(this)
         )
+        //
+        val musicPlaybackPreparer = MediaPlaybackPreparer(musicSource) {
+            curPlayingSong = it
+            preparePlayer(musicSource.songs, it, true)
+        }
     }
 
     //controls access to the service,
@@ -147,8 +172,16 @@ class JrPlayerService : MediaBrowserServiceCompat() {
                         )
                     }
                     result.sendResult(children)
+                    if (!isPlayerInitialized && musicSource.songs.isNotEmpty()) {
+                        preparePlayer(
+                            musicSource.songs,
+                            musicSource.songs[0],
+                            playWhenReady = true,
+                        )
+                        isPlayerInitialized = true
+                    }
                 } else {
-                    mediaSession?.sendSessionEvent(NETWORK_FAILURE.toString(), null)
+                    mediaSession.sendSessionEvent(NETWORK_FAILURE.toString(), null)
                     result.sendResult(null)
                 }
             }
@@ -184,7 +217,6 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         metadataList: List<MediaMetadataCompat>,
         itemToPlay: MediaMetadataCompat?,
         playWhenReady: Boolean,
-        playbackStartPositionMs: Long
     ) {
         // Since the playlist was probably based on some ordering (such as tracks
         // on an album), find which window index to play first so that the song the
@@ -196,9 +228,24 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         currentPlayer.stop()
         // Set playlist and prepare.
         currentPlayer.setMediaItems(
-            metadataList.map { it.toMediaItem() }, initialWindowIndex, playbackStartPositionMs
+            metadataList.map { it.toMediaItem() }, initialWindowIndex, 0L
         )
         currentPlayer.prepare()
+    }
+
+    //
+    override fun onDestroy() {
+        mediaSession.run {
+            isActive = false
+            release()
+        }
+
+        // Cancel coroutines when the service is going away.
+        serviceJob.cancel()
+
+        // Free ExoPlayer resources.
+        currentPlayer.removeListener(playerListener)
+        currentPlayer.release()
     }
 
     /**
