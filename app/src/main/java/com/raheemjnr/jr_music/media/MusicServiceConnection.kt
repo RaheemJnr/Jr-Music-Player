@@ -35,7 +35,6 @@ import kotlinx.coroutines.*
  *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
 class MusicServiceConnection(context: Context, private val musicSource: MusicSource) {
-
     //
     val isConnected: MutableState<Boolean> = mutableStateOf(false)
 

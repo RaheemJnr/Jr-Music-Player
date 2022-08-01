@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.raheemjnr.jr_music.media
+package com.raheemjnr.jr_music.media.extentions
 
-import android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE
 import android.Manifest.permission.MEDIA_CONTENT_CONTROL
 import android.annotation.SuppressLint
 import android.content.Context
