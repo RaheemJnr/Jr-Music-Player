@@ -16,8 +16,8 @@ class MusicPlayerEventListener(
     private val musicService: JrPlayerService,
     private val notificationManager: MusicNotificationManager,
     private val currentPlayer: ExoPlayer,
-    private var currentMediaItemIndex: Int = 0,
     private val currentPlaylistItems: List<MediaMetadataCompat>,
+    private var currentMediaItemIndex: Int = 0,
 ) : Player.Listener {
     private var isForegroundService = false
 

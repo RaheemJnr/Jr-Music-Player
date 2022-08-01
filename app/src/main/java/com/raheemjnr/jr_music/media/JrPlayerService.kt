@@ -8,14 +8,15 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.DataFailCause.NETWORK_FAILURE
 import androidx.annotation.RequiresApi
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
+import com.raheemjnr.jr_music.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,7 +27,7 @@ private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
 class JrPlayerService : MediaBrowserServiceCompat() {
     //
     private lateinit var mediaSession: MediaSessionCompat
-    private lateinit var stateBuilder: PlaybackStateCompat.Builder
+    private lateinit var mediaSessionConnector: MediaSessionConnector
     private lateinit var notificationManager: MusicNotificationManager
 
     //music source
@@ -37,6 +38,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         var curSongDuration = 0L
             private set
     }
+
     private var curPlayingSong: MediaMetadataCompat? = null
 
     //
@@ -56,7 +58,6 @@ class JrPlayerService : MediaBrowserServiceCompat() {
 
     //
     var isForegroundService = false
-
     /**
      * Configure ExoPlayer to handle audio focus for us.
      * See [Player.AudioComponent.setAudioAttributes] for details.
@@ -65,11 +66,8 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         ExoPlayer.Builder(this).build().apply {
             setAudioAttributes(uAmpAudioAttributes, true)
             setHandleAudioBecomingNoisy(true)
-            addListener(playerListener)
         }
     }
-
-
     //
     private lateinit var packageValidator: PackageValidator
 
@@ -112,6 +110,20 @@ class JrPlayerService : MediaBrowserServiceCompat() {
             curPlayingSong = it
             preparePlayer(musicSource.songs, it, true)
         }
+
+        // ExoPlayer will manage the MediaSession for us.
+        mediaSessionConnector = MediaSessionConnector(mediaSession)
+        mediaSessionConnector.setPlaybackPreparer(musicPlaybackPreparer)
+        mediaSessionConnector.setQueueNavigator(MusicQueueNavigator(mediaSession))
+        mediaSessionConnector.setPlayer(currentPlayer)
+
+        notificationManager.showNotificationForPlayer(currentPlayer)
+
+        playerListener =
+            MusicPlayerEventListener(this, notificationManager, currentPlayer, currentPlaylistItems)
+        currentPlayer.addListener(playerListener)
+
+        packageValidator = PackageValidator(this, R.xml.allowed_media_browser_callers)
     }
 
     //controls access to the service,
