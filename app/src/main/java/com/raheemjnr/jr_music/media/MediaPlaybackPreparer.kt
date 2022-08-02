@@ -8,10 +8,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
+import com.raheemjnr.jr_music.utils.TAG
 
 class MediaPlaybackPreparer(
     private val musicSource: MusicSource,
-    private val playerPrepared:(MediaMetadataCompat) -> Unit
+    private val playerPrepared: (MediaMetadataCompat) -> Unit
 ) : MediaSessionConnector.PlaybackPreparer {
 
     /**
@@ -78,14 +79,6 @@ class MediaPlaybackPreparer(
         }
     }
 
-    /**
-     * This method is used by the Google Assistant to respond to requests such as:
-     * - Play Geisha from Wake Up on UAMP
-     * - Play electronic music on UAMP
-     * - Play music on UAMP
-     *
-     * For details on how search is handled, see [AbstractMusicSource.search].
-     */
     override fun onPrepareFromSearch(query: String, playWhenReady: Boolean, extras: Bundle?) = Unit
 
     override fun onPrepareFromUri(uri: Uri, playWhenReady: Boolean, extras: Bundle?) = Unit
