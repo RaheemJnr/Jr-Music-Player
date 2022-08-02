@@ -18,9 +18,6 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.media.extentions.PackageValidator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
 private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
@@ -43,8 +40,8 @@ class JrPlayerService : MediaBrowserServiceCompat() {
     private var curPlayingSong: MediaMetadataCompat? = null
 
     //
-    private val serviceJob = SupervisorJob()
-    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+//    private val serviceJob = SupervisorJob()
+//    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     //
     private var currentPlaylistItems: List<MediaMetadataCompat> = emptyList()
@@ -59,6 +56,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
 
     //
     var isForegroundService = false
+
     /**
      * Configure ExoPlayer to handle audio focus for us.
      * See [Player.AudioComponent.setAudioAttributes] for details.
@@ -69,6 +67,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
             setHandleAudioBecomingNoisy(true)
         }
     }
+
     //
     private lateinit var packageValidator: PackageValidator
 
@@ -254,7 +253,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         }
 
         // Cancel coroutines when the service is going away.
-        serviceJob.cancel()
+       // serviceJob.cancel()
 
         // Free ExoPlayer resources.
         currentPlayer.removeListener(playerListener)
