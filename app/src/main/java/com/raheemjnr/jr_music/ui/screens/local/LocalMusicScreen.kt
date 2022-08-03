@@ -23,13 +23,12 @@ import com.raheemjnr.jr_music.utils.ComposablePermission
  */
 private const val DELETE_PERMISSION_REQUEST = 0x1033
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun LocalMusicScreen() {
     //viewModel
     val viewModel: MainViewModel = viewModel()
     //context
-    val context = LocalContext.current as Activity
+    LocalContext.current as Activity
 
     val audios = viewModel.audios.observeAsState()
 

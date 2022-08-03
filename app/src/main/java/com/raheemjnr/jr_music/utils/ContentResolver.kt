@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.raheemjnr.jr_music.utils
 
 import android.content.ContentResolver
@@ -151,7 +153,6 @@ suspend fun queryAudios(context: Context): List<Songs> {
             val durationColumn =
                 cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
 
-            val artist = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
 
             Log.i(TAG, "Found ${cursor.count} Audios")
             while (cursor.moveToNext()) {

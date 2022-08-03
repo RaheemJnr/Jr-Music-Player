@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.util.Util
 import com.raheemjnr.jr_music.R
+import com.raheemjnr.jr_music.utils.TAG
 
 /**
  * Listen for events from ExoPlayer.

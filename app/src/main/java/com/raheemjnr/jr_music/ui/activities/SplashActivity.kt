@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 
+@Suppress("DEPRECATION")
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : ComponentActivity() {
 
@@ -28,8 +30,8 @@ class SplashActivity : ComponentActivity() {
     private fun makeFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
+            FLAG_FULLSCREEN,
+            FLAG_FULLSCREEN
         )
         actionBar?.hide()
     }
