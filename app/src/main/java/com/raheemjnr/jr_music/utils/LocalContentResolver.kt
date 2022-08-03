@@ -5,6 +5,7 @@ package com.raheemjnr.jr_music.utils
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
+import android.content.IntentSender
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Build
@@ -13,32 +14,25 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.raheemjnr.jr_music.data.model.Songs
 import kotlinx.coroutines.*
 
-var contentObserver: ContentObserver? = null
+
+private var pendingDeleteAudio: Songs? = null
+private val _permissionNeededForDelete = MutableLiveData<IntentSender?>()
+val permissionNeededForDelete: LiveData<IntentSender?> = _permissionNeededForDelete
+
+//
 private val serviceJob = SupervisorJob()
 private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+private var contentObserver: ContentObserver? = null
 
+///load music to livedata observerl
 
-fun loadMusic(context: Context, audio: MutableLiveData<List<Songs>>): List<Songs>? {
-    serviceScope.launch {
-        val audioList = queryAudios(context.applicationContext)
-        audio.postValue(audioList)
-
-        if (contentObserver == null) {
-            contentObserver = context.applicationContext.contentResolver.registerObserver(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            ) {
-                loadMusic(context, audio)
-            }
-        }
-    }
-    return audio.value
-}
-
-suspend fun queryAudios(context: Context): List<Songs> {
+// query content provider for all mp3 files and related data
+private suspend fun queryAudios(context: Context): List<Songs> {
     val audios = mutableListOf<Songs>()
 
     /**
@@ -126,8 +120,6 @@ suspend fun queryAudios(context: Context): List<Songs> {
             selectionArgs,
             sortOrder
         )?.use { cursor ->
-
-
             /**
              * In order to retrieve the data from the [Cursor] that's returned, we need to
              * find which index matches each column that we're interested in.
@@ -152,7 +144,6 @@ suspend fun queryAudios(context: Context): List<Songs> {
             val albumsIdColumns = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
             val durationColumn =
                 cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
-
 
             Log.i(TAG, "Found ${cursor.count} Audios")
             while (cursor.moveToNext()) {
@@ -209,6 +200,75 @@ suspend fun queryAudios(context: Context): List<Songs> {
     return audios
 }
 
+
+//    private suspend fun performDeleteImage(audio: Songs) {
+//        withContext(Dispatchers.IO) {
+//            try {
+//                /**
+//                 * In [Build.VERSION_CODES.Q] and above, it isn't possible to modify
+//                 * or delete items in MediaStore directly, and explicit permission
+//                 * must usually be obtained to do this.
+//                 *
+//                 * The way it works is the OS will throw a [RecoverableSecurityException],
+//                 * which we can catch here. Inside there's an [IntentSender] which the
+//                 * activity can use to prompt the user to grant permission to the item
+//                 * so it can be either updated or deleted.
+//                 */
+//                context.contentResolver.delete(
+//                    audio.contentUri,
+//                    "${MediaStore.Images.Media._ID} = ?",
+//                    arrayOf(audio.id.toString())
+//                )
+//            } catch (securityException: SecurityException) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                    val recoverableSecurityException =
+//                        securityException as? RecoverableSecurityException
+//                            ?: throw securityException
+//
+//                    // Signal to the Activity that it needs to request permission and
+//                    // try the delete again if it succeeds.
+//                    pendingDeleteAudio = audio
+//                    _permissionNeededForDelete.postValue(
+//                        recoverableSecurityException.userAction.actionIntent.intentSender
+//                    )
+//                } else {
+//                    throw securityException
+//                }
+//            }
+//        }
+//    }
+//
+//    fun deleteAudio(audio: Songs) {
+//        serviceScope.launch {
+//            performDeleteImage(audio)
+//        }
+//    }
+//
+//    fun deletePendingAudio() {
+//        pendingDeleteAudio?.let { image ->
+//            pendingDeleteAudio = null
+//            deleteAudio(image)
+//        }
+//    }
+
+
+fun loadMusic(context: Context, audio: MutableLiveData<List<Songs>>): List<Songs>? {
+    serviceScope.launch {
+        val audioList = queryAudios(context.applicationContext)
+        audio.postValue(audioList)
+
+        if (contentObserver == null) {
+            contentObserver = context.applicationContext.contentResolver.registerObserver(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            ) {
+                loadMusic(context, audio)
+            }
+        }
+    }
+    return audio.value
+}
+
+
 /**
  * Convenience extension method to register a [ContentObserver] given a lambda.
  */
@@ -224,3 +284,5 @@ fun ContentResolver.registerObserver(
     registerContentObserver(uri, true, contentObserver)
     return contentObserver
 }
+
+
