@@ -22,3 +22,5 @@ fun askPermissions(context: Context, requestCode: Int, vararg permissions: Strin
         requestCode
     )
 }
+
+const val TAG = "MainActivityVM"

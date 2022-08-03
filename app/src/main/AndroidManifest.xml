@@ -3,10 +3,10 @@
     package="com.raheemjnr.jr_music">
 
     <!--    //storage permission-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--    <uses-permission-->
     <!--        android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-    <!--        android:maxSdkVersion="28" />-->
 
 
     <application
@@ -36,7 +36,7 @@
 
         <!--        music player service-->
         <service
-            android:name=".JrPlayerService"
+            android:name=".media.JrPlayerService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
