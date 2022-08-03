@@ -3,20 +3,16 @@ package com.raheemjnr.jr_music.ui.viewmodels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.app.RecoverableSecurityException
-import android.content.ContentResolver
 import android.content.IntentSender
 import android.database.ContentObserver
-import android.net.Uri
 import android.os.Build
-import android.os.Handler
 import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.raheemjnr.jr_music.data.model.Songs
-import com.raheemjnr.jr_music.utils.queryAudios
-import com.raheemjnr.jr_music.utils.registerObserver
+import com.raheemjnr.jr_music.utils.loadMusic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,19 +35,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * the [_audio] [LiveData] above.
      */
     fun loadAudios() {
-        viewModelScope.launch {
-            val audioList = queryAudios(getApplication())
-            _audio.postValue(audioList)
-
-            if (contentObserver == null) {
-                contentObserver = getApplication<Application>().contentResolver.registerObserver(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                ) {
-                    loadAudios()
-                }
-            }
-        }
+        loadMusic(getApplication(), _audio)
     }
+
+//    private fun load() {
+//        viewModelScope.launch {
+//            val audioList = queryAudios(getApplication())
+//            _audio.postValue(audioList)
+//
+//            if (contentObserver == null) {
+//                contentObserver = getApplication<Application>().contentResolver.registerObserver(
+//                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+//                ) {
+//                    loadAudios()
+//                }
+//            }
+//        }
+//    }
 
     fun deleteAudio(audio: Songs) {
         viewModelScope.launch {

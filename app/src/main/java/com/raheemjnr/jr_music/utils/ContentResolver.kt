@@ -11,10 +11,30 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
+import androidx.lifecycle.MutableLiveData
 import com.raheemjnr.jr_music.data.model.Songs
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
+
+var contentObserver: ContentObserver? = null
+private val serviceJob = SupervisorJob()
+private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+
+
+fun loadMusic(context: Context, audio: MutableLiveData<List<Songs>>): List<Songs>? {
+    serviceScope.launch {
+        val audioList = queryAudios(context.applicationContext)
+        audio.postValue(audioList)
+
+        if (contentObserver == null) {
+            contentObserver = context.applicationContext.contentResolver.registerObserver(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            ) {
+                loadMusic(context, audio)
+            }
+        }
+    }
+    return audio.value
+}
 
 suspend fun queryAudios(context: Context): List<Songs> {
     val audios = mutableListOf<Songs>()
@@ -87,7 +107,7 @@ suspend fun queryAudios(context: Context): List<Songs> {
          * in the `selection`.
          */
         val selectionArgs = arrayOf(
-           MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
+            MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
             //TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS).toString()
         )
 
