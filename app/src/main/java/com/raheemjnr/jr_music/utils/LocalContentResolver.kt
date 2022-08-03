@@ -180,7 +180,7 @@ private suspend fun queryAudios(context: Context): List<Songs> {
                 )
 
                 val audio = Songs(
-                    id = id,
+                    id = id.toString(),
                     title = title,
                     album = album,
                     artist = artist,
@@ -201,55 +201,57 @@ private suspend fun queryAudios(context: Context): List<Songs> {
 }
 
 
-//    private suspend fun performDeleteImage(audio: Songs) {
-//        withContext(Dispatchers.IO) {
-//            try {
-//                /**
-//                 * In [Build.VERSION_CODES.Q] and above, it isn't possible to modify
-//                 * or delete items in MediaStore directly, and explicit permission
-//                 * must usually be obtained to do this.
-//                 *
-//                 * The way it works is the OS will throw a [RecoverableSecurityException],
-//                 * which we can catch here. Inside there's an [IntentSender] which the
-//                 * activity can use to prompt the user to grant permission to the item
-//                 * so it can be either updated or deleted.
-//                 */
-//                context.contentResolver.delete(
-//                    audio.contentUri,
-//                    "${MediaStore.Images.Media._ID} = ?",
-//                    arrayOf(audio.id.toString())
-//                )
-//            } catch (securityException: SecurityException) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                    val recoverableSecurityException =
-//                        securityException as? RecoverableSecurityException
-//                            ?: throw securityException
-//
-//                    // Signal to the Activity that it needs to request permission and
-//                    // try the delete again if it succeeds.
-//                    pendingDeleteAudio = audio
-//                    _permissionNeededForDelete.postValue(
-//                        recoverableSecurityException.userAction.actionIntent.intentSender
-//                    )
-//                } else {
-//                    throw securityException
-//                }
-//            }
-//        }
-//    }
-//
-//    fun deleteAudio(audio: Songs) {
-//        serviceScope.launch {
-//            performDeleteImage(audio)
-//        }
-//    }
-//
-//    fun deletePendingAudio() {
-//        pendingDeleteAudio?.let { image ->
-//            pendingDeleteAudio = null
-//            deleteAudio(image)
-//        }
-//    }
+/*
+private suspend fun performDeleteImage(audio: Songs) {
+withContext(Dispatchers.IO) {
+try {
+/ **
+* In [Build.VERSION_CODES.Q] and above, it isn't possible to modify
+* or delete items in MediaStore directly, and explicit permission
+* must usually be obtained to do this.
+*
+* The way it works is the OS will throw a [RecoverableSecurityException],
+* which we can catch here. Inside there's an [IntentSender] which the
+* activity can use to prompt the user to grant permission to the item
+* so it can be either updated or deleted.
+* /
+context.contentResolver.delete(
+audio.contentUri,
+"${MediaStore.Images.Media._ID} = ?",
+arrayOf(audio.id.toString())
+)
+} catch (securityException: SecurityException) {
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+val recoverableSecurityException =
+securityException as? RecoverableSecurityException
+?: throw securityException
+
+// Signal to the Activity that it needs to request permission and
+// try the delete again if it succeeds.
+pendingDeleteAudio = audio
+_permissionNeededForDelete.postValue(
+recoverableSecurityException.userAction.actionIntent.intentSender
+)
+} else {
+throw securityException
+}
+}
+}
+}
+
+fun deleteAudio(audio: Songs) {
+serviceScope.launch {
+performDeleteImage(audio)
+}
+}
+
+fun deletePendingAudio() {
+pendingDeleteAudio?.let { image ->
+pendingDeleteAudio = null
+deleteAudio(image)
+}
+}
+*/
 
 
 fun loadMusic(context: Context, audio: MutableLiveData<List<Songs>>): List<Songs>? {

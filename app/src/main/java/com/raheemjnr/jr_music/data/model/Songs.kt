@@ -6,10 +6,10 @@ import android.net.Uri
  * Simple data class to hold information about audio included in the device's MediaStore.
  */
 data class Songs(
-    val id: Long,
-    val title: String,
-    val album: String,
-    val artist: String,
+    val id: String = "",
+    val title: String = "",
+    val album: String = "",
+    val artist: String = "",
     val image: Uri,
     val duration: Long = -1,
     val contentUri: Uri

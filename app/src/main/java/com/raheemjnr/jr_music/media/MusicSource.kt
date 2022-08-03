@@ -49,16 +49,18 @@ class MusicSource() {
     var songs: List<MediaMetadataCompat> = emptyList()
 
     private fun mapLiveDataToList(songs: List<MediaMetadataCompat>): List<Songs> =
-        songs.map {
-            Songs(
-                id = it.id!!.toLong(),
-                title = it.title!!,
-                album = it.album!!,
-                artist = it.artist!!,
-                image = it.albumArtUri,
-                duration = it.duration,
-                contentUri = it.mediaUri
-            )
+        songs.let {
+            it.map { music ->
+                Songs(
+                    id = music.id ?: "",
+                    title = music.title ?: "",
+                    album = music.album ?: "",
+                    artist = music.artist ?: "",
+                    image = music.albumArtUri,
+                    duration = music.duration,
+                    contentUri = music.mediaUri
+                )
+            }
         }
 
     //
@@ -71,7 +73,7 @@ class MusicSource() {
     fun loadMediaData() {
         state = STATE_INITIALIZED
 
-        songs = updateCatalog(catalogSongs!!)
+        songs = catalogSongs?.let { updateCatalog(it) } ?: emptyList()
 
         state = STATE_INITIALIZED
 
