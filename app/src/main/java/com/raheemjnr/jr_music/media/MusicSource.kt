@@ -5,6 +5,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.annotation.IntDef
+import androidx.lifecycle.MutableLiveData
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.utils.loadMusic
 import java.util.concurrent.TimeUnit
@@ -60,7 +61,7 @@ class MusicSource(context: Context) {
         }
 
     //
-    var catalogSongs = loadMusic(context, mapLiveDataToList(songs))
+    var catalogSongs = loadMusic(context, MutableLiveData(mapLiveDataToList(songs)))
 
 
     fun loadMediaData() {
@@ -168,36 +169,3 @@ class MusicSource(context: Context) {
 
     }
 }
-
-
-//class MusicSourc {
-//
-//    private var state: State = STATE_CREATED
-//        set(value) {
-//            if (value == STATE_INITIALIZED || value == STATE_ERROR) {
-//                synchronized(onReadyListener) {
-//                    field = value
-//                    onReadyListener.forEach { listener ->
-//                        listener(state == STATE_INITIALIZED)
-//                    }
-//                }
-//            } else {
-//                field = value
-//            }
-//        }
-//    @PlaybackStateCompat.State
-//    var state: Int = STATE_CREATED
-//        set(value) {
-//            if (value == STATE_INITIALIZED || value == STATE_ERROR) {
-//                synchronized(onReadyListeners) {
-//                    field = value
-//                    onReadyListeners.forEach { listener ->
-//                        listener(state == STATE_INITIALIZED)
-//                    }
-//                }
-//            } else {
-//                field = value
-//            }
-//        }
-//
-//}
