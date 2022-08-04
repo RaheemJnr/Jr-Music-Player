@@ -1,9 +1,10 @@
-package com.raheemjnr.jr_music.media
+package com.raheemjnr.jr_music.media.listener
 
 import android.app.Notification
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import com.raheemjnr.jr_music.media.JrPlayerService
 
 /**
  * Listen for notification events.
