@@ -7,6 +7,7 @@ import androidx.annotation.IntDef
 import androidx.lifecycle.MutableLiveData
 import com.raheemjnr.jr_music.App
 import com.raheemjnr.jr_music.data.model.Songs
+import com.raheemjnr.jr_music.media.extentions.*
 import com.raheemjnr.jr_music.utils.loadMusic
 import java.util.concurrent.TimeUnit
 

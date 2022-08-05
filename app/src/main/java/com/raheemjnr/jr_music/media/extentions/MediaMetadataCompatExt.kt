@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.media
+package com.raheemjnr.jr_music.media.extentions
 
 import android.graphics.Bitmap
 import android.net.Uri

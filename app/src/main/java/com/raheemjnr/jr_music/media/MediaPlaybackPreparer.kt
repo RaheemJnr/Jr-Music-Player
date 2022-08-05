@@ -8,6 +8,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
+import com.raheemjnr.jr_music.media.extentions.album
+import com.raheemjnr.jr_music.media.extentions.trackNumber
 import com.raheemjnr.jr_music.utils.TAG
 
 class MediaPlaybackPreparer(
