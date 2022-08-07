@@ -33,15 +33,15 @@ fun CustomTopBar(context: Context) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.LightGray.copy(alpha = 0.6F))
+            .background(color = Color.LightGray.copy(alpha = .25F))
     ) {
         Icon(
             imageVector = Icons.Default.Settings,
             contentDescription = "Settings Icon",
-            tint = Color.Black.copy(alpha = .8F),
+            tint = Color.Black.copy(alpha = .9F),
             modifier = Modifier
                 .padding(8.dp)
-                .size(18.dp)
+                .size(24.dp)
                 .clickable { showToast(context = context, "Clicked settings", Toast.LENGTH_SHORT) }
         )
         SearchBar()
@@ -58,7 +58,7 @@ fun SearchBar() {
             .padding(start = 0.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .background(
-                color = Color.White.copy(alpha = 0.5F),
+                color = Color.White,
                 shape = RoundedCornerShape(39.dp)
             )
     ) {
@@ -76,13 +76,13 @@ fun SearchBar() {
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
                     .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
-                    .size(18.dp)
+                    .size(24.dp)
             )
             Text(
                 text = value,
                 modifier = Modifier.padding(start = 1.dp, top = 8.dp, bottom = 8.dp),
                 color = Color.DarkGray.copy(alpha = .6f),
-                fontSize = 8.sp,
+                fontSize = 12.sp,
                 letterSpacing = .5.sp
             )
         }
@@ -107,7 +107,7 @@ fun SearchBar() {
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
                     .padding(start = 6.dp)
-                    .size(12.dp)
+                    .size(22.dp)
             )
 
 
