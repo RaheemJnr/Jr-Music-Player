@@ -55,7 +55,7 @@ fun SearchBar() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .height(IntrinsicSize.Min)
-            .padding(start = 0.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
+            .padding(start = 0.dp, end = 14.dp, top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .background(
                 color = Color.White,
