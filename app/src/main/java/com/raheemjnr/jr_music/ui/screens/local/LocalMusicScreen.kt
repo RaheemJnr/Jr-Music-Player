@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.CustomTopBar
@@ -71,6 +72,12 @@ fun LocalMusicScreen() {
         }
 
     }
+}
+
+@Preview
+@Composable
+fun LocalMusicScreenPreview() {
+    LocalMusicScreen()
 }
 
 
