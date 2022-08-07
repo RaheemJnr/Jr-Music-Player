@@ -1,6 +1,9 @@
 package com.raheemjnr.jr_music.ui.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -17,12 +20,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.utils.showToast
 
 @Composable
-fun TopBar() {
+fun CustomTopBar(context: Context) {
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -37,8 +42,8 @@ fun TopBar() {
             modifier = Modifier
                 .padding(8.dp)
                 .size(18.dp)
+                .clickable { showToast(context = context, "Clicked settings", Toast.LENGTH_SHORT) }
         )
-//        Spacer(modifier = Modifier.width(2.dp))
         SearchBar()
     }
 }
@@ -80,10 +85,7 @@ fun SearchBar() {
                 fontSize = 8.sp,
                 letterSpacing = .5.sp
             )
-
-
         }
-
         //mic
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -118,5 +120,6 @@ fun SearchBar() {
 @Preview(showBackground = true)
 @Composable
 fun TopBarPrev() {
-    TopBar()
+
+    CustomTopBar(LocalContext.current)
 }

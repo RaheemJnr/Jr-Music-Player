@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raheemjnr.jr_music.data.model.Songs
+import com.raheemjnr.jr_music.ui.components.CustomTopBar
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission
 
@@ -26,16 +28,19 @@ fun LocalMusicScreen() {
     //viewModel
     val viewModel: MainViewModel = viewModel()
     //context
-    LocalContext.current as Activity
+    val context = LocalContext.current as Activity
 
     val audios = viewModel.audios.observeAsState()
 
-
-
-
+    //root composable
     Column(
         Modifier.fillMaxSize()
     ) {
+        Scaffold(
+            topBar = { CustomTopBar(context = context) }
+
+        ) {
+        }
         Button(onClick = {
             viewModel.loadAudios()
         }
