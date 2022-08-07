@@ -3,9 +3,11 @@ package com.raheemjnr.jr_music.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun TopBar() {
@@ -33,7 +36,7 @@ fun TopBar() {
             tint = Color.Black.copy(alpha = .8F),
             modifier = Modifier
                 .padding(8.dp)
-                .size(24.dp)
+                .size(18.dp)
         )
 //        Spacer(modifier = Modifier.width(2.dp))
         SearchBar()
@@ -44,29 +47,71 @@ fun TopBar() {
 fun SearchBar() {
     val value by remember { mutableStateOf("Search artists, songs and playlists") }
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
+            .height(IntrinsicSize.Min)
+            .padding(start = 0.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .background(
                 color = Color.White.copy(alpha = 0.5F),
                 shape = RoundedCornerShape(39.dp)
             )
     ) {
-        Icon(
-            Icons.Default.Search,
-            contentDescription = "search icon",
-            tint = Color.DarkGray.copy(alpha = .6F),
+        //text field
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
             modifier = Modifier
-                .padding(start = 8.dp)
-                .size(12.dp)
-        )
-        Text(
-            text = value,
-            modifier = Modifier.padding(8.dp),
-            color = Color.DarkGray.copy(alpha = .6f)
+                .height(IntrinsicSize.Min)
 
-        )
+        ) {
+            Icon(
+                Icons.Default.Search,
+                contentDescription = "search icon",
+                tint = Color.DarkGray.copy(alpha = .6F),
+                modifier = Modifier
+                    .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
+                    .size(18.dp)
+            )
+            Text(
+                text = value,
+                modifier = Modifier.padding(start = 1.dp, top = 8.dp, bottom = 8.dp),
+                color = Color.DarkGray.copy(alpha = .6f),
+                fontSize = 8.sp,
+                letterSpacing = .5.sp
+            )
+
+
+        }
+
+        //mic
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(end = 12.dp)
+        ) {
+            Divider(
+                color = Color.DarkGray.copy(alpha = .6F),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+                    .padding(top = 10.dp, bottom = 10.dp)
+            )
+            Icon(
+                Icons.Default.Phone,
+                contentDescription = "",
+                tint = Color.DarkGray.copy(alpha = .6F),
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .size(12.dp)
+            )
+
+
+        }
     }
+
 
 }
 
