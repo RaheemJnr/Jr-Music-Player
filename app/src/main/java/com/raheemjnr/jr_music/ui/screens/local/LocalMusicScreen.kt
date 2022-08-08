@@ -20,10 +20,6 @@ import com.raheemjnr.jr_music.ui.components.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission
 
-/**
- * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
- */
-private const val DELETE_PERMISSION_REQUEST = 0x1033
 
 @Composable
 fun LocalMusicScreen() {

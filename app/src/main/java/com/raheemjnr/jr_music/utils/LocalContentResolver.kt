@@ -322,3 +322,8 @@ dialog.dismiss()
 }
 */
 
+
+/**
+ * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
+ */
+private const val DELETE_PERMISSION_REQUEST = 0x1033
