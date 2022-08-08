@@ -38,35 +38,38 @@ fun LocalMusicScreen() {
             topBar = { CustomTopBar(context = context) }
 
         ) {
-            MainUiCard()
-            Button(onClick = {
-                viewModel.loadAudios()
-            }
-            ) {
-                Text(text = "show audios")
-            }
-            Box(modifier = Modifier)
-            {
-                ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
-                    onDenied = {
-                        Text(text = "Permission Denied")
-                    }
+            Column() {
+                MainUiCard()
+                Button(onClick = {
+                    viewModel.loadAudios()
+                }
                 ) {
-                    LazyColumn() {
-                        audios.value?.let { itemm ->
-                            items(
-                                items = itemm,
-                                key = {
-                                    it.id
-                                }
-                            ) { item: Songs ->
-                                Text(text = "$item")
-                            }
+                    Text(text = "show audios")
+                }
+                Box(modifier = Modifier)
+                {
+                    ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
+                        onDenied = {
+                            Text(text = "Permission Denied")
                         }
+                    ) {
+                        LazyColumn() {
+                            audios.value?.let { itemm ->
+                                items(
+                                    items = itemm,
+                                    key = {
+                                        it.id
+                                    }
+                                ) { item: Songs ->
+                                    Text(text = "$item")
+                                }
+                            }
 
+                        }
                     }
                 }
             }
+
         }
 
 
