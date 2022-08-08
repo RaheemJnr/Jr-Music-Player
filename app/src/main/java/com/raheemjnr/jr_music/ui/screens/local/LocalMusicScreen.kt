@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.CustomTopBar
+import com.raheemjnr.jr_music.ui.components.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission
 
@@ -41,6 +42,7 @@ fun LocalMusicScreen() {
             topBar = { CustomTopBar(context = context) }
 
         ) {
+            MainUiCard()
             Button(onClick = {
                 viewModel.loadAudios()
             }

@@ -23,13 +23,19 @@ fun MainUiCard() {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .background(color = Color.LightGray.copy(alpha = .25F))
+            .padding(8.dp)
     ) {
-        MainCard(icon = Icons.Default.Favorite, "Favorite")
-        Spacer(modifier = Modifier.width(4.dp))
-        MainCard(icon = Icons.Default.Add, "Playlist")
-        Spacer(modifier = Modifier.width(4.dp))
-        MainCard(icon = Icons.Default.Share, "Recent")
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            MainCard(icon = Icons.Default.Favorite, "Favorite")
+            Spacer(modifier = Modifier.width(8.dp))
+            MainCard(icon = Icons.Default.Add, "Playlist")
+            Spacer(modifier = Modifier.width(8.dp))
+            MainCard(icon = Icons.Default.Share, "Recent")
+        }
     }
 
 }
@@ -41,10 +47,10 @@ fun MainCard(icon: ImageVector, text: String) {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .background(
-                color = Color.LightGray.copy(alpha = .25F),
+                color = Color.White,
                 shape = RoundedCornerShape(6.dp)
             )
-            .padding(start = 18.dp, end = 18.dp, top = 4.dp, bottom = 4.dp)
+            .padding(start = 18.dp, end = 18.dp, top = 8.dp, bottom = 4.dp)
     ) {
         Icon(
             imageVector = icon,
