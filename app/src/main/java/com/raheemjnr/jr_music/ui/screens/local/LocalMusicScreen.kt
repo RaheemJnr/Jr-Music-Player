@@ -5,15 +5,17 @@ import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.CustomTopBar
 import com.raheemjnr.jr_music.ui.components.MainUiCard
@@ -21,6 +23,7 @@ import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun LocalMusicScreen() {
     //viewModel
@@ -30,16 +33,52 @@ fun LocalMusicScreen() {
 
     val audios = viewModel.audios.observeAsState()
 
+    data class TabItems(
+        val value: String,
+    )
+
     //root composable
     Column(
         Modifier.fillMaxSize()
     ) {
+        val tabsNameList =
+            remember { listOf(TabItems("Songs"), TabItems("Songs"), TabItems("Songs")) }
         Scaffold(
             topBar = { CustomTopBar(context = context) }
 
         ) {
             Column() {
                 MainUiCard()
+
+                val pagerState = rememberPagerState()
+
+                TabRow(
+                    // Our selected tab is our current page
+                    selectedTabIndex = pagerState.currentPage,
+                    // Override the indicator, using the provided pagerTabIndicatorOffset modifier
+                    indicator = { tabPositions ->
+                        TabRowDefaults.Indicator(
+                           // Modifier.tabIndicatorOffset()
+                          //  Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                        )
+                    }
+                ) {
+                    // Add tabs for all of our pages
+                    tabsNameList.forEachIndexed { index, title ->
+                        Tab(
+                            text = { Text(text = title.value) },
+                            selected = pagerState.currentPage == index,
+                            onClick = { /* TODO */ },
+                        )
+                    }
+                }
+
+                HorizontalPager(
+                    count = tabsNameList.size,
+                    state = pagerState,
+                ) { page ->
+                    Text(text = "$page")
+                }
                 Button(onClick = {
                     viewModel.loadAudios()
                 }
