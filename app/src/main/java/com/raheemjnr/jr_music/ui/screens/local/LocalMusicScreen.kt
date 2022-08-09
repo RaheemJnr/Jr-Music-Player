@@ -2,13 +2,15 @@ package com.raheemjnr.jr_music.ui.screens.local
 
 import android.Manifest
 import android.app.Activity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,10 +59,12 @@ fun LocalMusicScreen() {
                     selectedTabIndex = pagerState.currentPage,
                     // Override the indicator, using the provided pagerTabIndicatorOffset modifier
                     indicator = { tabPositions ->
+                        //TabRowDefaults.Divider()
                         TabRowDefaults.Indicator(
-                           // Modifier.tabIndicatorOffset()
-                          //  Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                            Modifier
+                            // modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                         )
+
                     }
                 ) {
                     // Add tabs for all of our pages
