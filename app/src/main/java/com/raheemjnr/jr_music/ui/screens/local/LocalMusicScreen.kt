@@ -2,9 +2,7 @@ package com.raheemjnr.jr_music.ui.screens.local
 
 import android.Manifest
 import android.app.Activity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -14,9 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.CustomTopBar
@@ -48,9 +48,12 @@ fun LocalMusicScreen() {
         Scaffold(
             topBar = { CustomTopBar(context = context) }
 
-        ) {
-            Column() {
+        ) { contentPadding ->
+            Column(
+                modifier = Modifier.padding(contentPadding)
+            ) {
                 MainUiCard()
+                Spacer(modifier = Modifier.height(50.dp))
 
                 val pagerState = rememberPagerState()
 
@@ -59,12 +62,9 @@ fun LocalMusicScreen() {
                     selectedTabIndex = pagerState.currentPage,
                     // Override the indicator, using the provided pagerTabIndicatorOffset modifier
                     indicator = { tabPositions ->
-                        //TabRowDefaults.Divider()
                         TabRowDefaults.Indicator(
-                            Modifier
-                            // modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                            Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                         )
-
                     }
                 ) {
                     // Add tabs for all of our pages
