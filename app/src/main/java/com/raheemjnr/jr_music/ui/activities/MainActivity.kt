@@ -1,6 +1,7 @@
 package com.raheemjnr.jr_music.ui.activities
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
     ExperimentalAnimationApi::class, ExperimentalMaterialApi::class,
     ExperimentalComposeUiApi::class, ExperimentalCoroutinesApi::class
 )
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()

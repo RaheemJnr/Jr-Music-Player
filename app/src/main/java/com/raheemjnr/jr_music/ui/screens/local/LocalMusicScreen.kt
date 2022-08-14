@@ -23,6 +23,7 @@ import com.raheemjnr.jr_music.ui.components.CustomTopBar
 import com.raheemjnr.jr_music.ui.components.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission
+import com.raheemjnr.jr_music.utils.TabItems
 
 
 @OptIn(ExperimentalPagerApi::class)
@@ -34,10 +35,7 @@ fun LocalMusicScreen() {
     val context = LocalContext.current as Activity
 
     val audios = viewModel.audios.observeAsState()
-
-    data class TabItems(
-        val value: String,
-    )
+    val pagerState = rememberPagerState()
 
     //root composable
     Column(
@@ -54,8 +52,6 @@ fun LocalMusicScreen() {
             ) {
                 MainUiCard()
                 Spacer(modifier = Modifier.height(50.dp))
-
-                val pagerState = rememberPagerState()
 
                 TabRow(
                     // Our selected tab is our current page

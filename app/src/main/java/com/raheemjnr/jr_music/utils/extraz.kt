@@ -24,3 +24,7 @@ fun showToast(context: Context, message: String, length: Int) {
 //    tabPositions: List<TabPosition>,
 //    pageIndexMapping: (Int) -> Int = { it }
 //)
+
+data class TabItems(
+    val value: String,
+)
