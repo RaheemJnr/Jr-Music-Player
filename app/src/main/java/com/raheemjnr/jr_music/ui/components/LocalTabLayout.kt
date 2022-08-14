@@ -49,7 +49,7 @@ fun LocalTabLayout(
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
-                        pagerState.animateScrollToPage(page = index, pageOffset = 0.5f)
+                        pagerState.animateScrollToPage(page = index, pageOffset = 0.2f)
                     }
                 },
             )
