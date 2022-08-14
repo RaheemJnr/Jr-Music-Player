@@ -75,7 +75,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.1.0")
     //carousel pager
     implementation "com.google.accompanist:accompanist-pager:0.23.0"
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.23.0"
 
 
     //    //swipe to refresh

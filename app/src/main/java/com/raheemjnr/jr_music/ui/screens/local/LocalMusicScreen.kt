@@ -35,7 +35,6 @@ fun LocalMusicScreen() {
     val context = LocalContext.current as Activity
 
     val audios = viewModel.audios.observeAsState()
-    val pagerState = rememberPagerState()
 
     //root composable
     Column(
@@ -47,12 +46,13 @@ fun LocalMusicScreen() {
             topBar = { CustomTopBar(context = context) }
 
         ) { contentPadding ->
+
             Column(
                 modifier = Modifier.padding(contentPadding)
             ) {
                 MainUiCard()
                 Spacer(modifier = Modifier.height(50.dp))
-
+                val pagerState = rememberPagerState()
                 TabRow(
                     // Our selected tab is our current page
                     selectedTabIndex = pagerState.currentPage,
