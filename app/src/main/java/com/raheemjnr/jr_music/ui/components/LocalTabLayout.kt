@@ -1,15 +1,20 @@
 package com.raheemjnr.jr_music.ui.components
 
 import android.Manifest
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -38,7 +43,12 @@ fun LocalTabLayout(
 // Override the indicator, using the provided pagerTabIndicatorOffset modifier
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                Modifier
+                    .pagerTabIndicatorOffset(pagerState, tabPositions)
+                    .wrapContentSize()
+                    .background(color = Color.Green, shape = RoundedCornerShape(12.dp)),
+                height = 5.dp,
+                color = Color.Green
             )
         }
     ) {
@@ -49,7 +59,7 @@ fun LocalTabLayout(
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
-                        pagerState.animateScrollToPage(page = index, pageOffset = 1f)
+                        pagerState.animateScrollToPage(page = index)
                     }
                 },
             )
