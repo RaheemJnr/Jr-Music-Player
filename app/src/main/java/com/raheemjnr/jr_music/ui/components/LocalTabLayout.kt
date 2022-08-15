@@ -50,6 +50,8 @@ fun LocalTabLayout(
                 height = 5.dp,
                 color = Color.Green
             )
+        },
+        divider = {
         }
     ) {
         // Add tabs for all of our pages
