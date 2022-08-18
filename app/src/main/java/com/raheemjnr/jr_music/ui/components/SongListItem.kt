@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,7 +36,7 @@ fun SongListItem() {
         //image
 
         Column(
-            modifier = Modifier.padding(end = 8.dp)
+            modifier = Modifier.padding(end = 12.dp)
         ) {
             Image(
                 Icons.Default.Home,
@@ -46,7 +45,7 @@ fun SongListItem() {
                 alignment = Alignment.Center,
                 modifier = Modifier
                     .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
-                    .padding( 8.dp)
+                    .padding(8.dp)
                     .size(30.dp)
             )
         }
@@ -63,7 +62,10 @@ fun SongListItem() {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
             )
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Icon(
                     imageVector = Icons.Default.Favorite,
                     contentDescription = "",
