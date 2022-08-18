@@ -82,7 +82,6 @@ fun LocalTabLayout(
                 ) {
                     Text(text = "show audios")
                 }
-
                 //audio list
                 Box(modifier = Modifier)
                 {
@@ -112,6 +111,8 @@ fun LocalTabLayout(
                     text = "page $page",
                     modifier = Modifier.fillMaxSize()
                 )
+
+                SongListItem()
             }
             2 -> {
                 Text(

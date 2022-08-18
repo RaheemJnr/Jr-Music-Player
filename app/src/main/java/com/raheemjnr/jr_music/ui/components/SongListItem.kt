@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SongListItem() {
@@ -30,33 +32,42 @@ fun SongListItem() {
             .padding(4.dp)
     ) {
         //image
-        Box(
+
+        Image(
+            Icons.Default.Home,
+            contentDescription = "",
+            contentScale = ContentScale.Fit,
+            alignment = Alignment.Center,
             modifier = Modifier
                 .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
                 .padding(8.dp)
-        ) {
-            Image(
-                Icons.Default.Home,
-                contentDescription = "",
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center,
-                modifier = Modifier.size(30.dp)
-            )
-        }
+                .size(30.dp)
+        )
+
         //column
         Column(
             modifier = Modifier.fillMaxWidth(.8f)
         ) {
             Text(
                 text = "Title of song",
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
             )
             Row(modifier = Modifier.fillMaxWidth()) {
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = ""
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(12.dp)
                 )
-                Text(text = "Other songs details")
+                Text(
+                    text = "Other songs details",
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 8.sp
+                )
 
             }
         }
