@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,20 +32,24 @@ fun SongListItem() {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
     ) {
         //image
 
-        Image(
-            Icons.Default.Home,
-            contentDescription = "",
-            contentScale = ContentScale.Fit,
-            alignment = Alignment.Center,
-            modifier = Modifier
-                .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
-                .padding(8.dp)
-                .size(30.dp)
-        )
+        Column(
+            modifier = Modifier.padding(end = 8.dp)
+        ) {
+            Image(
+                Icons.Default.Home,
+                contentDescription = "",
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
+                    .padding( 8.dp)
+                    .size(30.dp)
+            )
+        }
 
         //column
         Column(
@@ -51,8 +58,9 @@ fun SongListItem() {
             Text(
                 text = "Title of song",
                 overflow = TextOverflow.Ellipsis,
-                fontSize = 12.sp,
+                fontSize = 16.sp,
                 textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
             )
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -61,12 +69,14 @@ fun SongListItem() {
                     contentDescription = "",
                     modifier = Modifier
                         .padding(end = 4.dp)
-                        .size(12.dp)
+                        .size(14.dp)
                 )
                 Text(
                     text = "Other songs details",
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 8.sp
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = FontFamily.Default
                 )
 
             }
@@ -76,6 +86,7 @@ fun SongListItem() {
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = ""
             )
+            Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "",

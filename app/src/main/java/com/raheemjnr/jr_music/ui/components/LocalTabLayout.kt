@@ -107,11 +107,6 @@ fun LocalTabLayout(
                 }
             }
             1 -> {
-                Text(
-                    text = "page $page",
-                    modifier = Modifier.fillMaxSize()
-                )
-
                 SongListItem()
             }
             2 -> {
