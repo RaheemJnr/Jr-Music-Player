@@ -91,7 +91,7 @@ fun LocalTabLayout(
                             Text(text = "Permission Denied")
                         }
                     ) {
-                        LazyColumn() {
+                        LazyColumn {
                             audios.value?.let { itemm ->
                                 items(
                                     items = itemm,
