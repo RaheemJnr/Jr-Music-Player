@@ -30,12 +30,12 @@ fun LocalMusicScreen() {
     val audios = viewModel.audios.observeAsState()
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
+    viewModel.loadAudios()
 
     //root composable
     Column(
         Modifier.fillMaxSize()
     ) {
-
         Scaffold(
             topBar = { CustomTopBar(context = context) }
 
@@ -56,7 +56,6 @@ fun LocalMusicScreen() {
             }
 
         }
-
     }
 }
 

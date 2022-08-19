@@ -75,13 +75,6 @@ fun LocalTabLayout(
     ) { page ->
         when (page) {
             0 -> {
-                //list button
-                Button(onClick = {
-                    viewModel.loadAudios()
-                }
-                ) {
-                    Text(text = "show audios")
-                }
                 //audio list
                 Box(modifier = Modifier)
                 {
