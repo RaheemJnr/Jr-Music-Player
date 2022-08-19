@@ -1,7 +1,10 @@
 package com.raheemjnr.jr_music.ui.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -16,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,15 +27,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.utils.showToast
 
 @Composable
-fun SongListItem() {
+fun SongListItem(
+    songTitle: String = "Title of song",
+    songArtist: String = "Artist",
+    songAlbum: String = "Album",
+    context: Context,
+    onclick: () -> Unit
+
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
+            .clickable {
+                onclick()
+            }
     ) {
         //image
 
@@ -55,7 +70,7 @@ fun SongListItem() {
             modifier = Modifier.fillMaxWidth(.8f)
         ) {
             Text(
-                text = "Title of song",
+                text = songTitle,
                 overflow = TextOverflow.Ellipsis,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
@@ -74,7 +89,22 @@ fun SongListItem() {
                         .size(14.dp)
                 )
                 Text(
-                    text = "Other songs details",
+                    text = songArtist,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = FontFamily.Default
+                )
+                Text(
+                    text = "|",
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = FontFamily.Default,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Text(
+                    text = songAlbum,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W400,
@@ -92,7 +122,12 @@ fun SongListItem() {
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "",
-                modifier = Modifier
+                modifier = Modifier.clickable {
+                    showToast(
+                        context = context,
+                        message = "clicked moreVert", Toast.LENGTH_SHORT
+                    )
+                }
             )
         }
 
@@ -104,5 +139,13 @@ fun SongListItem() {
 @Preview(showBackground = true)
 @Composable
 fun SongListItemPreview() {
-    SongListItem()
+    val context = LocalContext.current
+    SongListItem(
+        songTitle = "Title of song",
+        songArtist = "Artist",
+        songAlbum = "Album",
+        context,
+        onclick = {}
+
+    )
 }

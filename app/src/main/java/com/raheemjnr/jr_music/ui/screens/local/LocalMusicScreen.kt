@@ -49,7 +49,8 @@ fun LocalMusicScreen() {
                     pagerState = pagerState,
                     scope = scope,
                     viewModel = viewModel,
-                    audios = audios
+                    audios = audios,
+                    context = context
                 )
 
             }

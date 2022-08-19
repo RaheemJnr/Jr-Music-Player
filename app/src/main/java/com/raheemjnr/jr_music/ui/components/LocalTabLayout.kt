@@ -1,6 +1,7 @@
 package com.raheemjnr.jr_music.ui.components
 
 import android.Manifest
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -33,7 +34,8 @@ fun LocalTabLayout(
     pagerState: PagerState,
     scope: CoroutineScope,
     viewModel: MainViewModel,
-    audios: State<List<Songs>?>
+    audios: State<List<Songs>?>,
+    context: Context
 ) {
     val tabsTitles =
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
@@ -98,7 +100,14 @@ fun LocalTabLayout(
                                         it.id
                                     }
                                 ) { item: Songs ->
-                                    Text(text = "$item")
+                                    SongListItem(
+                                        songTitle = item.title,
+                                        songArtist = item.artist,
+                                        songAlbum = item.album,
+                                        context = context
+                                    ) {
+                                        //handle click
+                                    }
                                 }
                             }
 
@@ -107,7 +116,10 @@ fun LocalTabLayout(
                 }
             }
             1 -> {
-                SongListItem()
+                Text(
+                    text = "page $page",
+                    modifier = Modifier.fillMaxSize()
+                )
             }
             2 -> {
                 Text(
