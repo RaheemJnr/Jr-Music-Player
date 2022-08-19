@@ -107,6 +107,7 @@ fun SongListItem(
                 Text(
                     text = songAlbum,
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W400,
                     fontFamily = FontFamily.Default
@@ -114,21 +115,28 @@ fun SongListItem(
 
             }
         }
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 imageVector = Icons.Default.PlayArrow,
-                contentDescription = ""
+                contentDescription = "indicate playing icon",
+                modifier = Modifier.size(22.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "",
-                modifier = Modifier.clickable {
-                    showToast(
-                        context = context,
-                        message = "clicked moreVert", Toast.LENGTH_SHORT
-                    )
-                }
+                modifier = Modifier
+                    .clickable {
+                        showToast(
+                            context = context,
+                            message = "clicked moreVert", Toast.LENGTH_SHORT
+                        )
+                    }
+                    .size(22.dp)
             )
         }
 
