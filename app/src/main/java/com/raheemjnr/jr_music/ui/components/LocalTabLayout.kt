@@ -41,9 +41,7 @@ fun LocalTabLayout(
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
 
     TabRow(
-// Our selected tab is our current page
         selectedTabIndex = pagerState.currentPage,
-// Override the indicator, using the provided pagerTabIndicatorOffset modifier
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 Modifier

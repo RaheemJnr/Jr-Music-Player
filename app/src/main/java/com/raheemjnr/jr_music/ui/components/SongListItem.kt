@@ -43,7 +43,7 @@ fun SongListItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
+            .padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
             .clickable {
                 onclick()
             }
@@ -72,6 +72,7 @@ fun SongListItem(
             Text(
                 text = songTitle,
                 overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
