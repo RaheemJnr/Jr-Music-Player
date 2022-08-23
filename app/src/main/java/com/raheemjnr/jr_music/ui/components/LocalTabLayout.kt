@@ -110,10 +110,26 @@ fun LocalTabLayout(
                 }
             }
             1 -> {
-                Text(
-                    text = "page $page",
-                    modifier = Modifier.fillMaxSize()
-                )
+                LazyColumn {
+                    audios.value?.let { itemm ->
+                        items(
+                            items = itemm,
+                            key = {
+                                it.id
+                            }
+                        ) { item: Songs ->
+                            AlbumsItem(
+                                context = context,
+                                albumTitle = item.album,
+                                albumArtist = item.artist
+                            ) {
+
+                            }
+                        }
+                    }
+
+                }
+
             }
             2 -> {
                 Text(
