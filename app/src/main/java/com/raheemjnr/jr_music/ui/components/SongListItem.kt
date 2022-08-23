@@ -43,101 +43,107 @@ fun SongListItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
+            .padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 4.dp)
             .clickable {
                 onclick()
             }
     ) {
-        //image
-
-        Column(
-            modifier = Modifier.padding(end = 12.dp)
+        Row(
+            modifier = Modifier.padding(8.dp)
         ) {
-            Image(
-                Icons.Default.Home,
-                contentDescription = "",
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
-                    .padding(8.dp)
-                    .size(30.dp)
-            )
-        }
+            Column(
+                modifier = Modifier.padding(end = 12.dp)
+            ) {
+                Image(
+                    Icons.Default.Home,
+                    contentDescription = "",
+                    contentScale = ContentScale.Fit,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
+                        .padding(8.dp)
+                        .size(30.dp)
+                )
+            }
 
-        //column
-        Column(
-            modifier = Modifier.fillMaxWidth(.8f)
-        ) {
-            Text(
-                text = songTitle,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-            )
+            //column
+            Column(
+                modifier = Modifier.fillMaxWidth(.75f)
+            ) {
+                Text(
+                    text = songTitle,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(end = 4.dp)
+                            .size(14.dp)
+                    )
+                    Text(
+                        text = songArtist,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily.Default
+                    )
+                    Text(
+                        text = "|",
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily.Default,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                    Text(
+                        text = songAlbum,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily.Default
+                    )
+
+                }
+            }
             Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
+
                 Icon(
-                    imageVector = Icons.Default.Favorite,
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "indicate playing icon",
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .size(26.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
                     contentDescription = "",
                     modifier = Modifier
-                        .padding(end = 4.dp)
-                        .size(14.dp)
+                        .clickable {
+                            showToast(
+                                context = context,
+                                message = "clicked moreVert", Toast.LENGTH_SHORT
+                            )
+                        }
+                        .padding(end = 8.dp)
+                        .size(28.dp)
                 )
-                Text(
-                    text = songArtist,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.Default
-                )
-                Text(
-                    text = "|",
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.Default,
-                    modifier = Modifier.padding(4.dp)
-                )
-                Text(
-                    text = songAlbum,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.Default
-                )
-
             }
-        }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "indicate playing icon",
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = "",
-                modifier = Modifier
-                    .clickable {
-                        showToast(
-                            context = context,
-                            message = "clicked moreVert", Toast.LENGTH_SHORT
-                        )
-                    }
-                    .size(22.dp)
-            )
         }
 
 
