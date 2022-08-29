@@ -287,4 +287,43 @@ fun ContentResolver.registerObserver(
     return contentObserver
 }
 
+/*
+val intentSender = viewModel.permissionNeededForDelete.observeAsState()
 
+// On Android 10+, if the app doesn't have permission to modify
+// or delete an item, it returns an `IntentSender` that we can
+// use here to prompt the user to grant permission to delete (or modify)
+// the image.
+intentSender.value?.let { intentSender ->
+startIntentSenderForResult(
+context,
+intentSender,
+DELETE_PERMISSION_REQUEST,
+null,
+0,
+0,
+0,
+null
+)
+}
+*/
+/*
+private fun deleteImage(image: MediaAudio) {
+MaterialAlertDialogBuilder(this)
+.setTitle(R.string.delete_dialog_title)
+.setMessage(getString(R.string.delete_dialog_message, image.displayName))
+.setPositiveButton(R.string.delete_dialog_positive) { _: DialogInterface, _: Int ->
+viewModel.deleteImage(image)
+}
+.setNegativeButton(R.string.delete_dialog_negative) { dialog: DialogInterface, _: Int ->
+dialog.dismiss()
+}
+.show()
+}
+*/
+
+
+/**
+ * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
+ */
+private const val DELETE_PERMISSION_REQUEST = 0x1033
