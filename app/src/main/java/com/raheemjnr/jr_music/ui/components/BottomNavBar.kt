@@ -1,6 +1,7 @@
 package com.raheemjnr.jr_music.ui.components
 
 import MainScreen
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+@SuppressLint("MutableCollectionMutableState")
 @ExperimentalAnimationApi
 @Composable
 fun BottomNav(navController: NavController) {
