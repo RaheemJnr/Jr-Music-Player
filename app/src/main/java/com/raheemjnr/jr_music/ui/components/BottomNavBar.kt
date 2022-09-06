@@ -2,12 +2,15 @@ package com.raheemjnr.jr_music.ui.components
 
 import MainScreen
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -21,6 +24,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun BottomNav(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination
+    //
+    val dimension by remember {
+        mutableStateOf(arrayListOf(30, 30))
+    }
+
 
 
     BottomNavigation(
@@ -37,7 +45,10 @@ fun BottomNav(navController: NavController) {
                         Icon(
                             imageVector = icon,
                             contentDescription = "",
-                            modifier = Modifier.size(35.dp),
+                            modifier = Modifier
+                                .width(dimension[it.index!!].dp)
+                                .height(dimension[it.index].dp)
+                                .animateContentSize(),
                             tint = Color.LightGray
                         )
                     }
@@ -52,7 +63,11 @@ fun BottomNav(navController: NavController) {
                 },
                 //
                 //
-                selected = currentRoute?.hierarchy?.any { it.route == it.route } == true,
+                selected = currentRoute?.hierarchy?.any {
+                    it.route == it.route
+
+
+                } == true,
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = Color.White.copy(alpha = 0.4f),
                 onClick = {
@@ -70,6 +85,12 @@ fun BottomNav(navController: NavController) {
                             // Restore state when reSelecting a previously selected item
                             restoreState = true
                         }
+                    }
+                    dimension.forEachIndexed { index, _ ->
+                        if (index == it.index)
+                            dimension[index] = 31
+                        else
+                            dimension[index] = 30
                     }
                 }
             )
