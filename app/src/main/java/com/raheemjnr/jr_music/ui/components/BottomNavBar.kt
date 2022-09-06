@@ -26,7 +26,7 @@ fun BottomNav(navController: NavController) {
     val currentRoute = navBackStackEntry?.destination
     //
     val dimension by remember {
-        mutableStateOf(arrayListOf(30, 30))
+        mutableStateOf(arrayListOf(35, 35))
     }
 
 
@@ -90,9 +90,9 @@ fun BottomNav(navController: NavController) {
                     }
                     dimension.forEachIndexed { index, _ ->
                         if (index == it.index)
-                            dimension[index] = 31
+                            dimension[index] = 37
                         else
-                            dimension[index] = 30
+                            dimension[index] = 35
                     }
                 }
             )
