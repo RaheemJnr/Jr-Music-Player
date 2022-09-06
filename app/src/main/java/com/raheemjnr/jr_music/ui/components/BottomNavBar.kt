@@ -40,6 +40,8 @@ fun BottomNav(navController: NavController) {
     ) {
         items.forEach {
             BottomNavigationItem(
+                modifier = Modifier
+                    .animateContentSize(),
                 icon = {
                     it.icon?.let { icon ->
                         Icon(
