@@ -20,7 +20,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var contentObserver: ContentObserver? = null
 
 
-
     /**
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
      * the [_audio] [LiveData] above.
