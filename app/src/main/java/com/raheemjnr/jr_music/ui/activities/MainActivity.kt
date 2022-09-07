@@ -25,6 +25,7 @@ import com.raheemjnr.jr_music.ui.components.BottomTrackController
 import com.raheemjnr.jr_music.ui.components.NowPlaying
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,12 +58,7 @@ fun MainScreen() {
     )
     val isPlayerOpening = remember { mutableStateOf(true) }
     LaunchedEffect(key1 = "key") {
-        if (isPlayerOpening.value) {
-            bottomSheetScaffoldState.bottomSheetState.collapse()
 
-        } else {
-            bottomSheetScaffoldState.bottomSheetState.expand()
-        }
     }
 
 
@@ -81,8 +77,15 @@ fun MainScreen() {
                         seekState = 0.5F,
                         imageUrl = "",
                         nowPlayingClicked = {
-                            isPlayerOpening.value = true
-
+                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                scope.launch {
+                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                }
+                            } else {
+                                scope.launch {
+                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                }
+                            }
                         },
                         artistName = "Jnr",
                         isPlaying = true,
