@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.ui.components
+package com.raheemjnr.jr_music.ui.components.nowPlaying
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation

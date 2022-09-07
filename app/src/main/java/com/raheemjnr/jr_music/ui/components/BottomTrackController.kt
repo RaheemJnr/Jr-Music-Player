@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -30,115 +31,144 @@ fun BottomTrackController(
     hasLiked: Boolean,
     onLikeClicked: () -> Unit
 ) {
-
     //Player
     if (trackName.isNotEmpty()) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .background(spotifyGray)
-        ) {
-
-            Image(
-                Icons.Default.Home,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(60.dp),
-            )
-
-            Column(
-                Modifier
-                    .padding(start = 10.dp)
-                    .align(Alignment.CenterVertically)
-                    .clickable {
-                        nowPlayingClicked()
-                    }
-                    .fillMaxWidth(0.7f)
-            ) {
-                Text(
-                    text = trackName,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
-                    maxLines = 1
-                )
-                Text(
-                    text = artistName,
-                    color = Color.Gray,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 13.sp
-                )
-            }
-            Box(
-                contentAlignment = Alignment.CenterEnd,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            ) {
-
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .width(150.dp)
-                        .padding(end = 10.dp)
-                ) {
-                    Image(
-                        Icons.Default.Favorite,
-                        contentDescription = "Cast",
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clickable {
-                                onChangePlayerClicked()
-                            },
-                        colorFilter = ColorFilter.tint(Color.Gray)
-                    )
-                    Image(
-                        Icons.Default.LocationOn,
-                        contentDescription = "Like",
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clickable {
-                                onLikeClicked()
-                            },
-                        colorFilter = if (hasLiked) ColorFilter.tint(Color.Green) else ColorFilter.tint(
-                            Color.Gray
-                        )
-                    )
-                    Image(
-                        imageVector = if (isPlaying)
-                            Icons.Default.Place
-                        else Icons.Default.PlayArrow,
-                        contentDescription = "Like",
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clickable {
-                                if (isPlaying)
-                                    isPlaying
-                                else isPlaying
-
-                            },
-                        colorFilter = ColorFilter.tint(Color.White),
-                    )
-                }
-
-            }
-        }
         Column(
-            Modifier
-                .height(2.dp)
-                .fillMaxWidth()
-                .background(spotifyGray)
+            modifier = Modifier
+                .padding(horizontal = 6.dp)
+                .background(
+                    spotifyGray,
+                    shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomEnd = 10.dp,
+                        bottomStart = 10.dp
+                    )
+                )
         ) {
             Row(
                 Modifier
-                    .fillMaxHeight()
-                    .background(Color.White)
-                    .fillMaxWidth(seekState)
-                    .animateContentSize()
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .background(
+                        spotifyGray,
+                        shape = RoundedCornerShape(
+                            topStart = 10.dp,
+                            topEnd = 10.dp,
+                            bottomEnd = 10.dp,
+                            bottomStart = 10.dp
+                        )
+                    )
+
             ) {
 
+                Image(
+                    Icons.Default.Home,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(60.dp),
+                )
+
+                Column(
+                    Modifier
+                        .padding(start = 10.dp)
+                        .align(Alignment.CenterVertically)
+                        .clickable {
+                            nowPlayingClicked()
+                        }
+                        .fillMaxWidth(0.7f)
+                ) {
+                    Text(
+                        text = trackName,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = artistName,
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 13.sp
+                    )
+                }
+                Box(
+                    contentAlignment = Alignment.CenterEnd,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .width(150.dp)
+                            .padding(end = 10.dp)
+                    ) {
+                        Image(
+                            Icons.Default.Favorite,
+                            contentDescription = "Cast",
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clickable {
+                                    onChangePlayerClicked()
+                                },
+                            colorFilter = ColorFilter.tint(Color.Gray)
+                        )
+                        Image(
+                            Icons.Default.LocationOn,
+                            contentDescription = "Like",
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clickable {
+                                    onLikeClicked()
+                                },
+                            colorFilter = if (hasLiked) ColorFilter.tint(Color.Green) else ColorFilter.tint(
+                                Color.Gray
+                            )
+                        )
+                        Image(
+                            imageVector = if (isPlaying)
+                                Icons.Default.Place
+                            else Icons.Default.PlayArrow,
+                            contentDescription = "Like",
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clickable {
+                                    if (isPlaying)
+                                        isPlaying
+                                    else isPlaying
+
+                                },
+                            colorFilter = ColorFilter.tint(Color.White),
+                        )
+                    }
+
+                }
+            }
+            Column(
+                Modifier
+                    .height(12.dp)
+                    .padding(start = 12.dp, end = 8.dp, bottom = 2.dp)
+                    .fillMaxWidth()
+                    .background(
+                        spotifyGray,
+                        shape = RoundedCornerShape(2.dp)
+                    )
+
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxHeight()
+                        .background(
+                            Color.White, shape =  RoundedCornerShape(2.dp)
+                        )
+                        .fillMaxWidth(seekState)
+                        .animateContentSize()
+                ) {
+
+                }
             }
         }
 

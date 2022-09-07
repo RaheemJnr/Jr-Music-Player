@@ -20,7 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.raheemjnr.jr_music.navigation.MainScreenNavigation
 import com.raheemjnr.jr_music.ui.components.BottomBarUI
-import com.raheemjnr.jr_music.ui.components.NowPlaying
+import com.raheemjnr.jr_music.ui.components.nowPlaying.NowPlaying
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

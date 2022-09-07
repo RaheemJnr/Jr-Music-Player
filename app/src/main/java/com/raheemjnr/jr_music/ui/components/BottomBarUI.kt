@@ -22,6 +22,7 @@ fun BottomBarUI(
     navController: NavHostController
 ) {
     Column {
+        //bottom music controller
         BottomTrackController(
             trackName = "HH",
             seekState = 0.3F,
@@ -35,6 +36,7 @@ fun BottomBarUI(
             hasLiked = true,
             onLikeClicked = {}
         )
+        //bottom nav
         BottomAppBar(
             modifier = Modifier
                 .height(65.dp)
