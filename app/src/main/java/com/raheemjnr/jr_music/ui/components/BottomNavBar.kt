@@ -92,7 +92,7 @@ fun BottomNav(navController: NavController) {
                     }
                     dimension.forEachIndexed { index, _ ->
                         if (index == it.index)
-                            dimension[index] = 37
+                            dimension[index] = 36
                         else
                             dimension[index] = 35
                     }
