@@ -12,18 +12,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.raheemjnr.jr_music.navigation.MainScreenNavigation
 import com.raheemjnr.jr_music.ui.components.BottomNav
 import com.raheemjnr.jr_music.ui.components.BottomTrackController
 import com.raheemjnr.jr_music.ui.components.NowPlaying
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -56,15 +61,34 @@ fun MainScreen() {
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
-    val isPlayerOpening = remember { mutableStateOf(true) }
-    LaunchedEffect(key1 = "key") {
 
+    //
+    /*** main viewModel   */
+    val mainViewModel: MainViewModel = viewModel()
+    val isPlayerOpening = remember { mutableStateOf(true) }
+
+    mainViewModel.isCollapsed.observeForever {
+        it?.let { collapsed ->
+
+            if (collapsed) {
+                scope.launch {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
+            } else {
+
+                scope.launch {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+
+                }
+
+            }
+        }
     }
 
 
     BottomSheetScaffold(
         sheetContent = {
-            NowPlaying()
+            NowPlaying(mainViewModel = mainViewModel)
         },
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetScaffoldState,
@@ -77,15 +101,7 @@ fun MainScreen() {
                         seekState = 0.5F,
                         imageUrl = "",
                         nowPlayingClicked = {
-                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                scope.launch {
-                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                }
-                            } else {
-                                scope.launch {
-                                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                                }
-                            }
+                            mainViewModel.isCollapsed.postValue(false)
                         },
                         artistName = "Jnr",
                         isPlaying = true,

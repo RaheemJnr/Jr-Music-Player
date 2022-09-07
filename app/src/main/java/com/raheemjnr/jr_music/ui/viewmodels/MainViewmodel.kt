@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _audio = MutableLiveData<List<Songs>>()
     val audios: LiveData<List<Songs>> get() = _audio
+    //
+    val isCollapsed = MutableLiveData(true)
 
     private var contentObserver: ContentObserver? = null
 

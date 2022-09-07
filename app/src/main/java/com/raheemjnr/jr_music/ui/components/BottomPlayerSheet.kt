@@ -15,12 +15,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import com.raheemjnr.jr_music.ui.components.nowPlaying.NowPlayingTopBar
 import com.raheemjnr.jr_music.ui.theme.black
 import com.raheemjnr.jr_music.ui.theme.spotifyGray
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun NowPlaying() {
+fun NowPlaying(
+    mainViewModel: MainViewModel
+) {
 
     val scrollState = rememberScrollState()
 
@@ -70,9 +74,11 @@ fun NowPlaying() {
             }
     ) {
 
-//        Top(albumName = albumName) {
-//            musicPlayerViewModel.isCollapsed.postValue(true)
-//        }
+        NowPlayingTopBar(
+            albumName = "Album Name"
+        ) {
+            mainViewModel.isCollapsed.postValue(true)
+        }
 //        AlbumArt(albumArtLink)
 //        CurrentSong(
 //            songName = songName,
