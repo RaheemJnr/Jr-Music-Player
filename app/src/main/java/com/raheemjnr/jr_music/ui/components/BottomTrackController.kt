@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.ui.theme.spotifyGray
 
 @Composable
 fun BottomTrackController(
@@ -32,27 +33,11 @@ fun BottomTrackController(
 
     //Player
     if (trackName.isNotEmpty()) {
-        Column(
-            Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-        ) {
-
-            Row(
-                Modifier
-                    .fillMaxHeight()
-                    .background(Color.White)
-                    .fillMaxWidth(seekState)
-                    .animateContentSize()
-            ) {
-
-            }
-        }
         Row(
             Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .background(Color.LightGray)
+                .background(spotifyGray)
         ) {
 
             Image(
@@ -140,12 +125,22 @@ fun BottomTrackController(
 
             }
         }
-        Spacer(
-            modifier = Modifier
+        Column(
+            Modifier
                 .height(2.dp)
                 .fillMaxWidth()
-                .background(Color.Black)
-        )
+                .background(spotifyGray)
+        ) {
+            Row(
+                Modifier
+                    .fillMaxHeight()
+                    .background(Color.White)
+                    .fillMaxWidth(seekState)
+                    .animateContentSize()
+            ) {
+
+            }
+        }
 
     }
 }
