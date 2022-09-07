@@ -41,15 +41,15 @@ fun BottomTrackController(
                     shape = RoundedCornerShape(
                         topStart = 10.dp,
                         topEnd = 10.dp,
-                        bottomEnd = 10.dp,
-                        bottomStart = 10.dp
+                        bottomEnd = 6.dp,
+                        bottomStart = 6.dp
                     )
                 )
         ) {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .height(50.dp)
                     .background(
                         spotifyGray,
                         shape = RoundedCornerShape(
@@ -149,9 +149,9 @@ fun BottomTrackController(
             }
             Box(
                 Modifier
-                    .height(4.7.dp)
-                    .padding(start = 12.dp, end = 8.dp, bottom = 2.dp)
-                ,    .fillMaxWidth()
+                    .height(3.dp)
+                    .padding(start = 12.dp, end = 12.dp, bottom = 1.dp)
+                    .fillMaxWidth()
                     .background(
                         spotifyGray,
                         shape = RoundedCornerShape(2.dp)
