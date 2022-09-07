@@ -52,6 +52,7 @@ fun BottomTrackController(
             Modifier
                 .fillMaxWidth()
                 .height(60.dp)
+                .background(Color.LightGray)
         ) {
 
             Image(
