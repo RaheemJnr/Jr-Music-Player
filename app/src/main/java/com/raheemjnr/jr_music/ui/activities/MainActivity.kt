@@ -98,7 +98,7 @@ fun MainScreen() {
                 Column {
                     BottomTrackController(
                         trackName = "HH",
-                        seekState = 0.5F,
+                        seekState = 0.3F,
                         imageUrl = "",
                         nowPlayingClicked = {
                             mainViewModel.isCollapsed.postValue(false)

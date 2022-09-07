@@ -75,7 +75,7 @@ fun NowPlaying(
     ) {
 
         NowPlayingTopBar(
-            albumName = "Album Name"
+            albumName = "Raheem Jnr"
         ) {
             mainViewModel.isCollapsed.postValue(true)
         }
