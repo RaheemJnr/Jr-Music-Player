@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
@@ -18,7 +20,7 @@ import com.raheemjnr.jr_music.ui.theme.spotifyGray
 
 @ExperimentalMaterialApi
 @Composable
-fun NowPlaying(isPlayer: Boolean) {
+fun NowPlaying() {
 
     val scrollState = rememberScrollState()
 

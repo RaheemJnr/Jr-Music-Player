@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,17 +51,24 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val isPlayerOpening = remember {
-        mutableStateOf(true)
-    }
+    val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
+    val isPlayerOpening = remember { mutableStateOf(true) }
+    LaunchedEffect(key1 = "key") {
+        if (isPlayerOpening.value) {
+            bottomSheetScaffoldState.bottomSheetState.collapse()
+
+        } else {
+            bottomSheetScaffoldState.bottomSheetState.expand()
+        }
+    }
+
+
     BottomSheetScaffold(
         sheetContent = {
-            NowPlaying(
-                isPlayer = isPlayerOpening.value,
-            )
+            NowPlaying()
         },
         sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetScaffoldState,
@@ -75,7 +80,10 @@ fun MainScreen() {
                         trackName = "HH",
                         seekState = 0.5F,
                         imageUrl = "",
-                        nowPlayingClicked = { isPlayerOpening.value = true },
+                        nowPlayingClicked = {
+                            isPlayerOpening.value = true
+
+                        },
                         artistName = "Jnr",
                         isPlaying = true,
                         onChangePlayerClicked = { /*TODO*/ },
