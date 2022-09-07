@@ -65,10 +65,9 @@ fun NowPlaying(
                 Brush.linearGradient(colors = colors.value)
             )
             .pointerInput(Unit) {
-
                 detectVerticalDragGestures { change, _ ->
                     if (change.position.y - change.previousPosition.y > 20f) {
-
+                        mainViewModel.isCollapsed.postValue(true)
                     }
                 }
             }

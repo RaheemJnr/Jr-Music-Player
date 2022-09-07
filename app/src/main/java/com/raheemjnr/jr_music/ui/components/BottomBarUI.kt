@@ -39,9 +39,7 @@ fun BottomBarUI(
         //bottom nav
         BottomAppBar(
             modifier = Modifier
-                .height(65.dp)
-                .clip(RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp)),
-            cutoutShape = CircleShape,
+                .height(60.dp),
             backgroundColor = MaterialTheme.colors.primary,
             elevation = 22.dp,
         ) {

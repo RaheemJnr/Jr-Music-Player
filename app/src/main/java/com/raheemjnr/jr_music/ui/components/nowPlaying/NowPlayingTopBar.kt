@@ -31,7 +31,6 @@ fun NowPlayingTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Icon(
             Icons.Default.ArrowDropDown,
             contentDescription = "",

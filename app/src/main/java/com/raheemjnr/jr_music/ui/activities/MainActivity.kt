@@ -4,13 +4,12 @@ package com.raheemjnr.jr_music.ui.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -50,28 +49,23 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
+    /*** main viewModel   */
+    val mainViewModel: MainViewModel = viewModel()
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
 
-    //
-    /*** main viewModel   */
-    val mainViewModel: MainViewModel = viewModel()
-    val isPlayerOpening = remember { mutableStateOf(true) }
-
     mainViewModel.isCollapsed.observeForever {
         it?.let { collapsed ->
-
             if (collapsed) {
                 scope.launch {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                    bottomSheetScaffoldState.bottomSheetState.expand()
                 }
             } else {
-
                 scope.launch {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
 
                 }
 
@@ -81,11 +75,11 @@ fun MainScreen() {
 
 
     BottomSheetScaffold(
+        sheetPeekHeight = 0.dp,
+        scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             NowPlaying(mainViewModel = mainViewModel)
         },
-        sheetPeekHeight = 0.dp,
-        scaffoldState = bottomSheetScaffoldState,
     ) {
         Scaffold(
             bottomBar = {
@@ -94,6 +88,11 @@ fun MainScreen() {
             floatingActionButtonPosition = FabPosition.Center,
             isFloatingActionButtonDocked = true,
         ) {
+
+            BackHandler(bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                mainViewModel.isCollapsed.postValue(true)
+            }
+
             MainScreenNavigation(navController)
         }
     }

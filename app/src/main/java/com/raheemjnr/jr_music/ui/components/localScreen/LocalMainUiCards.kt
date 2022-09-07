@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.utils.getGreeting
 
 @Composable
 fun MainUiCard() {
@@ -31,7 +32,7 @@ fun MainUiCard() {
             .padding(top = 2.dp, bottom = 22.dp)
     ) {
         Column {
-            SpotifyTitle(text = "Good Morning...")
+            GreetingText(text = getGreeting())
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -47,7 +48,7 @@ fun MainUiCard() {
 }
 
 @Composable
-fun SpotifyTitle(text: String, modifier: Modifier = Modifier) {
+fun GreetingText(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = typography.h5.copy(

@@ -6,6 +6,7 @@ import androidx.compose.material.TabPosition
 import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
+import java.util.*
 
 
 const val TAG = "MainActivityVM"
@@ -28,3 +29,23 @@ fun showToast(context: Context, message: String, length: Int) {
 data class TabItems(
     val value: String,
 )
+
+//greetings
+fun getGreeting(): String {
+    val c: Calendar = Calendar.getInstance()
+
+    return when (c.get(Calendar.HOUR_OF_DAY)) {
+        in 6..11 -> {
+            "Good Morning"
+        }
+        in 12..15 -> {
+            "Good Afternoon"
+        }
+        in 16..24 -> {
+            "Good Evening"
+        }
+        else -> {
+            "Good Night"
+        }
+    }
+}
