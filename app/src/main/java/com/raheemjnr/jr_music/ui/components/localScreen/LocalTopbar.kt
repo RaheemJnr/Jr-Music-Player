@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.ui.components
+package com.raheemjnr.jr_music.ui.components.localScreen
 
 import android.content.Context
 import android.widget.Toast

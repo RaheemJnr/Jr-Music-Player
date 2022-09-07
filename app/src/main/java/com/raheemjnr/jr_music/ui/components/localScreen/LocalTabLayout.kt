@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.ui.components
+package com.raheemjnr.jr_music.ui.components.localScreen
 
 import android.Manifest
 import android.content.Context
@@ -25,6 +25,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.raheemjnr.jr_music.data.model.Songs
+import com.raheemjnr.jr_music.ui.components.SongListItem
 import com.raheemjnr.jr_music.ui.components.listItems.AlbumsItem
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.ComposablePermission

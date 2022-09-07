@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.raheemjnr.jr_music.ui.components.CustomTopBar
-import com.raheemjnr.jr_music.ui.components.LocalTabLayout
-import com.raheemjnr.jr_music.ui.components.MainUiCard
+import com.raheemjnr.jr_music.ui.components.localScreen.CustomTopBar
+import com.raheemjnr.jr_music.ui.components.localScreen.LocalTabLayout
+import com.raheemjnr.jr_music.ui.components.localScreen.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 
