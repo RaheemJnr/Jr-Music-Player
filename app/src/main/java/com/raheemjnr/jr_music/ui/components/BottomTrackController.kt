@@ -147,11 +147,11 @@ fun BottomTrackController(
 
                 }
             }
-            Column(
+            Box(
                 Modifier
-                    .height(12.dp)
+                    .height(4.7.dp)
                     .padding(start = 12.dp, end = 8.dp, bottom = 2.dp)
-                    .fillMaxWidth()
+                ,    .fillMaxWidth()
                     .background(
                         spotifyGray,
                         shape = RoundedCornerShape(2.dp)
@@ -162,13 +162,21 @@ fun BottomTrackController(
                     Modifier
                         .fillMaxHeight()
                         .background(
-                            Color.White, shape =  RoundedCornerShape(2.dp)
+                            Color.Green, shape = RoundedCornerShape(2.dp)
+                        )
+                        .fillMaxWidth(1F)
+                        .animateContentSize()
+                ) {}
+                Row(
+                    Modifier
+                        .fillMaxHeight()
+                        .background(
+                            Color.White, shape = RoundedCornerShape(2.dp)
                         )
                         .fillMaxWidth(seekState)
                         .animateContentSize()
-                ) {
+                ) {}
 
-                }
             }
         }
 
