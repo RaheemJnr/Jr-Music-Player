@@ -6,11 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -18,14 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.raheemjnr.jr_music.navigation.MainScreenNavigation
-import com.raheemjnr.jr_music.ui.components.BottomNav
-import com.raheemjnr.jr_music.ui.components.BottomTrackController
+import com.raheemjnr.jr_music.ui.components.BottomBarUI
 import com.raheemjnr.jr_music.ui.components.NowPlaying
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
@@ -95,34 +89,7 @@ fun MainScreen() {
     ) {
         Scaffold(
             bottomBar = {
-                Column {
-                    BottomTrackController(
-                        trackName = "HH",
-                        seekState = 0.3F,
-                        imageUrl = "",
-                        nowPlayingClicked = {
-                            mainViewModel.isCollapsed.postValue(false)
-                        },
-                        artistName = "Jnr",
-                        isPlaying = true,
-                        onChangePlayerClicked = { /*TODO*/ },
-                        hasLiked = true
-                    ) {
-
-                    }
-                    BottomAppBar(
-                        modifier = Modifier
-                            .height(65.dp)
-                            .clip(RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp)),
-                        cutoutShape = CircleShape,
-                        backgroundColor = MaterialTheme.colors.primary,
-                        elevation = 22.dp,
-                    ) {
-                        BottomNav(
-                            navController = navController,
-                        )
-                    }
-                }
+                BottomBarUI(mainViewModel, navController)
             },
             floatingActionButtonPosition = FabPosition.Center,
             isFloatingActionButtonDocked = true,
