@@ -131,7 +131,6 @@ fun LocalTabLayout(
                     }
 
                 }
-
             }
             2 -> {
                 Text(
