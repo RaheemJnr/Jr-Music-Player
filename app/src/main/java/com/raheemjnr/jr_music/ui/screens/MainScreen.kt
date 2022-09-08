@@ -23,9 +23,8 @@ import kotlinx.coroutines.launch
 )
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
-    /*** main viewModel   */
-    val mainViewModel: MainViewModel = viewModel()
+fun MainScreen(mainViewModel: MainViewModel) {
+    /*** main viewModel */
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState =

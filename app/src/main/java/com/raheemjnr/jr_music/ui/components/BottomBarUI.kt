@@ -31,7 +31,6 @@ fun BottomBarUI(
                 mainViewModel.isCollapsed.postValue(false)
             },
             artistName = "Jnr",
-            isPlaying = true,
             onChangePlayerClicked = { /*TODO*/ },
             hasLiked = true,
             onLikeClicked = {}

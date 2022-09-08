@@ -10,8 +10,10 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +21,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             JrMusicPlayerTheme {
                 // A surface container using the 'background' color from the theme
+                //
+                val mainViewModel: MainViewModel = viewModel()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen()
+                    MainScreen(mainViewModel = mainViewModel)
                 }
             }
         }
