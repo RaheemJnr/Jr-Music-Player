@@ -53,19 +53,17 @@ fun MainScreen() {
     val mainViewModel: MainViewModel = viewModel()
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed))
 
     mainViewModel.isCollapsed.observeForever {
         it?.let { collapsed ->
             if (collapsed) {
                 scope.launch {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
                 }
             } else {
                 scope.launch {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                    bottomSheetScaffoldState.bottomSheetState.expand()
 
                 }
 
@@ -75,8 +73,8 @@ fun MainScreen() {
 
 
     BottomSheetScaffold(
-        sheetPeekHeight = 0.dp,
         scaffoldState = bottomSheetScaffoldState,
+        sheetPeekHeight = 0.dp,
         sheetContent = {
             NowPlaying(mainViewModel = mainViewModel)
         },
