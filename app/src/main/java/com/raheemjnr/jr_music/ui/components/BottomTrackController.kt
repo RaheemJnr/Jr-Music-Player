@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +29,6 @@ fun BottomTrackController(
     imageUrl: String,
     nowPlayingClicked: () -> Unit,
     artistName: String,
-    isPlaying: Boolean,
     onChangePlayerClicked: () -> Unit,
     hasLiked: Boolean,
     onLikeClicked: () -> Unit
@@ -129,16 +131,14 @@ fun BottomTrackController(
                             )
                         )
                         Image(
-                            imageVector = if (isPlaying)
-                                Icons.Default.Place
-                            else Icons.Default.PlayArrow,
+                            imageVector = Icons.Default.PlayArrow, //else Icons.Default.PlayArrow,
                             contentDescription = "Like",
                             modifier = Modifier
                                 .size(32.dp)
                                 .clickable {
-                                    if (isPlaying)
-                                        isPlaying
-                                    else isPlaying
+//                                    if (isPlaying)
+//                                        isPlaying
+//                                    else isPlaying
 
                                 },
                             colorFilter = ColorFilter.tint(Color.White),
