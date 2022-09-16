@@ -101,9 +101,8 @@ fun BottomTrackController(
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
-
                     Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.End,
                         modifier = Modifier
                             .width(150.dp)
                             .padding(end = 10.dp)

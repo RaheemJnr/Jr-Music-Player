@@ -25,13 +25,13 @@ fun BottomBarUI(
     Column {
         //bottom music controller
         BottomTrackController(
-            trackName = "HH",
+            trackName = "The Boy that cried wolf",
             seekState = 0.3F,
             imageUrl = "",
             nowPlayingClicked = {
                 mainViewModel.isCollapsed.postValue(false)
             },
-            artistName = "Jnr",
+            artistName = "Passenger",
             onChangePlayerClicked = { /*TODO*/ },
             hasLiked = true,
             onLikeClicked = {}
