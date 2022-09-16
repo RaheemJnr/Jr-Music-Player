@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
@@ -39,7 +40,7 @@ fun BottomBarUI(
         BottomAppBar(
             modifier = Modifier
                 .height(60.dp),
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Color.White,
             elevation = 22.dp,
         ) {
             BottomNav(

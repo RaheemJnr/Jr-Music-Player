@@ -7,7 +7,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,14 +28,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @ExperimentalAnimationApi
 @Composable
 fun BottomNav(navController: NavController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination
+
     //
     val dimension by remember {
         mutableStateOf(arrayListOf(35, 35))
     }
 
-    HomeBottomItem(dimension, currentRoute, navController)
+    HomeBottomItem(dimension,navController)
 
 
 }
@@ -40,18 +42,20 @@ fun BottomNav(navController: NavController) {
 @Composable
 private fun HomeBottomItem(
     dimension: ArrayList<Int>,
-    currentRoute: NavDestination?,
     navController: NavController
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination
     BottomNavigation(
         modifier = Modifier
             .padding(40.dp, 0.dp, 30.dp, 0.dp)
             .height(100.dp),
-        backgroundColor = MaterialTheme.colors.primary,
+        backgroundColor = Color.White,
         elevation = 0.dp
     ) {
         items.forEach {
             BottomNavigationItem(
+                alwaysShowLabel = true,
                 modifier = Modifier
                     .animateContentSize(),
                 icon = {
@@ -63,7 +67,6 @@ private fun HomeBottomItem(
                                 .width(dimension[it.index!!].dp)
                                 .height(dimension[it.index].dp)
                                 .animateContentSize(),
-                            tint = Color.LightGray
                         )
                     }
                 },
@@ -76,14 +79,9 @@ private fun HomeBottomItem(
                     }
                 },
                 //
-                //
                 selected = currentRoute?.hierarchy?.any {
                     it.route == it.route
-
-
                 } == true,
-                selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = Color.White.copy(alpha = 0.4f),
                 onClick = {
                     it.route?.let { destination ->
                         navController.navigate(destination) {
@@ -106,7 +104,9 @@ private fun HomeBottomItem(
                         else
                             dimension[index] = 35
                     }
-                }
+                },
+                selectedContentColor = Color.Green,
+                unselectedContentColor = Color.Red,
             )
         }
     }

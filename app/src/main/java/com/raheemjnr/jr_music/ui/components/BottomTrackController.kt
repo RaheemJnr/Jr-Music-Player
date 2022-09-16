@@ -39,7 +39,7 @@ fun BottomTrackController(
             modifier = Modifier
                 .padding(horizontal = 6.dp)
                 .background(
-                    spotifyGray,
+                    Color.White,
                     shape = RoundedCornerShape(
                         topStart = 10.dp,
                         topEnd = 10.dp,
@@ -53,7 +53,7 @@ fun BottomTrackController(
                     .fillMaxWidth()
                     .height(50.dp)
                     .background(
-                        spotifyGray,
+                        Color.White,
                         shape = RoundedCornerShape(
                             topStart = 10.dp,
                             topEnd = 10.dp,
@@ -83,7 +83,7 @@ fun BottomTrackController(
                 ) {
                     Text(
                         text = trackName,
-                        color = Color.White,
+                        color = spotifyGray,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
                         maxLines = 1
@@ -108,28 +108,7 @@ fun BottomTrackController(
                             .width(150.dp)
                             .padding(end = 10.dp)
                     ) {
-                        Image(
-                            Icons.Default.Favorite,
-                            contentDescription = "Cast",
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clickable {
-                                    onChangePlayerClicked()
-                                },
-                            colorFilter = ColorFilter.tint(Color.Gray)
-                        )
-                        Image(
-                            Icons.Default.LocationOn,
-                            contentDescription = "Like",
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clickable {
-                                    onLikeClicked()
-                                },
-                            colorFilter = if (hasLiked) ColorFilter.tint(Color.Green) else ColorFilter.tint(
-                                Color.Gray
-                            )
-                        )
+
                         Image(
                             imageVector = Icons.Default.PlayArrow, //else Icons.Default.PlayArrow,
                             contentDescription = "Like",
@@ -141,7 +120,7 @@ fun BottomTrackController(
 //                                    else isPlaying
 
                                 },
-                            colorFilter = ColorFilter.tint(Color.White),
+                            colorFilter = ColorFilter.tint(spotifyGray),
                         )
                     }
 
@@ -171,7 +150,7 @@ fun BottomTrackController(
                     Modifier
                         .fillMaxHeight()
                         .background(
-                            Color.White, shape = RoundedCornerShape(2.dp)
+                            spotifyGray, shape = RoundedCornerShape(2.dp)
                         )
                         .fillMaxWidth(seekState)
                         .animateContentSize()
