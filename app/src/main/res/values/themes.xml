@@ -4,6 +4,7 @@
     <style name="Theme.JrMusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <!-- Status bar color. -->
         <item name="android:windowContentTransitions">true</item>

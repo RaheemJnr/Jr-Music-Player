@@ -57,6 +57,7 @@ fun LocalTabLayout(
                 color = Color.Green
             )
         },
+        backgroundColor = Color.White,
         divider = {
         }
     ) {
