@@ -34,7 +34,7 @@ fun CustomTopBar(context: Context) {
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Color.LightGray.copy(alpha = .25F))
-            .padding(top = 50.dp)
+            .padding(top = 39.dp)
     ) {
         Icon(
             imageVector = Icons.Default.Settings,
