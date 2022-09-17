@@ -1,16 +1,17 @@
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.raheemjnr.jr_music.R
 
 
 sealed class MainScreen(
     val route: String?,
     val title: String?,
-    val icon: ImageVector?,
+    val icon: Int?,
     val index: Int?
 ) {
-    object Local : MainScreen("Local", "Local", Icons.Default.Add, 0)
+    object Local :
+        MainScreen(
+            "Local", "Local", icon = R.drawable.bottom_bar_local_icon, index = 0
+        )
     object Gap : MainScreen(null, null, null, null)
-    object Online : MainScreen("Online", "Online", Icons.Default.Notifications, 1)
+    object Online :
+        MainScreen("Online", "Online", icon = R.drawable.bottom_bar_online_icon, index = 1)
 }
