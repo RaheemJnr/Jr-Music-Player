@@ -14,12 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.utils.getGreeting
 
 @Composable
@@ -38,9 +41,9 @@ fun MainUiCard() {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                MainCard(icon = Icons.Default.Favorite, "Favorite")
-                MainCard(icon = Icons.Default.Add, "Playlist")
-                MainCard(icon = Icons.Default.Share, "Recent")
+                MainCard(icon = painterResource(id = R.drawable.card_favorite), "Favorite")
+                MainCard(icon = painterResource(id = R.drawable.card_playlist), "Playlist")
+                MainCard(icon = painterResource(id = R.drawable.card_recent), "Recent")
             }
         }
     }
@@ -60,7 +63,7 @@ fun GreetingText(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MainCard(icon: ImageVector, text: String) {
+fun MainCard(icon: Painter, text: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -72,9 +75,10 @@ fun MainCard(icon: ImageVector, text: String) {
             .padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 12.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter =  icon,
             contentDescription = "card icon",
-            tint = Color.Black.copy(alpha = .5f)
+            tint = Color.Black.copy(alpha = .5f),
+            modifier = Modifier.size(28.dp)
         )
         //
         Text(
@@ -91,7 +95,7 @@ fun MainCard(icon: ImageVector, text: String) {
 @Preview(showBackground = true)
 @Composable
 fun MainCardPrev() {
-    MainCard(icon = Icons.Default.Favorite, "Favorite")
+    MainCard(icon = painterResource(id = R.drawable.card_favorite), "Favorite")
 }
 
 @Preview(showBackground = true)
