@@ -10,7 +10,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -21,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.utils.showToast
 
 @Composable
@@ -103,12 +104,12 @@ fun SearchBar() {
                     .padding(top = 10.dp, bottom = 10.dp)
             )
             Icon(
-                Icons.Default.Phone,
+                painter = painterResource(id = R.drawable.search_mic),
                 contentDescription = "",
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
                     .padding(start = 6.dp)
-                    .size(22.dp)
+                    .size(28.dp)
             )
 
 

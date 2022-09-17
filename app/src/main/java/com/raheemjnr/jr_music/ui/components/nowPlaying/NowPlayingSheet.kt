@@ -1,7 +1,6 @@
 package com.raheemjnr.jr_music.ui.components.nowPlaying
 
 import android.app.Activity
-import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -10,13 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import com.raheemjnr.jr_music.ui.theme.black
@@ -32,35 +27,20 @@ fun NowPlaying(
     val scrollState = rememberScrollState()
     val context = (LocalContext.current) as Activity
 
-    val windows = context.window
-    @Suppress("DEPRECATION")
-   // windows.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-
-//    windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
-//    windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
-//
+//    val windows = context.window
 //    @Suppress("DEPRECATION")
-//    if (MaterialTheme.colors.surface.luminance() > 0.5f) {
-//        windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
-//                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//    }
+//   // windows.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 //
-//    @Suppress("DEPRECATION")
-//    if (MaterialTheme.colors.surface.luminance() > 0.5f) {
-//        windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
-//                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-//    }
-
-
-//    val albumArtLink by musicPlayerViewModel.imageUrl.observeAsState()
-//    val songName: String? by musicPlayerViewModel.trackName.observeAsState(initial = "")
-//    val singerName: String? by musicPlayerViewModel.singerName.observeAsState(initial = "")
-//    val seekPosition: Float by musicPlayerViewModel.seekState.observeAsState(initial = 0.0f)
-//    val albumName by musicPlayerViewModel.albumName.observeAsState()
-//    val likesThisSong by musicPlayerViewModel.likesThisSong.observeAsState(initial = false)
+//
+////    val albumArtLink by musicPlayerViewModel.imageUrl.observeAsState()
+////    val songName: String? by musicPlayerViewModel.trackName.observeAsState(initial = "")
+////    val singerName: String? by musicPlayerViewModel.singerName.observeAsState(initial = "")
+////    val seekPosition: Float by musicPlayerViewModel.seekState.observeAsState(initial = 0.0f)
+////    val albumName by musicPlayerViewModel.albumName.observeAsState()
+////    val likesThisSong by musicPlayerViewModel.likesThisSong.observeAsState(initial = false)
     var temporarySeekPosition by remember { mutableStateOf(0f) }
     val colors = remember {
-        mutableStateOf(arrayListOf<Color>(black, spotifyGray, black))
+        mutableStateOf(arrayListOf(black, spotifyGray, black))
     }
 
 //    val isPaused: Boolean by musicPlayerViewModel.isPlaying.observeAsState(initial = false)
