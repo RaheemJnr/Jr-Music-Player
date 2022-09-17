@@ -9,9 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +35,7 @@ fun CustomTopBar(context: Context) {
             .padding(top = 39.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.Settings,
+            painter = painterResource(id = R.drawable.settings_icon),
             contentDescription = "Settings Icon",
             tint = Color.Black.copy(alpha = .9F),
             modifier = Modifier
@@ -73,7 +70,7 @@ fun SearchBar() {
 
         ) {
             Icon(
-                Icons.Default.Search,
+                painter = painterResource(id = R.drawable.search_icon),
                 contentDescription = "search icon",
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
