@@ -55,7 +55,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
     ) {
         Scaffold(
             bottomBar = {
-                Surface(elevation = 8.dp) {
+                Surface(elevation = 12.dp) {
                     BottomBarUI(mainViewModel, navController)
                 }
 

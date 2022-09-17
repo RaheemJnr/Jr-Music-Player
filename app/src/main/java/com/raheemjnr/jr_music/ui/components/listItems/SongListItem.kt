@@ -88,7 +88,7 @@ fun SongListItem(
                         contentDescription = "",
                         modifier = Modifier
                             .padding(end = 4.dp)
-                            .size(14.dp)
+                            .size(18.dp)
                     )
                     Text(
                         text = songArtist,
