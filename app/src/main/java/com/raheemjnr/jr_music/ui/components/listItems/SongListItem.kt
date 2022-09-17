@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -135,7 +134,7 @@ fun SongListItem(
                 painter = painterResource(id = R.drawable.morevert),
                 contentDescription = "",
                 modifier = Modifier
-                    .clickable {
+                    .noRippleClickable {
                         showToast(
                             context = context,
                             message = "clicked moreVert", Toast.LENGTH_SHORT
