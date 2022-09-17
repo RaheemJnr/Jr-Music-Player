@@ -1,21 +1,26 @@
 package com.raheemjnr.jr_music.ui.components.nowPlaying
 
+import android.app.Activity
+import android.view.View
+import android.view.Window
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
-import com.raheemjnr.jr_music.ui.components.nowPlaying.NowPlayingTopBar
+import androidx.compose.ui.platform.LocalContext
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.ui.theme.black
 import com.raheemjnr.jr_music.ui.theme.spotifyGray
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
@@ -27,6 +32,27 @@ fun NowPlaying(
 ) {
 
     val scrollState = rememberScrollState()
+    val context = (LocalContext.current) as Activity
+
+    context.window.statusBarColor = context.getColor(R.color.white)
+//    @Composable
+//    fun SystemUi(windows: Window) =
+//        MaterialTheme {
+//            windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
+//            windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
+//
+//            @Suppress("DEPRECATION")
+//            if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+//                windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+//                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//            }
+//
+//            @Suppress("DEPRECATION")
+//            if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+//                windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+//                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+//            }
+//        }
 
 
 //    val albumArtLink by musicPlayerViewModel.imageUrl.observeAsState()
@@ -60,7 +86,6 @@ fun NowPlaying(
         Modifier
             .fillMaxSize()
             .scrollable(scrollState, Orientation.Vertical)
-            .padding(top = 20.dp)
             .background(
                 Brush.linearGradient(colors = colors.value)
             )
