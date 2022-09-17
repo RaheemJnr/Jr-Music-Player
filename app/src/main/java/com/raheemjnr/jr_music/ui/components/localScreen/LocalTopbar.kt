@@ -40,7 +40,7 @@ fun CustomTopBar(context: Context) {
             tint = Color.Black.copy(alpha = .9F),
             modifier = Modifier
                 .padding(8.dp)
-                .size(24.dp)
+                .size(30.dp)
                 .clickable { showToast(context = context, "Clicked settings", Toast.LENGTH_SHORT) }
         )
         SearchBar()

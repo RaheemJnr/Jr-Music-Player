@@ -20,8 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -35,7 +33,7 @@ fun BottomNav(navController: NavController) {
         mutableStateOf(arrayListOf(35, 35))
     }
 
-    HomeBottomItem(dimension,navController)
+    HomeBottomItem(dimension, navController)
 
 
 }
@@ -46,7 +44,7 @@ private fun HomeBottomItem(
     navController: NavController
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination
+    val currentRoute = navBackStackEntry?.destination?.route
     BottomNavigation(
         modifier = Modifier
             .padding(40.dp, 0.dp, 30.dp, 0.dp)
@@ -57,8 +55,7 @@ private fun HomeBottomItem(
         items.forEach {
             BottomNavigationItem(
                 alwaysShowLabel = true,
-                modifier = Modifier
-                    .animateContentSize(),
+                modifier = Modifier,
                 icon = {
                     it.icon?.let { icon ->
                         Icon(
@@ -80,9 +77,7 @@ private fun HomeBottomItem(
                     }
                 },
                 //
-                selected = currentRoute?.hierarchy?.any {
-                    it.route == it.route
-                } == true,
+                selected = currentRoute == it.route,
                 onClick = {
                     it.route?.let { destination ->
                         navController.navigate(destination) {
@@ -106,8 +101,8 @@ private fun HomeBottomItem(
                             dimension[index] = 35
                     }
                 },
-                selectedContentColor = Color.Green,
-                unselectedContentColor = Color.Red,
+                selectedContentColor = Color.Black,
+                unselectedContentColor = Color.Green,
             )
         }
     }
