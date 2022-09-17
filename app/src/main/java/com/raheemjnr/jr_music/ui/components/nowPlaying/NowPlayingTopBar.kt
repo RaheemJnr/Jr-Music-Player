@@ -3,19 +3,17 @@ package com.raheemjnr.jr_music.ui.components.nowPlaying
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.R
 import java.util.*
 
 @Composable
@@ -32,14 +30,14 @@ fun NowPlayingTopBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            Icons.Default.ArrowDropDown,
+            painter = painterResource(id = R.drawable.dropdown_arror),
             contentDescription = "",
             modifier = Modifier
-                .size(30.dp)
+                .size(18.dp)
                 .clickable {
                     dropDown()
                 },
-            tint =Color.White
+            tint = Color.White
         )
 
         Column(Modifier.weight(0.8f)) {
@@ -58,13 +56,12 @@ fun NowPlayingTopBar(
                 fontWeight = FontWeight.Bold
 
             )
-
         }
         Icon(
-            imageVector = Icons.Default.MoreVert,
+            painter = painterResource(id = R.drawable.morevert),
             tint = Color.White,
             contentDescription = null,
-            modifier = Modifier,
+            modifier = Modifier.size(24.dp),
         )
 
     }

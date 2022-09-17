@@ -111,10 +111,10 @@ fun BottomTrackController(
                     ) {
 
                         Image(
-                            imageVector = Icons.Default.PlayArrow, //else Icons.Default.PlayArrow,
+                            painter = painterResource(id = R.drawable.play_button), //else Icons.Default.PlayArrow,
                             contentDescription = "Like",
                             modifier = Modifier
-                                .size(32.dp)
+                                .size(24.dp)
                                 .clickable {
 //                                    if (isPlaying)
 //                                        isPlaying
