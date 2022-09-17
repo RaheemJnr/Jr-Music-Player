@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.raheemjnr.jr_music.navigation.MainScreenNavigation
 import com.raheemjnr.jr_music.ui.components.BottomBarUI
@@ -56,7 +55,10 @@ fun MainScreen(mainViewModel: MainViewModel) {
     ) {
         Scaffold(
             bottomBar = {
-                BottomBarUI(mainViewModel, navController)
+                Surface(elevation = 8.dp) {
+                    BottomBarUI(mainViewModel, navController)
+                }
+
             },
             floatingActionButtonPosition = FabPosition.Center,
             isFloatingActionButtonDocked = true,

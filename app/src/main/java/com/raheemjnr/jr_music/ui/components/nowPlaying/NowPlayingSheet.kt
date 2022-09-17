@@ -34,7 +34,7 @@ fun NowPlaying(
 
     val windows = context.window
     @Suppress("DEPRECATION")
-    windows.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+   // windows.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
 //    windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
 //    windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
