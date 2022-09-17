@@ -2,6 +2,7 @@ package com.raheemjnr.jr_music.ui.activities
 
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raheemjnr.jr_music.ui.screens.MainScreen
@@ -20,6 +23,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JrMusicPlayerTheme {
+                val windows = this.window
+
+                windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
+                windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
+
+                @Suppress("DEPRECATION")
+                if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+                    windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
+
+                @Suppress("DEPRECATION")
+                if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+                    windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+                            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                }
+
                 // A surface container using the 'background' color from the theme
                 //
                 val mainViewModel: MainViewModel = viewModel()
