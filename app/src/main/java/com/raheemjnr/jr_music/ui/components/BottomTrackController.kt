@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.ui.theme.spotifyGray
 
 @Composable
@@ -65,7 +67,7 @@ fun BottomTrackController(
             ) {
 
                 Image(
-                    Icons.Default.Home,
+                    painter = painterResource(id = R.drawable.music_logo),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxHeight()
