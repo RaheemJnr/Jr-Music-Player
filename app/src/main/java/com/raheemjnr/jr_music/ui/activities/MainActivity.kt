@@ -23,20 +23,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JrMusicPlayerTheme {
-                val windows = this.window
 
-                windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
-                windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
+
+                window.statusBarColor = MaterialTheme.colors.surface.toArgb()
+                window.navigationBarColor = MaterialTheme.colors.surface.toArgb()
 
                 @Suppress("DEPRECATION")
                 if (MaterialTheme.colors.surface.luminance() > 0.5f) {
-                    windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+                    window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
 
                 @Suppress("DEPRECATION")
                 if (MaterialTheme.colors.surface.luminance() > 0.5f) {
-                    windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+                    window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                 }
 

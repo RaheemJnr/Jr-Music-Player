@@ -38,7 +38,8 @@ fun NowPlayingTopBar(
                 .size(30.dp)
                 .clickable {
                     dropDown()
-                }
+                },
+            tint =Color.White
         )
 
         Column(Modifier.weight(0.8f)) {
@@ -60,11 +61,10 @@ fun NowPlayingTopBar(
 
         }
         Icon(
-            imageVector = Icons.Default.MoreVert, tint = MaterialTheme.colors.onSurface,
+            imageVector = Icons.Default.MoreVert,
+            tint = Color.White,
             contentDescription = null,
-            modifier = Modifier.clickable {
-
-            }
+            modifier = Modifier,
         )
 
     }

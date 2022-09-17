@@ -32,6 +32,25 @@ fun NowPlaying(
     val scrollState = rememberScrollState()
     val context = (LocalContext.current) as Activity
 
+    val windows = context.window
+    @Suppress("DEPRECATION")
+    windows.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+
+//    windows.statusBarColor = MaterialTheme.colors.surface.toArgb()
+//    windows.navigationBarColor = MaterialTheme.colors.surface.toArgb()
+//
+//    @Suppress("DEPRECATION")
+//    if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+//        windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+//                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//    }
+//
+//    @Suppress("DEPRECATION")
+//    if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+//        windows.decorView.systemUiVisibility = windows.decorView.systemUiVisibility or
+//                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+//    }
+
 
 //    val albumArtLink by musicPlayerViewModel.imageUrl.observeAsState()
 //    val songName: String? by musicPlayerViewModel.trackName.observeAsState(initial = "")
