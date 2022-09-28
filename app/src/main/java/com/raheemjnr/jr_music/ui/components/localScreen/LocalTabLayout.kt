@@ -84,7 +84,8 @@ fun LocalTabLayout(
                 //audio list
                 Box(modifier = Modifier)
                 {
-                    ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
+                    ComposablePermission(
+                        permission = Manifest.permission.READ_EXTERNAL_STORAGE,
                         onDenied = {
                             Text(text = "Permission Denied")
                         }
