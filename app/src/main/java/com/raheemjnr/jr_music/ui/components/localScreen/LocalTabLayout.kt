@@ -84,32 +84,25 @@ fun LocalTabLayout(
                 //audio list
                 Box(modifier = Modifier)
                 {
-                    ComposablePermission(
-                        permission = Manifest.permission.READ_EXTERNAL_STORAGE,
-                        onDenied = {
-                            Text(text = "Permission Denied")
-                        }
-                    ) {
-                        LazyColumn {
-                            audios.value?.let { list ->
-                                items(
-                                    items = list,
-                                    key = {
-                                        it.id
-                                    }
-                                ) { item: Songs ->
-                                    SongListItem(
-                                        songTitle = item.title,
-                                        songArtist = item.artist,
-                                        songAlbum = item.album,
-                                        context = context
-                                    ) {
-                                        //handle click
-                                    }
+                    LazyColumn {
+                        audios.value?.let { list ->
+                            items(
+                                items = list,
+                                key = {
+                                    it.id
+                                }
+                            ) { item: Songs ->
+                                SongListItem(
+                                    songTitle = item.title,
+                                    songArtist = item.artist,
+                                    songAlbum = item.album,
+                                    context = context
+                                ) {
+                                    //handle click
                                 }
                             }
-
                         }
+
                     }
                 }
             }
