@@ -24,9 +24,7 @@ class SplashActivity : ComponentActivity() {
         makeFullScreen()
         setContent {
             val multiplePermissionsState = rememberMultiplePermissionsState(
-                listOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
+                listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
             )
             JrMusicPlayerTheme {
                 //
