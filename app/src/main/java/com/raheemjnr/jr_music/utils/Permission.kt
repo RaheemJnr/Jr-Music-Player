@@ -30,42 +30,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-/**
- * Composable helper for permission checking
- *
- * onDenied contains lambda for request permission
- *
- * @param permission permission for request
- * @param onGranted composable for [PackageManager.PERMISSION_GRANTED]
- * @param onDenied composable for [PackageManager.PERMISSION_DENIED]
- */
-@Composable
-fun ComposablePermission(
-    permission: String,
-    onDenied: @Composable (requester: () -> Unit) -> Unit,
-    onGranted: @Composable () -> Unit
-) {
-    val ctx = LocalContext.current
-
-    // check initial state of permission, it may be already granted
-    var grantState by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                ctx, permission
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
-    if (grantState) {
-        onGranted()
-    } else {
-        val launcher: ManagedActivityResultLauncher<String, Boolean> =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
-                grantState = it
-            }
-        onDenied { launcher.launch(permission) }
-    }
-}
-
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun Permissions(
@@ -91,7 +55,7 @@ fun Permissions(
             if (doNotShowRationale) {
                 DeniedText(rationaleText = rationaleText, context = context)
             } else {
-                PermissionDialog(text = "Camera and Location are important. " + "Please grant all of them for the app to function properly.",
+                PermissionDialog(text = "Please grant the requested permission",
                     dismiss = { doNotShowRationale = true },
                     onRequestPermission = { multiplePermissionsState.launchMultiplePermissionRequest() })
             }

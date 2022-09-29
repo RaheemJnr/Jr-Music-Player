@@ -64,48 +64,5 @@ class SplashActivity : ComponentActivity() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         finish()
     }
-
-//    private fun requestLocationPermission() {
-//        if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                this,
-//                Manifest.permission.READ_EXTERNAL_STORAGE
-//            )
-//        ) {
-//            ActivityCompat.requestPermissions(
-//                this,
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                LOCATION_PERMISSION_REQUEST_ID
-//            )
-//            // Show an explanation to the user *asynchronously* -- don't block
-//            // this thread waiting for the user's response! After the user
-//            // sees the explanation, try again to request the permission.
-//        } else {
-//            // No explanation needed, we can request the permission.
-//            ActivityCompat.requestPermissions(
-//                this,
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                LOCATION_PERMISSION_REQUEST_ID
-//            )
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>,
-//        grantResults: IntArray
-//    ) {
-//        when (requestCode) {
-//            LOCATION_PERMISSION_REQUEST_ID -> {
-//                // If request is cancelled, the result arrays are empty.
-//                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                    // Permission granted! We go on!
-//                    goToMain()
-//                } else {
-//                    // Request denied, we request again
-//                    requestLocationPermission()
-//                }
-//            }
-//        }
-//    }
 }
 
