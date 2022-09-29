@@ -1,6 +1,5 @@
 package com.raheemjnr.jr_music.ui.components.localScreen
 
-import android.Manifest
 import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,10 +24,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.raheemjnr.jr_music.data.model.Songs
-import com.raheemjnr.jr_music.ui.components.listItems.SongListItem
 import com.raheemjnr.jr_music.ui.components.listItems.AlbumsItem
+import com.raheemjnr.jr_music.ui.components.listItems.SongListItem
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
-import com.raheemjnr.jr_music.utils.ComposablePermission
 import com.raheemjnr.jr_music.utils.TabItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

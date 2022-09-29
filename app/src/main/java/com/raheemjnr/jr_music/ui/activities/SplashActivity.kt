@@ -5,16 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
-import com.raheemjnr.jr_music.utils.ComposablePermission
 import com.raheemjnr.jr_music.utils.Permissions
 
 @Suppress("DEPRECATION")
