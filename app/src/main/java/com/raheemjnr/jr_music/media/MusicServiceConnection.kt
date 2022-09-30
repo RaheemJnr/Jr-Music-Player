@@ -165,6 +165,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
 
         }
 
+
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
         }
 
