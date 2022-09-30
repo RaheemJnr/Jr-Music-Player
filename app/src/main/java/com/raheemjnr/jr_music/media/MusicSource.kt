@@ -150,7 +150,7 @@ class MusicSource() {
         val durationMs = TimeUnit.SECONDS.toMillis(localSongs.duration)
 
 
-        id = localSongs.id.toString()
+        id = localSongs.id
         title = localSongs.title
         artist = localSongs.artist
         album = localSongs.album
