@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -56,8 +57,12 @@ fun AlbumsItem(
                     contentDescription = "",
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center,
+                    colorFilter = ColorFilter.tint(color = Color.White),
                     modifier = Modifier
-                        .background(shape = RoundedCornerShape(4.dp), color = Color.Green)
+                        .background(
+                            shape = RoundedCornerShape(4.dp),
+                            color = Color.Gray
+                        )
                         .padding(8.dp)
                         .size(30.dp)
                 )

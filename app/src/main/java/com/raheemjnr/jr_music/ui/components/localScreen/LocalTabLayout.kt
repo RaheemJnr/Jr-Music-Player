@@ -52,7 +52,7 @@ fun LocalTabLayout(
                     .height(6.dp)
                     .padding(horizontal = 48.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                color = Color.Green
+                color = Color.Black.copy(alpha = 0.6f)
             )
         },
         backgroundColor = Color.White,
