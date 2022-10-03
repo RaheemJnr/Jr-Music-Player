@@ -36,11 +36,11 @@ class JrPlayerService : MediaBrowserServiceCompat() {
 
     //
     companion object {
-        var curSongDuration = 0L
+        var currentSongDuration = 0L
             private set
     }
 
-    private var curPlayingSong: MediaMetadataCompat? = null
+    private var currentPlayingSong: MediaMetadataCompat? = null
 
     //
 //    private val serviceJob = SupervisorJob()
@@ -110,7 +110,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         )
         //
         val musicPlaybackPreparer = MediaPlaybackPreparer(musicSource) {
-            curPlayingSong = it
+            currentPlayingSong = it
             preparePlayer(musicSource.songs, it, true)
         }
 
