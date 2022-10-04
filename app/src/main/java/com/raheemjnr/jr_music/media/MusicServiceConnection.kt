@@ -48,7 +48,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
 
     //
     val playbackState: MutableState<PlaybackStateCompat?> =
-        mutableStateOf(PlaybackStateCompat.fromPlaybackState(null))
+        mutableStateOf(PlaybackStateCompat.fromPlaybackState(EMPTY_PLAYBACK_STATE))
 
 
     val nowPlaying: MutableState<MediaMetadataCompat> =
