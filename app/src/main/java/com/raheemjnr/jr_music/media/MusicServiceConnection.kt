@@ -43,7 +43,8 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
         .apply { postValue(false) }
 
     //
-    val networkFailure: MutableState<Boolean> = mutableStateOf(false)
+    val networkFailure = MutableLiveData<Boolean>()
+        .apply { postValue(false) }
 
     //
     val playbackState: MutableState<PlaybackStateCompat?> =

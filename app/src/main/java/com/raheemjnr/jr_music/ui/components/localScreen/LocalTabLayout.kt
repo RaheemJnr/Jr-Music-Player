@@ -25,7 +25,6 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.listItems.AlbumsItem
-import com.raheemjnr.jr_music.ui.components.listItems.SongListItem
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.TabItems
 import kotlinx.coroutines.CoroutineScope
@@ -91,19 +90,7 @@ fun LocalTabLayout(
                                     it.id
                                 }
                             ) { item: Songs ->
-                                SongListItem(
-                                    songTitle = item.title,
-                                    songArtist = item.artist,
-                                    songAlbum = item.album,
-                                    context = context
-                                ) {
-//                                    if (musicServiceConnection.playbackState.value?.state != PlaybackState.STATE_PLAYING &&
-//                                        musicServiceConnection.playbackState.value?.state != PlaybackState.STATE_BUFFERING
-//                                    ) {
-//                                        musicServiceConnection.transportControls.play()
-//                                    }
-                                    //handle click
-                                }
+
                             }
                         }
 

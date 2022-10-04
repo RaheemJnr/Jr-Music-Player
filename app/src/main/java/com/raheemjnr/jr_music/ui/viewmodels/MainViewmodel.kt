@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.database.ContentObserver
 import android.provider.MediaStore
+import android.support.v4.media.MediaBrowserCompat
 import android.util.Log
 import androidx.lifecycle.*
 import com.raheemjnr.jr_music.data.model.Songs
@@ -31,16 +32,19 @@ class MainViewModel(
     //contentObserver to fetch local music
     private var contentObserver: ContentObserver? = null
 
-//    val rootMediaId: LiveData<String> =
-//
-//        Transformations.map(musicServiceConnection.isConnected) { isConnected ->
-//            if (isConnected) {
-//                musicServiceConnection.roo
-//            } else {
-//                null
-//            }
-//        }
+    //
+    /**
+     * Pass the status of the [MusicServiceConnection.networkFailure] through.
+     */
+    val networkError = Transformations.map(musicServiceConnection.networkFailure) { it }
 
+    private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
+        override fun onChildrenLoaded(
+            parentId: String,
+            children: List<MediaBrowserCompat.MediaItem>
+        ) {
+        }
+    }
 
     /**
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
@@ -93,6 +97,7 @@ class MainViewModel(
             transportControls.playFromMediaId(mediaItem.id, null)
         }
     }
+
     fun playMediaId(mediaId: String) {
         val nowPlaying = musicServiceConnection.nowPlaying.value
         val transportControls = musicServiceConnection.transportControls
