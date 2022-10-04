@@ -47,12 +47,13 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
         .apply { postValue(false) }
 
     //
-    val playbackState: MutableState<PlaybackStateCompat?> =
-        mutableStateOf(PlaybackStateCompat.fromPlaybackState(EMPTY_PLAYBACK_STATE))
+    val playbackState = MutableLiveData<PlaybackStateCompat>()
+        .apply { postValue(EMPTY_PLAYBACK_STATE) }
 
 
-    val nowPlaying: MutableState<MediaMetadataCompat> =
-        mutableStateOf(MediaMetadataCompat.fromMediaMetadata(NOTHING_PLAYING))
+    val nowPlaying = MutableLiveData<MediaMetadataCompat>().apply {
+        postValue(MediaMetadataCompat.fromMediaMetadata(NOTHING_PLAYING))
+    }
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(

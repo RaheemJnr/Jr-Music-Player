@@ -19,6 +19,7 @@ import com.raheemjnr.jr_music.media.extentions.id
 import com.raheemjnr.jr_music.media.extentions.isPlayEnabled
 import com.raheemjnr.jr_music.media.extentions.isPlaying
 import com.raheemjnr.jr_music.media.extentions.isPrepared
+import com.raheemjnr.jr_music.utils.Constants.NO_RES
 import com.raheemjnr.jr_music.utils.Constants.mediaId
 import com.raheemjnr.jr_music.utils.TAG
 import com.raheemjnr.jr_music.utils.loadMusic
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     application: Application,
-    private val musicServiceConnection: MusicServiceConnection
+    musicServiceConnection: MusicServiceConnection
 ) : AndroidViewModel(application) {
     private val _audio = MutableLiveData<List<Songs>>()
     val audios: LiveData<List<Songs>> get() = _audio
@@ -107,7 +108,7 @@ class MainViewModel(
      * which can also change the [MediaItemData.playbackRes]s in the list.
      */
 
-     musicServiceConnection.also {
+    private val musicServiceConnection = musicServiceConnection.also {
         it.subscribe(mediaId, subscriptionCallback)
 
         it.playbackState.observeForever(playbackStateObserver)
@@ -140,9 +141,9 @@ class MainViewModel(
             else -> R.drawable.play_button
         }
 
-        return mediaItems.value?.map {
-            val useResId = if (it.mediaId == mediaMetadata.id) newResId else NO_RES
-            it.copy(playbackRes = useResId)
+        return _audio.value?.map {
+            val useResId = if (it.id == mediaMetadata.id) newResId else NO_RES
+            it.copy(id = useResId.toString())
         } ?: emptyList()
     }
 
@@ -157,7 +158,7 @@ class MainViewModel(
         val transportControls = musicServiceConnection.transportControls
 
         val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
-        if (isPrepared && mediaItem.id == nowPlaying.id) {
+        if (isPrepared && mediaItem.id == nowPlaying?.id) {
             musicServiceConnection.playbackState.value?.let { playbackState ->
                 when {
                     playbackState.isPlaying ->
@@ -181,7 +182,7 @@ class MainViewModel(
         val transportControls = musicServiceConnection.transportControls
 
         val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
-        if (isPrepared && mediaId == nowPlaying.id) {
+        if (isPrepared && mediaId == nowPlaying?.id) {
             musicServiceConnection.playbackState.value?.let { playbackState ->
                 when {
                     playbackState.isPlaying -> transportControls.pause()
@@ -207,6 +208,13 @@ class MainViewModel(
         contentObserver?.let {
             getApplication<Application>().contentResolver.unregisterContentObserver(it)
         }
+
+        // Remove the permanent observers from the MusicServiceConnection.
+        musicServiceConnection.playbackState.removeObserver(playbackStateObserver)
+        musicServiceConnection.nowPlaying.removeObserver(mediaMetadataObserver)
+
+        // And then, finally, unsubscribe the media ID that was being watched.
+        musicServiceConnection.unsubscribe(mediaId, subscriptionCallback)
     }
 
     class Factory(
