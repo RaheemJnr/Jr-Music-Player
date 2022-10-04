@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.raheemjnr.jr_music.di.InjectorUtils
 import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
@@ -34,7 +35,6 @@ class MainActivity : ComponentActivity() {
                     window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
-
                 @Suppress("DEPRECATION")
                 if (MaterialTheme.colors.surface.luminance() > 0.5f) {
                     window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
@@ -43,7 +43,9 @@ class MainActivity : ComponentActivity() {
 
                 // A surface container using the 'background' color from the theme
                 //
-                val mainViewModel: MainViewModel = viewModel()
+                val mainViewModel: MainViewModel = viewModel(
+                    factory = InjectorUtils.provideMainViewModel(context = this)
+                )
 
                 // Since this is a music player, the volume controls should adjust the music volume while
                 // in the app.
