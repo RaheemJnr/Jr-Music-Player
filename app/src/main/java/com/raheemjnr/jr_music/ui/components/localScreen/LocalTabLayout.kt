@@ -38,7 +38,8 @@ fun LocalTabLayout(
     scope: CoroutineScope,
     viewModel: MainViewModel,
     audios: State<List<Songs>?>,
-    context: Context
+    context: Context,
+    //musicServiceConnection: MusicServiceConnection
 ) {
     val tabsTitles =
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
@@ -96,6 +97,11 @@ fun LocalTabLayout(
                                     songAlbum = item.album,
                                     context = context
                                 ) {
+//                                    if (musicServiceConnection.playbackState.value?.state != PlaybackState.STATE_PLAYING &&
+//                                        musicServiceConnection.playbackState.value?.state != PlaybackState.STATE_BUFFERING
+//                                    ) {
+//                                        musicServiceConnection.transportControls.play()
+//                                    }
                                     //handle click
                                 }
                             }

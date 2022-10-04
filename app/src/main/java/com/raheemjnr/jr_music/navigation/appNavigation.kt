@@ -5,7 +5,6 @@ import MainScreen
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,10 +28,12 @@ fun MainScreenNavigation(
 //        factory = MainViewModelFactory(
 //        )
 //    )
+
     NavHost(navController, startDestination = MainScreen.Local.route!!) {
         //local
         composable(MainScreen.Local.route) {
-            LocalMusicScreen()
+            LocalMusicScreen(
+            )
         }
         //online
         composable(MainScreen.Online.route!!) {

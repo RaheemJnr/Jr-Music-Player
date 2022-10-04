@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.raheemjnr.jr_music.di.InjectorUtils
 import com.raheemjnr.jr_music.ui.components.localScreen.CustomTopBar
 import com.raheemjnr.jr_music.ui.components.localScreen.LocalTabLayout
 import com.raheemjnr.jr_music.ui.components.localScreen.MainUiCard
@@ -21,7 +22,8 @@ import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun LocalMusicScreen() {
+fun LocalMusicScreen(
+) {
     //viewModel
     val viewModel: MainViewModel = viewModel()
     //context
@@ -31,6 +33,7 @@ fun LocalMusicScreen() {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     viewModel.loadAudios()
+
 
     //root composable
     Column(
@@ -45,13 +48,16 @@ fun LocalMusicScreen() {
             ) {
                 MainUiCard()
                 Spacer(modifier = Modifier.height(4.dp))
+
                 LocalTabLayout(
                     pagerState = pagerState,
                     scope = scope,
                     viewModel = viewModel,
                     audios = audios,
-                    context = context
+                    context = context,
+                    //InjectorUtils.provideMusicServiceConnection(context)
                 )
+
 
             }
 
@@ -62,7 +68,7 @@ fun LocalMusicScreen() {
 @Preview
 @Composable
 fun LocalMusicScreenPreview() {
-    LocalMusicScreen()
+    // LocalMusicScreen()
 }
 
 

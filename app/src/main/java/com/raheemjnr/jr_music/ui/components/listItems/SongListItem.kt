@@ -156,12 +156,12 @@ fun SongListItem(
 @Composable
 fun SongListItemPreview() {
     val context = LocalContext.current
-    SongListItem(
-        songTitle = "Title of song",
-        songArtist = "Artist",
-        songAlbum = "Album",
-        context,
-        onclick = {}
-
-    )
+//    SongListItem(
+//        songTitle = "Title of song",
+//        songArtist = "Artist",
+//        songAlbum = "Album",
+//        context,
+//        onclick = {}
+//
+//    )
 }

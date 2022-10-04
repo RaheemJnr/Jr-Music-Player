@@ -4,22 +4,36 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.database.ContentObserver
 import android.provider.MediaStore
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.raheemjnr.jr_music.data.model.Songs
+import com.raheemjnr.jr_music.media.MusicServiceConnection
 import com.raheemjnr.jr_music.utils.loadMusic
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(
+    application: Application,
+    private val musicServiceConnection: MusicServiceConnection
+) : AndroidViewModel(application) {
     private val _audio = MutableLiveData<List<Songs>>()
     val audios: LiveData<List<Songs>> get() = _audio
-    //
+
+    // collapse value for now playing bottom UI sheet
     val isCollapsed = MutableLiveData(true)
 
+    //contentObserver to fetch local music
     private var contentObserver: ContentObserver? = null
+
+//    val rootMediaId: LiveData<String> =
+//
+//        Transformations.map(musicServiceConnection.isConnected) { isConnected ->
+//            if (isConnected) {
+//                musicServiceConnection.roo
+//            } else {
+//                null
+//            }
+//        }
 
 
     /**
@@ -51,6 +65,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         contentObserver?.let {
             getApplication<Application>().contentResolver.unregisterContentObserver(it)
+        }
+    }
+
+//    class Factory(
+//        application: Application,
+//        private val musicServiceConnection: MusicServiceConnection
+//    ) : ViewModelProvider.NewInstanceFactory() {
+//        @Suppress("unchecked_cast")
+//        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//            return MainViewModel(application = ,musicServiceConnection) as T
+//        }
+//    }
+
+    class Factory(
+        val app: Application,
+        private val musicServiceConnection: MusicServiceConnection
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app, musicServiceConnection) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

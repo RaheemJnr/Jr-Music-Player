@@ -1,6 +1,7 @@
 package com.raheemjnr.jr_music.ui.activities
 
 
+import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
@@ -43,6 +44,11 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 //
                 val mainViewModel: MainViewModel = viewModel()
+
+                // Since this is a music player, the volume controls should adjust the music volume while
+                // in the app.
+                volumeControlStream = AudioManager.STREAM_MUSIC
+                //
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background

@@ -7,11 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,7 +63,7 @@ fun BottomTrackController(
 
                 Image(
                     painter = painterResource(id = R.drawable.music_logo),
-                    contentDescription = null,
+                    contentDescription = "BottomBarPlayer",
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(60.dp),
