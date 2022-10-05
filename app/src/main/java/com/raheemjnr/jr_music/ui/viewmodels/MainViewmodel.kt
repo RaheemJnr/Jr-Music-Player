@@ -2,7 +2,6 @@ package com.raheemjnr.jr_music.ui.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.database.ContentObserver
 import android.provider.MediaStore
 import android.support.v4.media.MediaBrowserCompat
@@ -29,7 +28,6 @@ class MainViewModel(
     //contentObserver to fetch local music
     private var contentObserver: ContentObserver? = null
 
-    //
     /**
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
      * the [_audio] [LiveData] above.
@@ -207,7 +205,7 @@ class MainViewModel(
     }
 
     class MainViewmodelFactory(
-        val app: Context,
+        val app: Application,
         private val musicServiceConnection: MusicServiceConnection
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
