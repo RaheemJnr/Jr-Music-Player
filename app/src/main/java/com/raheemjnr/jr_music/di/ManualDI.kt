@@ -31,10 +31,10 @@ object InjectorUtils {
     }
 
     fun provideMainViewModel(context: Context)
-            : MainViewModel.Factory {
+            : MainViewModel.MainViewmodelFactory {
         val applicationContext = context as Activity
         val musicServiceConnection = provideMusicServiceConnection(applicationContext)
-        return MainViewModel.Factory(context.application, musicServiceConnection)
+        return MainViewModel.MainViewmodelFactory(context.application, musicServiceConnection)
     }
 
 //    private val viewModel: NewsViewModel by lazy {

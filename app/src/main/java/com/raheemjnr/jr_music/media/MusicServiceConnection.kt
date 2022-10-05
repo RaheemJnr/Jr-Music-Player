@@ -52,7 +52,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
 
 
     val nowPlaying = MutableLiveData<MediaMetadataCompat>().apply {
-        postValue(MediaMetadataCompat.fromMediaMetadata(NOTHING_PLAYING))
+        postValue(NOTHING_PLAYING)
     }
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
@@ -62,7 +62,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
         mediaBrowserConnectionCallback, null
     ).apply {
         connect()
-        updateSong()
+        // updateSong()
     }
     private lateinit var mediaController: MediaControllerCompat
 
@@ -80,7 +80,8 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
     }
 
     //
-    private val serviceScope = CoroutineScope(Dispatchers.IO)
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     //
     val shuffleMode: Int

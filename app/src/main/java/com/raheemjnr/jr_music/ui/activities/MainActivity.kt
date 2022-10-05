@@ -13,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.raheemjnr.jr_music.di.InjectorUtils
+import com.raheemjnr.jr_music.media.MusicServiceConnection
+import com.raheemjnr.jr_music.media.MusicSource
 import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
@@ -40,12 +42,21 @@ class MainActivity : ComponentActivity() {
                     window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                 }
-
+                val context = LocalContext.current
                 // A surface container using the 'background' color from the theme
                 //
+                val musicSource = MusicSource(this)
+                val musicServiceConnection = MusicServiceConnection(this, musicSource)
+
                 val mainViewModel: MainViewModel = viewModel(
-                    factory = InjectorUtils.provideMainViewModel(context = this)
+                    factory = MainViewModel.MainViewmodelFactory(context, musicServiceConnection)
                 )
+
+//                val mainViewModel: MainViewModel = viewModel(
+//                    factory = MainViewModelFactory(
+//                        MainRepoImpl(sessionManager = localDataStorage)
+//                    )
+//                )
 
                 // Since this is a music player, the volume controls should adjust the music volume while
                 // in the app.

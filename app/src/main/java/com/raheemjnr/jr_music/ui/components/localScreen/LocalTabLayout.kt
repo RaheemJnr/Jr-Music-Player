@@ -90,7 +90,7 @@ fun LocalTabLayout(
                                     it.id
                                 }
                             ) { item: Songs ->
-
+                                SongListScreen(context = context, item = item)
                             }
                         }
 

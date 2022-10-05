@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.raheemjnr.jr_music"
         minSdk 26
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
