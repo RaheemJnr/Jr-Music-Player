@@ -22,6 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     @ApplicationContext private val applicationContext: Context,
     musicServiceConnection: MusicServiceConnection
+
 ) : ViewModel() {
     private val _audio = MutableLiveData<List<Songs>>()
     val audios: LiveData<List<Songs>> get() = _audio
@@ -197,7 +198,7 @@ class MainViewModel @Inject constructor(
      */
     override fun onCleared() {
         contentObserver?.let {
-          applicationContext.contentResolver.unregisterContentObserver(it)
+            applicationContext.contentResolver.unregisterContentObserver(it)
         }
 
 //        // Remove the permanent observers from the MusicServiceConnection.
