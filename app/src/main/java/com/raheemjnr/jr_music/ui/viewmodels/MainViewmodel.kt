@@ -196,9 +196,9 @@ class MainViewModel @Inject constructor(
      * is being released.
      */
     override fun onCleared() {
-//        contentObserver?.let {
-//          applicationContext.contentResolver.unregisterContentObserver(it)
-//        }
+        contentObserver?.let {
+          applicationContext.contentResolver.unregisterContentObserver(it)
+        }
 
 //        // Remove the permanent observers from the MusicServiceConnection.
 //        musicServiceConnection.playbackState.removeObserver(playbackStateObserver)
