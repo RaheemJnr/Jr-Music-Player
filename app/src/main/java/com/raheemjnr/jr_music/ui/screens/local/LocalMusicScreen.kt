@@ -38,7 +38,6 @@ fun LocalMusicScreen(
     ) {
         Scaffold(
             topBar = { CustomTopBar(context = context) }
-
         ) { contentPadding ->
             Column(
                 modifier = Modifier.padding(contentPadding)
