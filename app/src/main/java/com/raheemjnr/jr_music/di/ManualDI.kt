@@ -1,10 +1,8 @@
 package com.raheemjnr.jr_music.di
 
-import android.app.Activity
 import android.content.Context
 import com.raheemjnr.jr_music.media.MusicServiceConnection
 import com.raheemjnr.jr_music.media.MusicSource
-import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 //interface DIComponent {
 //    val musicSource: MusicSource
@@ -30,12 +28,12 @@ object InjectorUtils {
         return MusicServiceConnection.getInstance(context, provideMusicSource(context))
     }
 
-    fun provideMainViewModel(context: Context)
-            : MainViewModel.MainViewmodelFactory {
-        val applicationContext = context as Activity
-        val musicServiceConnection = provideMusicServiceConnection(applicationContext)
-        return MainViewModel.MainViewmodelFactory(context.application, musicServiceConnection)
-    }
+//    fun provideMainViewModel(context: Context)
+//            : MainViewModel.MainViewmodelFactory {
+//        val applicationContext = context as Activity
+//        val musicServiceConnection = provideMusicServiceConnection(applicationContext)
+//        return MainViewModel.MainViewmodelFactory(context.application, musicServiceConnection)
+//    }
 
 //    private val viewModel: NewsViewModel by lazy {
 //        val activity = requireNotNull(this.activity) {

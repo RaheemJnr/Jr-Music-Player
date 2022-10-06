@@ -17,6 +17,7 @@ import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectio
 import com.raheemjnr.jr_music.media.extentions.currentPlayBackPosition
 import com.raheemjnr.jr_music.media.extentions.id
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance, typically a
@@ -37,7 +38,10 @@ import kotlinx.coroutines.*
  *  parameters, rather than private properties. They're only required to build the
  *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
-class MusicServiceConnection(context: Context, private val musicSource: MusicSource) {
+class MusicServiceConnection @Inject constructor(
+    context: Context,
+    private val musicSource: MusicSource
+) {
 
     val isConnected = MutableLiveData<Boolean>()
         .apply { postValue(false) }

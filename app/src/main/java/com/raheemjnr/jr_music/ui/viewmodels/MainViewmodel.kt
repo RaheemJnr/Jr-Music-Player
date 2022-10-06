@@ -1,24 +1,27 @@
 package com.raheemjnr.jr_music.ui.viewmodels
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.database.ContentObserver
 import android.provider.MediaStore
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.*
+import com.raheemjnr.jr_music.BaseApp
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.MusicServiceConnection
 import com.raheemjnr.jr_music.utils.Constants.mediaId
 import com.raheemjnr.jr_music.utils.loadMusic
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class MainViewModel(
-    application: Application,
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val context: BaseApp,
     musicServiceConnection: MusicServiceConnection
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val _audio = MutableLiveData<List<Songs>>()
     val audios: LiveData<List<Songs>> get() = _audio
 
@@ -33,7 +36,7 @@ class MainViewModel(
      * the [_audio] [LiveData] above.
      */
     fun loadAudios() {
-        loadMusic(getApplication<Application>().applicationContext, _audio)
+        loadMusic(context = context, _audio)
     }
 
     /**
@@ -49,11 +52,11 @@ class MainViewModel(
 //        }
 //    }
 
-   /**
-//     * When the session's [PlaybackStateCompat] changes, the [mediaItems] need to be updated
-//     * so the correct [MediaItemData.playbackRes] is displayed on the active item.
-//     * (i.e.: play/pause button or blank)
-//     */
+    /**
+    //     * When the session's [PlaybackStateCompat] changes, the [mediaItems] need to be updated
+    //     * so the correct [MediaItemData.playbackRes] is displayed on the active item.
+    //     * (i.e.: play/pause button or blank)
+    //     */
 //    private val playbackStateObserver = Observer<PlaybackStateCompat> {
 //        val playbackState = it ?: EMPTY_PLAYBACK_STATE
 //        val metadata = musicServiceConnection.nowPlaying.value ?: NOTHING_PLAYING
@@ -193,7 +196,7 @@ class MainViewModel(
      */
     override fun onCleared() {
         contentObserver?.let {
-            getApplication<Application>().contentResolver.unregisterContentObserver(it)
+           context.contentResolver.unregisterContentObserver(it)
         }
 
 //        // Remove the permanent observers from the MusicServiceConnection.
@@ -204,18 +207,17 @@ class MainViewModel(
 //        musicServiceConnection.unsubscribe(mediaId, subscriptionCallback)
     }
 
-    class MainViewmodelFactory(
-        val app: Application,
-        private val musicServiceConnection: MusicServiceConnection
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return MainViewModel(app, musicServiceConnection) as T
-            }
-            throw IllegalArgumentException("Unable to construct viewmodel")
-        }
-    }
+//    class MainViewmodelFactory(
+//        private val musicServiceConnection: MusicServiceConnection
+//    ) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+//                @Suppress("UNCHECKED_CAST")
+//                return MainViewModel(app, musicServiceConnection) as T
+//            }
+//            throw IllegalArgumentException("Unable to construct viewmodel")
+//        }
+//    }
 }
 
 

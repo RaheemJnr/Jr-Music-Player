@@ -16,12 +16,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.raheemjnr.jr_music.media.MusicServiceConnection
-import com.raheemjnr.jr_music.media.MusicSource
 import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +44,8 @@ class MainActivity : ComponentActivity() {
                 }
                 val context = LocalContext.current
                 // A surface container using the 'background' color from the theme
-                //
-                val musicSource = MusicSource(this)
-                val musicServiceConnection = MusicServiceConnection(this, musicSource)
 
-                val mainViewModel: MainViewModel = viewModel(
-                    factory = MainViewModel.MainViewmodelFactory(context, musicServiceConnection)
-                )
+                val mainViewModel: MainViewModel = viewModel()
 
 //                val mainViewModel: MainViewModel = viewModel(
 //                    factory = MainViewModelFactory(
