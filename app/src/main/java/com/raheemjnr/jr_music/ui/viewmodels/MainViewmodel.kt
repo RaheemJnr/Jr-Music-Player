@@ -1,17 +1,17 @@
 package com.raheemjnr.jr_music.ui.viewmodels
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.database.ContentObserver
 import android.provider.MediaStore
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.*
-import com.raheemjnr.jr_music.BaseApp
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.MusicServiceConnection
 import com.raheemjnr.jr_music.utils.Constants.mediaId
-import com.raheemjnr.jr_music.utils.loadMusic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val context: BaseApp,
+    @ApplicationContext private val applicationContext: Context,
     musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
     private val _audio = MutableLiveData<List<Songs>>()
@@ -35,9 +35,9 @@ class MainViewModel @Inject constructor(
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
      * the [_audio] [LiveData] above.
      */
-    fun loadAudios() {
-        loadMusic(context = context, _audio)
-    }
+//    fun loadAudios() {
+//        loadMusic(context = BaseApp., _audio)
+//    }
 
     /**
      * Pass the status of the [MusicServiceConnection.networkFailure] through.
@@ -195,9 +195,9 @@ class MainViewModel @Inject constructor(
      * is being released.
      */
     override fun onCleared() {
-        contentObserver?.let {
-           context.contentResolver.unregisterContentObserver(it)
-        }
+//        contentObserver?.let {
+//          applicationContext.contentResolver.unregisterContentObserver(it)
+//        }
 
 //        // Remove the permanent observers from the MusicServiceConnection.
 //        musicServiceConnection.playbackState.removeObserver(playbackStateObserver)

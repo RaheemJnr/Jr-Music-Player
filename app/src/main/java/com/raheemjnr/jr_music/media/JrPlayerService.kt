@@ -21,10 +21,13 @@ import com.raheemjnr.jr_music.media.extentions.PackageValidator
 import com.raheemjnr.jr_music.media.extentions.flag
 import com.raheemjnr.jr_music.media.extentions.toMediaItem
 import com.raheemjnr.jr_music.media.listener.MusicPlayerNotificationListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val MY_MEDIA_ROOT_ID = "jr_root_id"
 private const val MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id"
 
+@AndroidEntryPoint
 class JrPlayerService : MediaBrowserServiceCompat() {
     //
     private lateinit var mediaSession: MediaSessionCompat
@@ -32,7 +35,8 @@ class JrPlayerService : MediaBrowserServiceCompat() {
     private lateinit var notificationManager: MusicNotificationManager
 
     //music source
-    private lateinit var musicSource: MusicSource
+    @Inject
+    lateinit var musicSource: MusicSource
 
     //
     companion object {
@@ -80,7 +84,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         // Build a PendingIntent that can be used to launch the UI.
         val sessionActivityPendingIntent =
             packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
-                PendingIntent.getActivity(this, 0, sessionIntent, 0)
+                PendingIntent.getActivity(this, 0, sessionIntent, PendingIntent.FLAG_IMMUTABLE)
             }
         // Create a new MediaSession.
         mediaSession = MediaSessionCompat(this, "MusicService")
@@ -256,7 +260,7 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         }
 
         // Cancel coroutines when the service is going away.
-       // serviceJob.cancel()
+        // serviceJob.cancel()
 
         // Free ExoPlayer resources.
         currentPlayer.removeListener(playerListener)

@@ -16,8 +16,6 @@ import com.raheemjnr.jr_music.utils.Permissions
 @Suppress("DEPRECATION")
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : ComponentActivity() {
-
-
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

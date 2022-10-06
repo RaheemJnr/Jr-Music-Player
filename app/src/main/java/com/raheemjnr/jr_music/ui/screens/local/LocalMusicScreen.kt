@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.raheemjnr.jr_music.di.InjectorUtils
 import com.raheemjnr.jr_music.ui.components.localScreen.CustomTopBar
 import com.raheemjnr.jr_music.ui.components.localScreen.LocalTabLayout
 import com.raheemjnr.jr_music.ui.components.localScreen.MainUiCard
@@ -32,7 +31,7 @@ fun LocalMusicScreen(
     val audios = viewModel.audios.observeAsState()
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
-    viewModel.loadAudios()
+    //viewModel.loadAudios()
 
 
     //root composable
@@ -55,7 +54,6 @@ fun LocalMusicScreen(
                     viewModel = viewModel,
                     audios = audios,
                     context = context,
-                    //InjectorUtils.provideMusicServiceConnection(context)
                 )
 
 
