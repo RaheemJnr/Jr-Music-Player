@@ -67,8 +67,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
             BackHandler(bottomSheetScaffoldState.bottomSheetState.isExpanded) {
                 mainViewModel.isCollapsed.postValue(true)
             }
-
-            MainScreenNavigation(navController)
+           MainScreenNavigation(navController)
         }
     }
 

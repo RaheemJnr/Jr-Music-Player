@@ -10,6 +10,7 @@ import androidx.lifecycle.*
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.MusicServiceConnection
 import com.raheemjnr.jr_music.utils.Constants.mediaId
+import com.raheemjnr.jr_music.utils.loadMusic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.text.SimpleDateFormat
@@ -35,9 +36,9 @@ class MainViewModel @Inject constructor(
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
      * the [_audio] [LiveData] above.
      */
-//    fun loadAudios() {
-//        loadMusic(context = BaseApp., _audio)
-//    }
+    fun loadAudios() {
+        loadMusic(context = applicationContext, _audio)
+    }
 
     /**
      * Pass the status of the [MusicServiceConnection.networkFailure] through.

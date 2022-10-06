@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //MainScreen(mainViewModel = mainViewModel)
+                    MainScreen(mainViewModel = mainViewModel)
                 }
             }
         }

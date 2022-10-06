@@ -11,11 +11,4 @@ fun SongListScreen(
     item: Songs
 ) {
 
-    SongListItem(
-        songTitle = item.title,
-        songArtist = item.artist,
-        songAlbum = item.album,
-        context = context
-    ) {
-    }
 }

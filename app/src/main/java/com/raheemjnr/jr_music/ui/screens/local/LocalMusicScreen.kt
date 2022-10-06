@@ -1,6 +1,5 @@
 package com.raheemjnr.jr_music.ui.screens.local
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,16 +21,15 @@ import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun LocalMusicScreen(
+    viewModel: MainViewModel = viewModel()
 ) {
-    //viewModel
-    val viewModel: MainViewModel = viewModel()
     //context
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current
     //
     val audios = viewModel.audios.observeAsState()
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
-    //viewModel.loadAudios()
+    viewModel.loadAudios()
 
 
     //root composable
@@ -51,7 +49,6 @@ fun LocalMusicScreen(
                 LocalTabLayout(
                     pagerState = pagerState,
                     scope = scope,
-                    viewModel = viewModel,
                     audios = audios,
                     context = context,
                 )
