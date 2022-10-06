@@ -1,6 +1,5 @@
-package com.raheemjnr.jr_music.ui.components
+package com.raheemjnr.jr_music.ui.components.localScreen
 
-import android.Manifest
 import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,8 +24,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.raheemjnr.jr_music.data.model.Songs
-import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
-import com.raheemjnr.jr_music.utils.ComposablePermission
+import com.raheemjnr.jr_music.ui.components.listItems.AlbumsItem
+import com.raheemjnr.jr_music.ui.components.listItems.SongListItem
 import com.raheemjnr.jr_music.utils.TabItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -36,9 +35,8 @@ import kotlinx.coroutines.launch
 fun LocalTabLayout(
     pagerState: PagerState,
     scope: CoroutineScope,
-    viewModel: MainViewModel,
     audios: State<List<Songs>?>,
-    context: Context
+    context: Context,
 ) {
     val tabsTitles =
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
@@ -52,9 +50,10 @@ fun LocalTabLayout(
                     .height(6.dp)
                     .padding(horizontal = 48.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                color = Color.Green
+                color = Color.Black.copy(alpha = 0.6f)
             )
         },
+        backgroundColor = Color.White,
         divider = {
         }
     ) {
@@ -81,31 +80,24 @@ fun LocalTabLayout(
                 //audio list
                 Box(modifier = Modifier)
                 {
-                    ComposablePermission(permission = Manifest.permission.READ_EXTERNAL_STORAGE,
-                        onDenied = {
-                            Text(text = "Permission Denied")
-                        }
-                    ) {
-                        LazyColumn {
-                            audios.value?.let { itemm ->
-                                items(
-                                    items = itemm,
-                                    key = {
-                                        it.id
-                                    }
-                                ) { item: Songs ->
-                                    SongListItem(
-                                        songTitle = item.title,
-                                        songArtist = item.artist,
-                                        songAlbum = item.album,
-                                        context = context
-                                    ) {
-                                        //handle click
-                                    }
+                    LazyColumn {
+                        audios.value?.let { list ->
+                            items(
+                                items = list,
+                                key = {
+                                    it.id
+                                }
+                            ) { item: Songs ->
+                                SongListItem(
+                                    songTitle = item.title,
+                                    songArtist = item.artist,
+                                    songAlbum = item.album,
+                                    context = context
+                                ) {
                                 }
                             }
-
                         }
+
                     }
                 }
             }
@@ -127,9 +119,7 @@ fun LocalTabLayout(
                             }
                         }
                     }
-
                 }
-
             }
             2 -> {
                 Text(

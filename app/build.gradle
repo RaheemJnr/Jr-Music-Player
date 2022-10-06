@@ -1,15 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.raheemjnr.jr_music"
         minSdk 26
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -43,31 +45,38 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.raheemjnr.jr_music'
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     //compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.5.1'
+    implementation 'androidx.activity:activity-compose:1.6.0'
     //compose navigation
-    implementation 'androidx.navigation:navigation-compose:2.5.1'
+    implementation 'androidx.navigation:navigation-compose:2.5.2'
+    implementation 'com.google.android.material:material:1.6.1'
 
     // ktx LivaData && viewModel
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.3.0-alpha02'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.3.0-beta03'
 
     //androidx media
     implementation "androidx.media:media:1.6.0"
     //exoplayer
     implementation("com.google.android.exoplayer:exoplayer:2.18.1")
     implementation("com.google.android.exoplayer:extension-mediasession:2.18.1")
-    // implementation("com.google.android.exoplayer:extension-cast:2.17.1")
+
+    //hilt DI
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    //hilt navigation
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     //accompanist permission
     implementation "com.google.accompanist:accompanist-permissions:0.19.0"
@@ -90,4 +99,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }

@@ -1,6 +1,5 @@
 package com.raheemjnr.jr_music.ui.screens.local
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,24 +12,25 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.raheemjnr.jr_music.ui.components.CustomTopBar
-import com.raheemjnr.jr_music.ui.components.LocalTabLayout
-import com.raheemjnr.jr_music.ui.components.MainUiCard
+import com.raheemjnr.jr_music.ui.components.localScreen.CustomTopBar
+import com.raheemjnr.jr_music.ui.components.localScreen.LocalTabLayout
+import com.raheemjnr.jr_music.ui.components.localScreen.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun LocalMusicScreen() {
-    //viewModel
-    val viewModel: MainViewModel = viewModel()
+fun LocalMusicScreen(
+    viewModel: MainViewModel = viewModel()
+) {
     //context
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current
     //
     val audios = viewModel.audios.observeAsState()
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     viewModel.loadAudios()
+
 
     //root composable
     Column(
@@ -38,20 +38,20 @@ fun LocalMusicScreen() {
     ) {
         Scaffold(
             topBar = { CustomTopBar(context = context) }
-
         ) { contentPadding ->
             Column(
                 modifier = Modifier.padding(contentPadding)
             ) {
                 MainUiCard()
                 Spacer(modifier = Modifier.height(4.dp))
+
                 LocalTabLayout(
                     pagerState = pagerState,
                     scope = scope,
-                    viewModel = viewModel,
                     audios = audios,
-                    context = context
+                    context = context,
                 )
+
 
             }
 
@@ -62,7 +62,7 @@ fun LocalMusicScreen() {
 @Preview
 @Composable
 fun LocalMusicScreenPreview() {
-    LocalMusicScreen()
+    // LocalMusicScreen()
 }
 
 

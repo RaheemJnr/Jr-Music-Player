@@ -1,4 +1,4 @@
-package com.raheemjnr.jr_music.ui.components
+package com.raheemjnr.jr_music.ui.components.localScreen
 
 import android.content.Context
 import android.widget.Toast
@@ -9,10 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raheemjnr.jr_music.R
 import com.raheemjnr.jr_music.utils.showToast
 
 @Composable
@@ -34,14 +32,15 @@ fun CustomTopBar(context: Context) {
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Color.LightGray.copy(alpha = .25F))
+            .padding(top = 39.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.Settings,
+            painter = painterResource(id = R.drawable.settings_icon),
             contentDescription = "Settings Icon",
             tint = Color.Black.copy(alpha = .9F),
             modifier = Modifier
                 .padding(8.dp)
-                .size(24.dp)
+                .size(30.dp)
                 .clickable { showToast(context = context, "Clicked settings", Toast.LENGTH_SHORT) }
         )
         SearchBar()
@@ -71,7 +70,7 @@ fun SearchBar() {
 
         ) {
             Icon(
-                Icons.Default.Search,
+                painter = painterResource(id = R.drawable.search_icon),
                 contentDescription = "search icon",
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
@@ -102,12 +101,12 @@ fun SearchBar() {
                     .padding(top = 10.dp, bottom = 10.dp)
             )
             Icon(
-                Icons.Default.Phone,
+                painter = painterResource(id = R.drawable.search_mic),
                 contentDescription = "",
                 tint = Color.DarkGray.copy(alpha = .6F),
                 modifier = Modifier
                     .padding(start = 6.dp)
-                    .size(22.dp)
+                    .size(28.dp)
             )
 
 

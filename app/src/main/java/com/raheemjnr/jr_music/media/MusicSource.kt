@@ -1,11 +1,11 @@
 package com.raheemjnr.jr_music.media
 
+import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.annotation.IntDef
 import androidx.lifecycle.MutableLiveData
-import com.raheemjnr.jr_music.App
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.extentions.*
 import com.raheemjnr.jr_music.utils.loadMusic
@@ -41,7 +41,7 @@ const val STATE_ERROR = 4
 @Retention(AnnotationRetention.SOURCE)
 annotation class State
 
-class MusicSource() {
+class MusicSource(context: Context) {
 
     //
     private val onReadyListeners = mutableListOf<(Boolean) -> Unit>()
@@ -66,7 +66,7 @@ class MusicSource() {
 
     //
     var catalogSongs = loadMusic(
-        App.applicationCxt().applicationContext,
+        context = context,
         MutableLiveData(mapLiveDataToList(songs))
     )
 
@@ -150,7 +150,7 @@ class MusicSource() {
         val durationMs = TimeUnit.SECONDS.toMillis(localSongs.duration)
 
 
-        id = localSongs.id.toString()
+        id = localSongs.id
         title = localSongs.title
         artist = localSongs.artist
         album = localSongs.album

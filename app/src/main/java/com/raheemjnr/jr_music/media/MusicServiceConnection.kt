@@ -10,12 +10,14 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.media.MediaBrowserServiceCompat
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.media.MusicServiceConnection.MediaBrowserConnectionCallback
 import com.raheemjnr.jr_music.media.extentions.currentPlayBackPosition
 import com.raheemjnr.jr_music.media.extentions.id
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance, typically a
@@ -36,20 +38,26 @@ import kotlinx.coroutines.*
  *  parameters, rather than private properties. They're only required to build the
  *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
-class MusicServiceConnection(context: Context, private val musicSource: MusicSource) {
-    //
-    val isConnected: MutableState<Boolean> = mutableStateOf(false)
+class MusicServiceConnection @Inject constructor(
+    context: Context,
+    private val musicSource: MusicSource
+) {
+
+    val isConnected = MutableLiveData<Boolean>()
+        .apply { postValue(false) }
 
     //
-    val networkFailure: MutableState<Boolean> = mutableStateOf(false)
+    val networkFailure = MutableLiveData<Boolean>()
+        .apply { postValue(false) }
 
     //
-    val playbackState: MutableState<PlaybackStateCompat?> =
-        mutableStateOf(PlaybackStateCompat.fromPlaybackState(null))
+    val playbackState = MutableLiveData<PlaybackStateCompat>()
+        .apply { postValue(EMPTY_PLAYBACK_STATE) }
 
 
-    val nowPlaying: MutableState<MediaMetadataCompat> =
-        mutableStateOf(MediaMetadataCompat.fromMediaMetadata(null))
+    val nowPlaying = MutableLiveData<MediaMetadataCompat>().apply {
+        postValue(NOTHING_PLAYING)
+    }
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
     private val mediaBrowser = MediaBrowserCompat(
@@ -58,7 +66,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
         mediaBrowserConnectionCallback, null
     ).apply {
         connect()
-        updateSong()
+        // updateSong()
     }
     private lateinit var mediaController: MediaControllerCompat
 
@@ -76,7 +84,8 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
     }
 
     //
-    private val serviceScope = CoroutineScope(Dispatchers.IO)
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     //
     val shuffleMode: Int
@@ -165,6 +174,7 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
 
         }
 
+
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
         }
 
@@ -186,17 +196,28 @@ class MusicServiceConnection(context: Context, private val musicSource: MusicSou
         }
     }
 
+    companion object {
+        // For Singleton instantiation.
+        @Volatile
+        private var instance: MusicServiceConnection? = null
 
-    @Suppress("PropertyName")
-    val EMPTY_PLAYBACK_STATE: PlaybackStateCompat = PlaybackStateCompat.Builder()
-        .setState(PlaybackStateCompat.STATE_NONE, 0, 0f)
-        .build()
+        fun getInstance(context: Context, musicSource: MusicSource) =
+            instance ?: synchronized(this) {
+                instance ?: MusicServiceConnection(context, musicSource)
+                    .also { instance = it }
+            }
+    }
 
-    @Suppress("PropertyName")
-    val NOTHING_PLAYING: MediaMetadataCompat = MediaMetadataCompat.Builder()
-        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "")
-        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, 0)
-        .build()
 }
 
+@Suppress("PropertyName")
+val EMPTY_PLAYBACK_STATE: PlaybackStateCompat = PlaybackStateCompat.Builder()
+    .setState(PlaybackStateCompat.STATE_NONE, 0, 0f)
+    .build()
+
+@Suppress("PropertyName")
+val NOTHING_PLAYING: MediaMetadataCompat = MediaMetadataCompat.Builder()
+    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "")
+    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, 0)
+    .build()
 const val NETWORK_ERROR = "Network Error"

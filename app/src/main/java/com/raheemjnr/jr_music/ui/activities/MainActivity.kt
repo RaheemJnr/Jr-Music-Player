@@ -1,72 +1,61 @@
 package com.raheemjnr.jr_music.ui.activities
 
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import com.raheemjnr.jr_music.navigation.MainScreenNavigation
-import com.raheemjnr.jr_music.ui.components.BottomNav
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.raheemjnr.jr_music.ui.screens.MainScreen
 import com.raheemjnr.jr_music.ui.theme.JrMusicPlayerTheme
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JrMusicPlayerTheme {
+                window.statusBarColor = MaterialTheme.colors.surface.toArgb()
+                window.navigationBarColor = MaterialTheme.colors.surface.toArgb()
+
+                @Suppress("DEPRECATION")
+                if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+                    window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
+                @Suppress("DEPRECATION")
+                if (MaterialTheme.colors.surface.luminance() > 0.5f) {
+                    window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                }
+                val context = LocalContext.current
                 // A surface container using the 'background' color from the theme
+
+                val mainViewModel: MainViewModel = viewModel()
+
+                // Since this is a music player, the volume controls should adjust the music volume while
+                // in the app.
+               // volumeControlStream = AudioManager.STREAM_MUSIC
+                //
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen()
+                    MainScreen(mainViewModel = mainViewModel)
                 }
             }
         }
-    }
-}
-
-@OptIn(
-    ExperimentalAnimationApi::class, ExperimentalMaterialApi::class,
-    ExperimentalComposeUiApi::class, ExperimentalCoroutinesApi::class
-)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Composable
-fun MainScreen() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            BottomAppBar(
-                modifier = Modifier
-                    .height(65.dp)
-                    .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)),
-                cutoutShape = CircleShape,
-                backgroundColor = MaterialTheme.colors.primary,
-                elevation = 22.dp,
-            ) {
-                BottomNav(
-                    navController = navController,
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
-    ) {
-        MainScreenNavigation(navController)
     }
 }
 
