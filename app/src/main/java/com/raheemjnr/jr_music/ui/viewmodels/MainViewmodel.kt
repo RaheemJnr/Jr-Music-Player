@@ -30,6 +30,11 @@ class MainViewModel @Inject constructor(
     // collapse value for now playing bottom UI sheet
     val isCollapsed = MutableLiveData(true)
 
+    //contentObserver to fetch local music
+    private var contentObserver: ContentObserver? = null
+
+
+
     /**
      * Performs a one shot load of audios from [MediaStore.audio.Media.EXTERNAL_CONTENT_URI] into
      * the [_audio] [LiveData] above.
@@ -56,27 +61,29 @@ class MainViewModel @Inject constructor(
     //     * so the correct [MediaItemData.playbackRes] is displayed on the active item.
     //     * (i.e.: play/pause button or blank)
     //     */
-//    private val playbackStateObserver = Observer<PlaybackStateCompat> {
-//        val playbackState = it ?: EMPTY_PLAYBACK_STATE
-//        val metadata = musicServiceConnection.nowPlaying.value ?: NOTHING_PLAYING
-//        if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-//            _audio.postValue(updateState(playbackState, metadata))
-//        }
-//    }
-//
-//    /**
-//     * When the session's [MediaMetadataCompat] changes, the [mediaItems] need to be updated
-//     * as it means the currently active item has changed. As a result, the new, and potentially
-//     * old item (if there was one), both need to have their [MediaItemData.playbackRes]
-//     * changed. (i.e.: play/pause button or blank)
-//     */
-//    private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
-//        val playbackState = musicServiceConnection.playbackState.value ?: EMPTY_PLAYBACK_STATE
-//        val metadata = it ?: NOTHING_PLAYING
-//        if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-//            _audio.postValue(updateState(playbackState, metadata))
-//        }
-//    }
+/*
+private val playbackStateObserver = Observer<PlaybackStateCompat> {
+val playbackState = it ?: EMPTY_PLAYBACK_STATE
+val metadata = musicServiceConnection.nowPlaying.value ?: NOTHING_PLAYING
+if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
+_audio.postValue(updateState(playbackState, metadata))
+}
+}
+
+/ **
+* When the session's [MediaMetadataCompat] changes, the [mediaItems] need to be updated
+* as it means the currently active item has changed. As a result, the new, and potentially
+* old item (if there was one), both need to have their [MediaItemData.playbackRes]
+* changed. (i.e.: play/pause button or blank)
+* /
+private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
+val playbackState = musicServiceConnection.playbackState.value ?: EMPTY_PLAYBACK_STATE
+val metadata = it ?: NOTHING_PLAYING
+if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
+_audio.postValue(updateState(playbackState, metadata))
+}
+}
+*/
 
 
     /**
@@ -120,74 +127,76 @@ class MainViewModel @Inject constructor(
         }
 
 
-//    private fun updateState(
-//        playbackState: PlaybackStateCompat,
-//        mediaMetadata: MediaMetadataCompat
-//    ): List<Songs> {
-//
-//        val newResId = when (playbackState.isPlaying) {
-//            true -> R.drawable.morevert
-//            else -> R.drawable.play_button
-//        }
-//
-//        return _audio.value?.map {
-//            val useResId = if (it.id == mediaMetadata.id) newResId else NO_RES
-//            it.copy(id = useResId.toString())
-//        } ?: emptyList()
-//    }
-//
-//    /**
-//     * This method takes a [Songs] and does one of the following:
-//     * - If the item is *not* the active item, then play it directly.
-//     * - If the item *is* the active item, check whether "pause" is a permitted command. If it is,
-//     *   then pause playback, otherwise send "play" to resume playback.
-//     */
-//    fun playMedia(mediaItem: Songs, pauseAllowed: Boolean = true) {
-//        val nowPlaying = musicServiceConnection.nowPlaying.value
-//        val transportControls = musicServiceConnection.transportControls
-//
-//        val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
-//        if (isPrepared && mediaItem.id == nowPlaying?.id) {
-//            musicServiceConnection.playbackState.value?.let { playbackState ->
-//                when {
-//                    playbackState.isPlaying ->
-//                        if (pauseAllowed) transportControls.pause() else Unit
-//                    playbackState.isPlayEnabled -> transportControls.play()
-//                    else -> {
-//                        Log.w(
-//                            TAG, "Playable item clicked but neither play nor pause are enabled!" +
-//                                    " (mediaId=${mediaItem.id})"
-//                        )
-//                    }
-//                }
-//            }
-//        } else {
-//            transportControls.playFromMediaId(mediaItem.id, null)
-//        }
-//    }
-//
-//    fun playMediaId(mediaId: String) {
-//        val nowPlaying = musicServiceConnection.nowPlaying.value
-//        val transportControls = musicServiceConnection.transportControls
-//
-//        val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
-//        if (isPrepared && mediaId == nowPlaying?.id) {
-//            musicServiceConnection.playbackState.value?.let { playbackState ->
-//                when {
-//                    playbackState.isPlaying -> transportControls.pause()
-//                    playbackState.isPlayEnabled -> transportControls.play()
-//                    else -> {
-//                        Log.w(
-//                            TAG, "Playable item clicked but neither play nor pause are enabled!" +
-//                                    " (mediaId=$mediaId)"
-//                        )
-//                    }
-//                }
-//            }
-//        } else {
-//            transportControls.playFromMediaId(mediaId, null)
-//        }
-//    }
+/*
+private fun updateState(
+playbackState: PlaybackStateCompat,
+mediaMetadata: MediaMetadataCompat
+): List<Songs> {
+
+val newResId = when (playbackState.isPlaying) {
+true -> R.drawable.morevert
+else -> R.drawable.play_button
+}
+
+return _audio.value?.map {
+val useResId = if (it.id == mediaMetadata.id) newResId else NO_RES
+it.copy(id = useResId.toString())
+} ?: emptyList()
+}
+
+/ **
+* This method takes a [Songs] and does one of the following:
+* - If the item is *not* the active item, then play it directly.
+* - If the item *is* the active item, check whether "pause" is a permitted command. If it is,
+*   then pause playback, otherwise send "play" to resume playback.
+* /
+fun playMedia(mediaItem: Songs, pauseAllowed: Boolean = true) {
+val nowPlaying = musicServiceConnection.nowPlaying.value
+val transportControls = musicServiceConnection.transportControls
+
+val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
+if (isPrepared && mediaItem.id == nowPlaying?.id) {
+musicServiceConnection.playbackState.value?.let { playbackState ->
+when {
+playbackState.isPlaying ->
+if (pauseAllowed) transportControls.pause() else Unit
+playbackState.isPlayEnabled -> transportControls.play()
+else -> {
+Log.w(
+TAG, "Playable item clicked but neither play nor pause are enabled!" +
+" (mediaId=${mediaItem.id})"
+)
+}
+}
+}
+} else {
+transportControls.playFromMediaId(mediaItem.id, null)
+}
+}
+
+fun playMediaId(mediaId: String) {
+val nowPlaying = musicServiceConnection.nowPlaying.value
+val transportControls = musicServiceConnection.transportControls
+
+val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
+if (isPrepared && mediaId == nowPlaying?.id) {
+musicServiceConnection.playbackState.value?.let { playbackState ->
+when {
+playbackState.isPlaying -> transportControls.pause()
+playbackState.isPlayEnabled -> transportControls.play()
+else -> {
+Log.w(
+TAG, "Playable item clicked but neither play nor pause are enabled!" +
+" (mediaId=$mediaId)"
+)
+}
+}
+}
+} else {
+transportControls.playFromMediaId(mediaId, null)
+}
+}
+*/
 
     /**
      * Since we register a [ContentObserver], we want to unregister this when the `ViewModel`
