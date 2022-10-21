@@ -28,7 +28,7 @@ fun LocalMusicScreen(
     //context
     val context = LocalContext.current
     //
-    val audios = songListViewModel.audios.observeAsState()
+    val audios = mainViewModel.audios.observeAsState()
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     mainViewModel.loadAudios()
