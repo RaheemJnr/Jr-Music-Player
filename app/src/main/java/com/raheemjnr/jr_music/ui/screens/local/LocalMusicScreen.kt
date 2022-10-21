@@ -16,13 +16,11 @@ import com.raheemjnr.jr_music.ui.components.localScreen.CustomTopBar
 import com.raheemjnr.jr_music.ui.components.localScreen.LocalTabLayout
 import com.raheemjnr.jr_music.ui.components.localScreen.MainUiCard
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
-import com.raheemjnr.jr_music.ui.viewmodels.SongListScreenViewModel
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun LocalMusicScreen(
-    songListViewModel: SongListScreenViewModel = viewModel(),
     mainViewModel: MainViewModel = viewModel()
 ) {
     //context

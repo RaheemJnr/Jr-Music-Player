@@ -103,7 +103,7 @@ class MainViewModel @Inject constructor(
      * which can also change the [MediaItemData.playbackRes]s in the list.
      */
     private val musicServiceConnection = musicServiceConnection.also {
-        it.subscribe(com.raheemjnr.jr_music.utils.Constants.mediaId, subscriptionCallback)
+        it.subscribe(mediaId, subscriptionCallback)
 
         it.playbackState.observeForever(playbackStateObserver)
         it.nowPlaying.observeForever(mediaMetadataObserver)

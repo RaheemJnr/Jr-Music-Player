@@ -32,7 +32,6 @@ fun MainScreenNavigation(
         composable(MainScreen.Local.route) {
             LocalMusicScreen(
                 mainViewModel = mainViewModel,
-                songListViewModel = songListViewModel
             )
         }
         //online
