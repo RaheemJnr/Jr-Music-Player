@@ -30,8 +30,6 @@ fun LocalMusicScreen(
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     mainViewModel.loadAudios()
-
-
     //root composable
     Column(
         Modifier.fillMaxSize()
@@ -43,13 +41,15 @@ fun LocalMusicScreen(
                 modifier = Modifier.padding(contentPadding)
             ) {
                 MainUiCard()
+                //
                 Spacer(modifier = Modifier.height(4.dp))
-
+                //
                 LocalTabLayout(
                     pagerState = pagerState,
                     scope = scope,
                     audios = audios,
                     context = context,
+                    mainViewModel
                 )
 
 

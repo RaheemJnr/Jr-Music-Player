@@ -26,6 +26,7 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.raheemjnr.jr_music.data.model.Songs
 import com.raheemjnr.jr_music.ui.components.listItems.AlbumsItem
 import com.raheemjnr.jr_music.ui.components.listItems.SongListItem
+import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
 import com.raheemjnr.jr_music.utils.TabItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ fun LocalTabLayout(
     scope: CoroutineScope,
     audios: State<List<Songs>?>,
     context: Context,
+    mainViewModel: MainViewModel
 ) {
     val tabsTitles =
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
@@ -94,6 +96,8 @@ fun LocalTabLayout(
                                     songAlbum = item.album,
                                     context = context
                                 ) {
+                                    mainViewModel.playMediaId(item.id)
+                                        // mainViewModel.isCollapsed.value = false
                                 }
                             }
                         }
