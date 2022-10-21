@@ -109,13 +109,6 @@ class MainViewModel @Inject constructor(
         contentObserver?.let {
             applicationContext.contentResolver.unregisterContentObserver(it)
         }
-
-//        // Remove the permanent observers from the MusicServiceConnection.
-//        musicServiceConnection.playbackState.removeObserver(playbackStateObserver)
-//        musicServiceConnection.nowPlaying.removeObserver(mediaMetadataObserver)
-//
-//        // And then, finally, unsubscribe the media ID that was being watched.
-//        musicServiceConnection.unsubscribe(mediaId, subscriptionCallback)
     }
 
 

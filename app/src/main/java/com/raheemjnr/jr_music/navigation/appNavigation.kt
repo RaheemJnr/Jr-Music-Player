@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import com.raheemjnr.jr_music.ui.screens.local.LocalMusicScreen
 import com.raheemjnr.jr_music.ui.screens.online.OnlineMusicScreen
 import com.raheemjnr.jr_music.ui.viewmodels.MainViewModel
+import com.raheemjnr.jr_music.ui.viewmodels.SongListScreenViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -24,11 +25,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun MainScreenNavigation(
     navController: NavHostController,
 ) {
-    val viewModel = hiltViewModel<MainViewModel>()
+    val mainViewModel = hiltViewModel<MainViewModel>()
+    val songListViewModel = hiltViewModel<SongListScreenViewModel>()
     NavHost(navController, startDestination = MainScreen.Local.route!!) {
         //local
         composable(MainScreen.Local.route) {
-            LocalMusicScreen(viewModel = viewModel)
+            LocalMusicScreen(
+                mainViewModel = mainViewModel,
+                songListViewModel = songListViewModel
+            )
         }
         //online
         composable(MainScreen.Online.route!!) {

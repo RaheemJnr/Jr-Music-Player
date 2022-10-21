@@ -16,8 +16,10 @@ import com.raheemjnr.jr_music.media.extentions.id
 import com.raheemjnr.jr_music.media.extentions.isPlaying
 import com.raheemjnr.jr_music.utils.Constants.NO_RES
 import com.raheemjnr.jr_music.utils.Constants.mediaId
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class SongListScreenViewModel @Inject constructor(
     musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
