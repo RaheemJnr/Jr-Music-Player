@@ -68,6 +68,10 @@ dependencies {
 
     //androidx media
     implementation "androidx.media:media:1.6.0"
+
+//    api "androidx.media3:media3-exoplayer:$androidx_media3_version"
+//    api "androidx.media3:media3-datasource:$androidx_media3_version"
+//    api "androidx.media3:media3-session:$androidx_media3_version"
     //exoplayer
     implementation("com.google.android.exoplayer:exoplayer:2.18.1")
     implementation("com.google.android.exoplayer:extension-mediasession:2.18.1")

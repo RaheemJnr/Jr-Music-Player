@@ -141,27 +141,41 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun playMediaId(mediaId: String) {
-        val nowPlaying = musicServiceConnection.nowPlaying.value
-        val transportControls = musicServiceConnection.transportControls
 
-        val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
-        if (isPrepared && mediaId == nowPlaying?.id) {
-            musicServiceConnection.playbackState.value?.let { playbackState ->
-                when {
-                    playbackState.isPlaying -> transportControls.pause()
-                    playbackState.isPlayEnabled -> transportControls.play()
-                    else -> {
-                        Log.w(
-                            TAG, "Playable item clicked but neither play nor pause are enabled!" +
-                                    " (mediaId=$mediaId)"
-                        )
-                    }
-                }
-            }
-        } else {
-            transportControls.playFromMediaId(mediaId, null)
-        }
+//    fun playMusicFromId(
+//        musicServiceConnection: MusicServiceConnection,
+//        playlist: List<ClipData.Item>,
+//        songId: String,
+//        isPlayerReady: Boolean
+//    ) {
+//        if (isPlayerReady) {
+//            musicServiceConnection.transportControls.playFromMediaId(songId, null)
+//        } else {
+//            playMusic(musicServiceConnection, playlist, isPlayerReady, songId)
+//        }
+   // }
+    fun playMediaId(mediaId: String) {
+//        val nowPlaying = musicServiceConnection.nowPlaying.value
+//        val transportControls = musicServiceConnection.transportControls
+//
+//        val isPrepared = musicServiceConnection.playbackState.value?.isPrepared ?: false
+//        if (isPrepared && mediaId == nowPlaying?.id) {
+//            musicServiceConnection.playbackState.value?.let { playbackState ->
+//                when {
+//                    playbackState.isPlaying -> transportControls.pause()
+//                    playbackState.isPlayEnabled -> transportControls.play()
+//                    else -> {
+//                        Log.w(
+//                            TAG, "Playable item clicked but neither play nor pause are enabled!" +
+//                                    " (mediaId=$mediaId)"
+//                        )
+//                    }
+//                }
+//            }
+//        } else {
+//            transportControls.playFromMediaId(mediaId, null)
+//        }
+        musicServiceConnection.transportControls.playFromMediaId(mediaId,null)
     }
 
     //

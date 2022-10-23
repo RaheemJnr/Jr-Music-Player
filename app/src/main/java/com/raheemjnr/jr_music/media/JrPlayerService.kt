@@ -169,11 +169,6 @@ class JrPlayerService : MediaBrowserServiceCompat() {
         parentId: String,
         result: Result<List<MediaBrowserCompat.MediaItem>>
     ) {
-        //  Browsing not allowed
-        if (MY_EMPTY_MEDIA_ROOT_ID == parentId) {
-            result.sendResult(null)
-            return
-        }
 
         /**
          * If the caller requests the recent root, return the most recently played song.
