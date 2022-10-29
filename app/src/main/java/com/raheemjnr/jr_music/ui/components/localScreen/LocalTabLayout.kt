@@ -42,36 +42,7 @@ fun LocalTabLayout(
 ) {
     val tabsTitles =
         remember { listOf(TabItems("Songs"), TabItems("Albums"), TabItems("Artists")) }
-
-    TabRow(
-        selectedTabIndex = pagerState.currentPage,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier
-                    .pagerTabIndicatorOffset(pagerState, tabPositions)
-                    .height(6.dp)
-                    .padding(horizontal = 48.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                color = Color.Black.copy(alpha = 0.6f)
-            )
-        },
-        backgroundColor = Color.White,
-        divider = {
-        }
-    ) {
-        // Add tabs for all of our pages
-        tabsTitles.forEachIndexed { index, title ->
-            Tab(
-                text = { Text(text = title.value) },
-                selected = pagerState.currentPage == index,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(page = index)
-                    }
-                },
-            )
-        }
-    }
+    TabrowComposable(pagerState, tabsTitles, scope)
 
     HorizontalPager(
         count = tabsTitles.size,
@@ -131,6 +102,44 @@ fun LocalTabLayout(
                     modifier = Modifier.fillMaxSize()
                 )
             }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalPagerApi::class)
+private fun TabrowComposable(
+    pagerState: PagerState,
+    tabsTitles: List<TabItems>,
+    scope: CoroutineScope
+) {
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier
+                    .pagerTabIndicatorOffset(pagerState, tabPositions)
+                    .height(6.dp)
+                    .padding(horizontal = 48.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                color = Color.Black.copy(alpha = 0.6f)
+            )
+        },
+        backgroundColor = Color.White,
+        divider = {
+        }
+    ) {
+        // Add tabs for all of our pages
+        tabsTitles.forEachIndexed { index, title ->
+            Tab(
+                text = { Text(text = title.value) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(page = index)
+                    }
+                },
+            )
         }
     }
 }
